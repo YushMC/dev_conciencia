@@ -15,10 +15,10 @@
             >
           </div>
           <div class="menu">
-            <NuxtLink to="/Nuestra-Precencia">Nuestra Presencia</NuxtLink>
+            <NuxtLink to="#Nuestra-Precencia">Nuestra Presencia</NuxtLink>
           </div>
           <div class="menu">
-            <NuxtLink to="/Nuestra-Historia">Nuestra Historia</NuxtLink>
+            <NuxtLink to="#Nuestra-Historia">Nuestra Historia</NuxtLink>
           </div>
           <div class="menu">
             <input type="checkbox" id="subMenu" v-model="isChecked" />
@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="container_account">
-          <NuxtLink to="/cuenta">
+          <NuxtLink to="#cuenta">
             <img src="/assets/icon_user.svg" alt="" />
             <span>Cuenta</span>
           </NuxtLink>
@@ -48,7 +48,9 @@
         @click="toggleMenu"
         v-if="isResponsiveMenu"
       ></div>
-      <button @click="toggleMenu" v-if="!isResponsiveMenu">Mostrar</button>
+      <button @click="toggleMenu" v-if="!isResponsiveMenu" id="BotonMenu">
+        Mostrar
+      </button>
     </div>
   </header>
 </template>
@@ -186,7 +188,11 @@ nav {
 .container_account span {
   display: none;
 }
-@media screen and (max-width: 600px) {
+
+#BotonMenu {
+  display: none;
+}
+@media screen and (max-width: 800px) {
   header {
     backdrop-filter: blur(10px);
   }
@@ -319,6 +325,9 @@ nav {
     text-align: center;
     padding: 2%;
     color: #fff;
+  }
+  #BotonMenu {
+    display: block;
   }
 }
 </style>

@@ -247,6 +247,37 @@
   </section>
 </template>
 <script lang="ts" setup>
+import { useHead } from "unhead";
+
+useHead({
+  title: "Inicio",
+  meta: [
+    {
+      name: "description",
+      content: "Página de inicio de Conciencia del Ser Divino",
+    },
+    //etiquetas og
+    { property: "og:title", content: "Inicio - Conciencia del Ser Divino" },
+    { property: "og:description", content: "Somos Conciencia del Ser Divino" },
+    // { property: 'og:image', content: 'https://www.ejemplo.com/imagen.jpg' },
+    { property: "og:url", content: "https://www.ejemplo.com/" },
+    { property: "og:type", content: "website" },
+    //etiquetas para twitter
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:site", content: "@ConcienciaDelSerDivino" },
+    //etiquetas para facebook
+    { property: "article:publisher", content: "https://www.facebook.com/" },
+  ],
+  link: [
+    /* no recomendable si se quiere remplazar a las cononicas
+    {
+      rel: "shortlink",
+      href: "https://tusitio.com/shortlink", // Aquí colocas la URL corta
+    },
+    */
+  ],
+});
+
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 
@@ -449,7 +480,7 @@ section {
   opacity: 0;
   visibility: hidden;
   transition: all 0.2s linear;
-  transform: translateY(-22rem);
+  transform: translateY(-21rem);
 }
 .mail:hover .container_paper {
   opacity: 1;
@@ -459,13 +490,42 @@ section {
   box-shadow: inset 0px -90px 5px #0000000a;
 }
 
+@media screen and (max-width: 1280px) {
+  .mail {
+    height: 25dvh;
+  }
+  .mail::before {
+    top: 8%;
+  }
+  .mail:hover .container_paper {
+    transform: translateY(-21.5rem);
+  }
+}
+@media screen and (max-width: 900px) {
+  .mail {
+    width: 35dvw;
+    height: 20dvh;
+  }
+  .mail::before {
+    --size: 5.6dvw;
+  }
+}
 @media screen and (max-width: 600px) {
   .mail {
     width: 90dvw;
   }
   .mail::before {
     --size: 13dvw;
-    top: 7%;
+    top: 12% !important;
+  }
+  .container_paper {
+    transform: translateY(-200px);
+  }
+  .mail:hover .container_paper {
+    transform: translateY(-250px);
+  }
+  .container_sticker {
+    width: 15dvw;
   }
 }
 #Testimonios .swiper-slide {
