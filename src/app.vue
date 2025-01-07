@@ -132,7 +132,7 @@ body {
   background: #fff;
 }
 hr {
-  height: 0.2rem;
+  height: 0.1rem;
   border: none;
   margin: 1% 0;
 }

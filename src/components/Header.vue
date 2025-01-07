@@ -10,25 +10,26 @@
             <img src="/assets/logo_without_bg.png" alt="" />
           </NuxtLink>
           <div class="menu">
-            <NuxtLink to="#Nuestra-Escencia" active-class="active"
+            <NuxtLink to="/#Nuestra-Escencia" active-class="active"
               >Nuestra Escencia</NuxtLink
             >
           </div>
           <div class="menu">
-            <NuxtLink to="#Nuestra-Precencia">Nuestra Presencia</NuxtLink>
+            <NuxtLink to="/#Nuestra-Precencia">Nuestra Presencia</NuxtLink>
           </div>
           <div class="menu">
             <NuxtLink to="#Nuestra-Historia">Nuestra Historia</NuxtLink>
           </div>
           <div class="menu">
             <input type="checkbox" id="subMenu" v-model="isChecked" />
+
             <label for="subMenu" :class="{ active: isChecked }">
-              <span>Eventos</span>
+              <NuxtLink to="/eventos">Eventos</NuxtLink>
               <span v-if="isChecked"> &#9650;</span>
               <span v-else> &#9660;</span>
             </label>
             <div class="submenu">
-              <NuxtLink to="#Proximos-Eventos">Proximos Eventos</NuxtLink>
+              <NuxtLink to="/#Proximos-Eventos">Proximos Eventos</NuxtLink>
               <NuxtLink to="#Eventos-Privados">Eventos Privados</NuxtLink>
             </div>
           </div>
@@ -77,6 +78,7 @@ header {
   display: flex;
   z-index: 100;
   background: #f8f3ee75;
+  backdrop-filter: blur(10px);
 }
 .container_header {
   position: relative;
@@ -144,8 +146,8 @@ nav {
 .submenu::before {
   content: "";
   position: absolute;
-  top: -18%;
-  left: 0.9%;
+  top: -10%;
+  left: 0.2%;
   width: 0%;
   height: 0;
   --size: 10px;
@@ -167,7 +169,7 @@ nav {
   visibility: visible;
   transform: translateY(0px);
 }
-.menu a {
+.menu > a {
   color: #b47f4a;
   padding: 1%;
   text-wrap: nowrap;
@@ -328,6 +330,9 @@ nav {
   }
   #BotonMenu {
     display: block;
+  }
+  .submenu a {
+    color: #b47f4a;
   }
 }
 </style>
