@@ -1,250 +1,247 @@
 <template>
-  <Frontpage></Frontpage>
+  <main class="contenedor_pages">
+    <Frontpage></Frontpage>
 
-  <section id="Proximos-Eventos">
-    <div class="container_titulos">
-      <h2 class="titulo text_color_principal">Próximos Eventos</h2>
-    </div>
-    <Swiper
-      :modules="[Pagination, Navigation, Autoplay]"
-      :grabCursor="true"
-      :centeredSlides="true"
-      :spaceBetween="30"
-      :loop="true"
-      :slidesPerView="1"
-      :autoplay="{
-        delay: 2500,
-        disableOnInteraction: false,
-      }"
-      :navigation="true"
-      :pagination="true"
-      :breakpoints="breakpoints"
-      class="mySwiper"
-    >
-      <swiper-slide>
-        <div class="card_slide">
-          <div class="container_icon"></div>
-          <div class="container_info">
-            <div class="info">
-              <h4>Puebla</h4>
-              <h2>$ 1,000 MXN</h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                architecto ut tenetur, commodi laborum odio.
-              </p>
-            </div>
-            <div class="container_buttons">
-              <button>Más Información</button>
+    <section id="Proximos-Eventos">
+      <div class="container_titulos">
+        <h2 class="titulo text_color_principal">Próximos Eventos</h2>
+      </div>
+      <Swiper
+        :modules="[Pagination, Navigation, Autoplay]"
+        :centeredSlides="true"
+        :spaceBetween="30"
+        :loop="true"
+        :slidesPerView="1"
+        :navigation="true"
+        :pagination="true"
+        :breakpoints="breakpoints"
+        class="mySwiper"
+      >
+        <swiper-slide>
+          <div class="card_slide">
+            <div class="container_icon"></div>
+            <div class="container_info">
+              <div class="info">
+                <h4>Puebla</h4>
+                <h2>$ 1,000 MXN</h2>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
+                  architecto ut tenetur, commodi laborum odio.
+                </p>
+              </div>
+              <div class="container_buttons">
+                <NuxtLink to="/eventos/evento">Más Información</NuxtLink>
+              </div>
             </div>
           </div>
-        </div>
-      </swiper-slide>
-      <swiper-slide>
-        <div class="card_slide">
-          <div class="container_icon"></div>
-          <div class="container_info">
-            <div class="info">
-              <h4>Puebla</h4>
-              <h2>$ 1,000 MXN</h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                architecto ut tenetur, commodi laborum odio.
-              </p>
-            </div>
-            <div class="container_buttons">
-              <button>Más Información</button>
-            </div>
-          </div>
-        </div>
-      </swiper-slide>
-      <swiper-slide>
-        <div class="card_slide">
-          <div class="container_icon"></div>
-          <div class="container_info">
-            <div class="info">
-              <h4>Puebla</h4>
-              <h2>$ 1,000 MXN</h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                architecto ut tenetur, commodi laborum odio.
-              </p>
-            </div>
-            <div class="container_buttons">
-              <button>Más Información</button>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="card_slide">
+            <div class="container_icon"></div>
+            <div class="container_info">
+              <div class="info">
+                <h4>Puebla</h4>
+                <h2>$ 1,000 MXN</h2>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
+                  architecto ut tenetur, commodi laborum odio.
+                </p>
+              </div>
+              <div class="container_buttons">
+                <NuxtLink to="/eventos/evento">Más Información</NuxtLink>
+              </div>
             </div>
           </div>
-        </div>
-      </swiper-slide>
-      <swiper-slide>
-        <div class="card_slide">
-          <div class="container_icon"></div>
-          <div class="container_info">
-            <div class="info">
-              <h4>Puebla</h4>
-              <h2>$ 1,000 MXN</h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                architecto ut tenetur, commodi laborum odio.
-              </p>
-            </div>
-            <div class="container_buttons">
-              <button>Más Información</button>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="card_slide">
+            <div class="container_icon"></div>
+            <div class="container_info">
+              <div class="info">
+                <h4>Puebla</h4>
+                <h2>$ 1,000 MXN</h2>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
+                  architecto ut tenetur, commodi laborum odio.
+                </p>
+              </div>
+              <div class="container_buttons">
+                <NuxtLink to="/eventos/evento">Más Información</NuxtLink>
+              </div>
             </div>
           </div>
-        </div>
-      </swiper-slide>
-    </Swiper>
-  </section>
-  <section class="bg_color_principal" id="Nuestra-Escencia">
-    <h2 class="titulo text_color_secundario">Nuestra Escencia</h2>
-    <hr class="bg_color_secundario" />
-    <div class="container_mails">
-      <div class="mail">
-        <div class="container_space"></div>
-        <div class="container_info_mail">
-          <h2>Misión</h2>
-          <div class="container_sticker">
-            <img src="/assets/logo_without_bg.png" alt="" />
+        </swiper-slide>
+        <swiper-slide>
+          <div class="card_slide">
+            <div class="container_icon"></div>
+            <div class="container_info">
+              <div class="info">
+                <h4>Puebla</h4>
+                <h2>$ 1,000 MXN</h2>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
+                  architecto ut tenetur, commodi laborum odio.
+                </p>
+              </div>
+              <div class="container_buttons">
+                <button>Más Información</button>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+      </Swiper>
+    </section>
+    <section class="bg_color_principal" id="Nuestra-Escencia">
+      <h2 class="titulo text_color_secundario">Nuestra Escencia</h2>
+      <hr class="bg_color_secundario" />
+      <div class="container_mails">
+        <div class="mail">
+          <div class="container_space"></div>
+          <div class="container_info_mail">
+            <h2>Misión</h2>
+            <div class="container_sticker">
+              <img src="/assets/logo_without_bg.png" alt="" />
+            </div>
+          </div>
+          <div class="container_paper">
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas
+              velit ratione enim, aliquid inventore veniam eum? Eveniet
+              aspernatur assumenda non!
+            </p>
           </div>
         </div>
-        <div class="container_paper">
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas
-            velit ratione enim, aliquid inventore veniam eum? Eveniet aspernatur
-            assumenda non!
-          </p>
+        <div class="mail">
+          <div class="container_space"></div>
+          <div class="container_info_mail">
+            <h2>Visión</h2>
+            <div class="container_sticker">
+              <img src="/assets/logo_without_bg.png" alt="" />
+            </div>
+          </div>
+          <div class="container_paper">
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas
+              velit ratione enim, aliquid inventore veniam eum? Eveniet
+              aspernatur assumenda non!
+            </p>
+          </div>
+        </div>
+        <div class="mail">
+          <div class="container_space"></div>
+          <div class="container_info_mail">
+            <h2>Valores</h2>
+            <div class="container_sticker">
+              <img src="/assets/logo_without_bg.png" alt="" />
+            </div>
+          </div>
+          <div class="container_paper">
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas
+              velit ratione enim, aliquid inventore veniam eum? Eveniet
+              aspernatur assumenda non!
+            </p>
+          </div>
         </div>
       </div>
-      <div class="mail">
-        <div class="container_space"></div>
-        <div class="container_info_mail">
-          <h2>Visión</h2>
-          <div class="container_sticker">
-            <img src="/assets/logo_without_bg.png" alt="" />
-          </div>
-        </div>
-        <div class="container_paper">
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas
-            velit ratione enim, aliquid inventore veniam eum? Eveniet aspernatur
-            assumenda non!
-          </p>
-        </div>
+    </section>
+    <section id="Testimonios">
+      <div class="container_titulos" id="Eventos-Privados">
+        <h2 class="titulo text_color_principal">¿Una sesión privada?</h2>
+        <button>Saber Más</button>
       </div>
-      <div class="mail">
-        <div class="container_space"></div>
-        <div class="container_info_mail">
-          <h2>Valores</h2>
-          <div class="container_sticker">
-            <img src="/assets/logo_without_bg.png" alt="" />
-          </div>
-        </div>
-        <div class="container_paper">
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas
-            velit ratione enim, aliquid inventore veniam eum? Eveniet aspernatur
-            assumenda non!
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section id="Testimonios">
-    <div class="container_titulos" id="Eventos-Privados">
-      <h2 class="titulo text_color_principal">¿Una sesión privada?</h2>
-      <button>Saber Más</button>
-    </div>
-    <h2 class="titulo text_color_principal">Testimonios</h2>
-    <hr class="bg_color_secundario" />
-    <Swiper
-      :modules="[Pagination, Navigation]"
-      :grabCursor="true"
-      :slidesPerView="1"
-      :loop="true"
-      :spaceBetween="30"
-      :autoplay="{
-        delay: 2500,
-        disableOnInteraction: false,
-      }"
-      :navigation="true"
-      :pagination="true"
-      :breakpoints="breakpoints"
-      class="mySwiper"
-    >
-      <swiper-slide>
-        <div class="card_slide_testimonio">
-          <div class="container_img">
-            <img src="/assets/img_profiles/1.jpg" alt="" />
-            <div class="container_icon_video">
-              <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+      <h2 class="titulo text_color_principal">Testimonios</h2>
+      <hr class="bg_color_secundario" />
+      <Swiper
+        :modules="[Pagination, Navigation]"
+        :grabCursor="true"
+        :slidesPerView="1"
+        :loop="true"
+        :spaceBetween="30"
+        :autoplay="{
+          delay: 2500,
+          disableOnInteraction: false,
+        }"
+        :navigation="true"
+        :pagination="true"
+        :breakpoints="breakpoints"
+        class="mySwiper"
+      >
+        <swiper-slide>
+          <div class="card_slide_testimonio">
+            <div class="container_img">
+              <img src="/assets/img_profiles/1.jpg" alt="" />
+              <div class="container_icon_video">
+                <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+              </div>
+            </div>
+            <div class="container_testimonio">
+              <h3><b>Nombre</b></h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Repellat magni, quod non quasi dignissimos magnam tempora quam
+                minus illum dolores.
+              </p>
             </div>
           </div>
-          <div class="container_testimonio">
-            <h3><b>Nombre</b></h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-              magni, quod non quasi dignissimos magnam tempora quam minus illum
-              dolores.
-            </p>
-          </div>
-        </div>
-      </swiper-slide>
-      <swiper-slide>
-        <div class="card_slide_testimonio">
-          <div class="container_img">
-            <img src="/assets/img_profiles/2.jpg" alt="" />
-            <div class="container_icon_video">
-              <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="card_slide_testimonio">
+            <div class="container_img">
+              <img src="/assets/img_profiles/2.jpg" alt="" />
+              <div class="container_icon_video">
+                <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+              </div>
+            </div>
+            <div class="container_testimonio">
+              <h3><b>Nombre</b></h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Repellat magni, quod non quasi dignissimos magnam tempora quam
+                minus illum dolores.
+              </p>
             </div>
           </div>
-          <div class="container_testimonio">
-            <h3><b>Nombre</b></h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-              magni, quod non quasi dignissimos magnam tempora quam minus illum
-              dolores.
-            </p>
-          </div>
-        </div>
-      </swiper-slide>
-      <swiper-slide>
-        <div class="card_slide_testimonio">
-          <div class="container_img">
-            <img src="/assets/img_profiles/3.jpg" alt="" />
-            <div class="container_icon_video">
-              <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="card_slide_testimonio">
+            <div class="container_img">
+              <img src="/assets/img_profiles/3.jpg" alt="" />
+              <div class="container_icon_video">
+                <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+              </div>
+            </div>
+            <div class="container_testimonio">
+              <h3><b>Nombre</b></h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Repellat magni, quod non quasi dignissimos magnam tempora quam
+                minus illum dolores.
+              </p>
             </div>
           </div>
-          <div class="container_testimonio">
-            <h3><b>Nombre</b></h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-              magni, quod non quasi dignissimos magnam tempora quam minus illum
-              dolores.
-            </p>
-          </div>
-        </div>
-      </swiper-slide>
-      <swiper-slide>
-        <div class="card_slide_testimonio">
-          <div class="container_img">
-            <img src="/assets/img_profiles/4.jpg" alt="" />
-            <div class="container_icon_video">
-              <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="card_slide_testimonio">
+            <div class="container_img">
+              <img src="/assets/img_profiles/4.jpg" alt="" />
+              <div class="container_icon_video">
+                <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+              </div>
+            </div>
+            <div class="container_testimonio">
+              <h3><b>Nombre</b></h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Repellat magni, quod non quasi dignissimos magnam tempora quam
+                minus illum dolores.
+              </p>
             </div>
           </div>
-          <div class="container_testimonio">
-            <h3><b>Nombre</b></h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-              magni, quod non quasi dignissimos magnam tempora quam minus illum
-              dolores.
-            </p>
-          </div>
-        </div>
-      </swiper-slide>
-    </Swiper>
-  </section>
+        </swiper-slide>
+      </Swiper>
+    </section>
+  </main>
 </template>
 <script lang="ts" setup>
 import { useHead } from "unhead";

@@ -1,5 +1,5 @@
 <template>
-  <div class="container_dashboard_eventos">
+  <main class="container_dashboard_eventos">
     <div class="container_search">
       <div class="search_bar">
         <input type="text" />
@@ -13,20 +13,23 @@
         <button>hoa 3</button>
       </aside>
       <div class="container_eventos">
-        <div class="card_evento">
-          <img src="/assets/locations_examples/1.jpg" alt="" />
-        </div>
-        <div class="card_evento">
-          <img src="/assets/locations_examples/1.jpg" alt="" />
-        </div>
-        <div class="card_evento">
-          <img src="/assets/locations_examples/1.jpg" alt="" />
-        </div>
-        <div class="card_evento">
-          <img src="/assets/locations_examples/1.jpg" alt="" />
-        </div>
-        <div class="card_evento">
-          <img src="/assets/locations_examples/1.jpg" alt="" />
+        <h2 class="text_color_principal">Eventos:</h2>
+        <div class="container_cards_eventos">
+          <div class="card_evento">
+            <img src="/assets/locations_examples/1.jpg" alt="" />
+          </div>
+          <div class="card_evento">
+            <img src="/assets/locations_examples/1.jpg" alt="" />
+          </div>
+          <div class="card_evento">
+            <img src="/assets/locations_examples/1.jpg" alt="" />
+          </div>
+          <div class="card_evento">
+            <img src="/assets/locations_examples/1.jpg" alt="" />
+          </div>
+          <div class="card_evento">
+            <img src="/assets/locations_examples/1.jpg" alt="" />
+          </div>
         </div>
       </div>
       <article>
@@ -36,13 +39,14 @@
           :centeredSlides="true"
           :spaceBetween="30"
           :loop="true"
-          :slidesPerView="3"
+          :slidesPerView="1"
           :autoplay="{
             delay: 2500,
             disableOnInteraction: false,
           }"
           :navigation="true"
           :pagination="true"
+          :breakpoints="breakpoints"
           class="mySwiper"
         >
           <swiper-slide>
@@ -66,26 +70,28 @@
             </div>
           </swiper-slide>
         </Swiper>
-        <hr class="bg_color_secundario" />
-        <h2 class="titulo text_color_secundario">Descripción General</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-          delectus, culpa tempore provident doloremque odit hic possimus modi
-          fugit quidem numquam totam quisquam soluta sunt iure repellat sed
-          dolores mollitia illo aperiam recusandae magnam laboriosam.
-          Reprehenderit aut, consequuntur adipisci soluta eveniet saepe
-          assumenda sint obcaecati ipsum ex corrupti? Recusandae molestias fugit
-          hic minus nesciunt eos. Minus, dicta. Distinctio quasi molestias
-          fugiat dolores repudiandae consectetur asperiores suscipit officia
-          excepturi fugit saepe rerum pariatur quam earum, sapiente in unde
-          harum blanditiis? Consequatur quae facere iste numquam ab dolore non
-          modi nisi quia, accusamus amet? Tempora hic quidem fugiat atque optio
-          distinctio omnis?
-        </p>
-        <NuxtLink to="/eventos">Ver Más</NuxtLink>
+        <div class="container_text_evento">
+          <hr class="bg_color_secundario" />
+          <h2 class="titulo text_color_secundario">Descripción General</h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
+            delectus, culpa tempore provident doloremque odit hic possimus modi
+            fugit quidem numquam totam quisquam soluta sunt iure repellat sed
+            dolores mollitia illo aperiam recusandae magnam laboriosam.
+            Reprehenderit aut, consequuntur adipisci soluta eveniet saepe
+            assumenda sint obcaecati ipsum ex corrupti? Recusandae molestias
+            fugit hic minus nesciunt eos. Minus, dicta. Distinctio quasi
+            molestias fugiat dolores repudiandae consectetur asperiores suscipit
+            officia excepturi fugit saepe rerum pariatur quam earum, sapiente in
+            unde harum blanditiis? Consequatur quae facere iste numquam ab
+            dolore non modi nisi quia, accusamus amet? Tempora hic quidem fugiat
+            atque optio distinctio omnis?
+          </p>
+          <NuxtLink to="/eventos/evento">Ver Más</NuxtLink>
+        </div>
       </article>
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -97,6 +103,52 @@ import "swiper/css/pagination";
 
 // Opcionales: módulos para Swiper
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+
+const breakpoints = {
+  640: {
+    slidesPerView: 1,
+    spaceBetween: 20,
+  },
+  768: {
+    slidesPerView: 2,
+    spaceBetween: 30,
+  },
+  1024: {
+    slidesPerView: 3,
+    spaceBetween: 40,
+  },
+};
+
+import { useHead } from "unhead";
+
+useHead({
+  title: "Eventos",
+  meta: [
+    {
+      name: "description",
+      content: "Página de inicio de Conciencia del Ser Divino",
+    },
+    //etiquetas og
+    { property: "og:title", content: "Inicio - Conciencia del Ser Divino" },
+    { property: "og:description", content: "Somos Conciencia del Ser Divino" },
+    // { property: 'og:image', content: 'https://www.ejemplo.com/imagen.jpg' },
+    { property: "og:url", content: "https://www.ejemplo.com/" },
+    { property: "og:type", content: "website" },
+    //etiquetas para twitter
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:site", content: "@ConcienciaDelSerDivino" },
+    //etiquetas para facebook
+    { property: "article:publisher", content: "https://www.facebook.com/" },
+  ],
+  link: [
+    /* no recomendable si se quiere remplazar a las cononicas
+    {
+      rel: "shortlink",
+      href: "https://tusitio.com/shortlink", // Aquí colocas la URL corta
+    },
+    */
+  ],
+});
 </script>
 
 <style scoped>
@@ -165,13 +217,31 @@ aside {
 .container_eventos {
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
   display: flex;
-  scrollbar-width: none !important;
+  flex-direction: column;
+}
+
+.container_cards_eventos {
+  width: 100%;
+  height: 65dvh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  scrollbar-width: thin;
+  scrollbar-color: #b47f4a #f5decb;
   flex-direction: column;
   gap: 0.5rem;
   border-radius: 10px;
   padding: 2%;
+}
+.container_eventos::-webkit-scrollbar-track {
+  background: #f5decb; /* color of the tracking area */
+}
+
+.container_eventos:-webkit-scrollbar-thumb {
+  background-color: #b47f4a; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 3px solid #f5decb; /* creates padding around scroll thumb */
 }
 .card_evento {
   position: relative;
@@ -203,22 +273,32 @@ article {
   width: 100%;
   border-left: #b47f4a solid 2px;
   padding: 2%;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: auto;
+  display: grid;
+  grid-template-rows: 20dvh 60dvh;
+  overflow: hidden;
   scrollbar-width: none;
 }
 article .swiper {
   margin: 0 auto;
   width: 40dvw;
-  height: 30dvh;
+  height: 100% !important;
 }
 article .card_slide {
   width: 100%;
   height: 100%;
   border-radius: 10px;
   overflow: hidden;
+}
+article .container_text_evento {
+  height: 100% !important;
+  overflow: hidden;
+}
+.container_text_evento h2 {
+  font-size: 1.5rem;
+}
+.container_text_evento p {
+  font-size: 0.8rem;
+  margin-bottom: 4%;
 }
 .card_slide img {
   width: 100%;
@@ -248,14 +328,21 @@ article a {
 }
 @media screen and (max-width: 600px) {
   .dashboard_eventos {
+    position: relative;
     display: flex;
     flex-direction: column;
+    height: fit-content !important;
   }
   .search_bar {
     width: 100%;
   }
+  .search_bar img {
+    width: 6dvw;
+    top: 8px;
+  }
 
   aside {
+    height: 10dvh;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -264,11 +351,16 @@ article a {
   }
   .container_eventos {
     width: 100%;
-    height: 1000dvh !important;
+    height: 30dvh;
+
+    padding: 0;
+  }
+  .container_cards_eventos {
+    height: 90%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    padding: 0;
+    gap: 0.5rem !important;
   }
   .card_evento {
     width: 100%;
@@ -282,10 +374,10 @@ article a {
     transform: scale(0.9) translateX(0px) !important;
   }
   article {
-    height: 800dvw;
+    height: 80dvh;
   }
   article .swiper {
-    width: 1000dvw;
+    width: 70dvw;
   }
 }
 </style>

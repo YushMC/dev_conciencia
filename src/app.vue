@@ -11,8 +11,13 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  user-select: none;
 }
-
+body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 a {
   text-decoration: none;
   color: #b47f4a;
@@ -103,13 +108,13 @@ body {
   border-radius: 10px !important;
 }
 
-#Testimonios .swiper-button-next,
-#Testimonios .swiper-button-prev {
-  opacity: 0.3;
+.swiper-button-next,
+.swiper-button-prev {
+  opacity: 0.5;
   transition: all 0.3s linear;
 }
-#Testimonios .swiper-button-next:hover,
-#Testimonios .swiper-button-prev:hover {
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
   opacity: 1;
 }
 
@@ -135,5 +140,43 @@ hr {
   height: 0.1rem;
   border: none;
   margin: 1% 0;
+}
+
+/* Transición 'blur' */
+.opacity-enter-active,
+.opacity-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.opacity-enter-from,
+.opacity-leave-to {
+  opacity: 0; /* Estado inicial de entrada o final de salida */
+  pointer-events: none !important; /* Evita interacciones durante la transición */
+}
+
+.opacity-leave-from,
+.opacity-enter-to {
+  opacity: 1; /* Estado final de entrada o inicial de salida */
+}
+.blur-enter-active,
+.blur-leave-active {
+  transition: opacity 0.5s, filter 0.5s;
+}
+
+.blur-enter-from,
+.blur-leave-to {
+  opacity: 0;
+  filter: blur(10px); /* Desenfoque inicial o final */
+}
+
+.blur-leave-from,
+.blur-enter-to {
+  opacity: 1;
+  filter: blur(0); /* Sin desenfoque */
+}
+main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 </style>

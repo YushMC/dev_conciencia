@@ -6,13 +6,11 @@
       </NuxtLink>
       <nav :class="{ active_submenu: isChecked, active: isResponsiveMenu }">
         <div class="container_menus">
-          <NuxtLink class="container_logo" to="/">
+          <NuxtLink class="container_logo" to="/" active-class="active">
             <img src="/assets/logo_without_bg.png" alt="" />
           </NuxtLink>
           <div class="menu">
-            <NuxtLink to="/#Nuestra-Escencia" active-class="active"
-              >Nuestra Escencia</NuxtLink
-            >
+            <NuxtLink to="/#Nuestra-Escencia">Nuestra Escencia</NuxtLink>
           </div>
           <div class="menu">
             <NuxtLink to="/#Nuestra-Precencia">Nuestra Presencia</NuxtLink>
@@ -24,7 +22,7 @@
             <input type="checkbox" id="subMenu" v-model="isChecked" />
 
             <label for="subMenu" :class="{ active: isChecked }">
-              <NuxtLink to="/eventos">Eventos</NuxtLink>
+              <NuxtLink to="/eventos" active-class="active">Eventos</NuxtLink>
               <span v-if="isChecked"> &#9650;</span>
               <span v-else> &#9660;</span>
             </label>
@@ -73,7 +71,7 @@ header {
   top: 0;
   left: 0;
   position: fixed;
-  width: 100dvw;
+  width: 100%;
   height: 100px;
   display: flex;
   z-index: 100;
@@ -150,7 +148,7 @@ nav {
   left: 0.2%;
   width: 0%;
   height: 0;
-  --size: 10px;
+  --size: 8px;
 
   width: 0;
   height: 0;
@@ -172,12 +170,17 @@ nav {
 .menu > a {
   color: #b47f4a;
   padding: 1%;
-  text-wrap: nowrap;
 }
 .menu a.active {
   border-bottom: solid 2px #b47f4a;
 }
-
+.menu > label {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.menu > label > span {
+  cursor: pointer;
+}
 .container_account {
   width: 10%;
   display: flex;

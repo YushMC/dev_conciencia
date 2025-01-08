@@ -24,6 +24,10 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      htmlAttrs: {
+        lang: "es",
+      },
+      charset: "utf-8",
       titleTemplate: "%s - Conciencia del Ser Divino", // Plantilla para títulos dinámicos
       title: "Conciencia del Ser Divino", // Título predeterminado (si no se define uno dinámico)
       meta: [
@@ -43,10 +47,15 @@ export default defineNuxtConfig({
         },
       ],
       link: [
-        { rel: "icon", type: "image/png", href: "/logo.png" },
+        {
+          rel: "shortcut icon",
+          href: "/hoa.png",
+        },
         //cual es la ruta cononica o la base
         { rel: "canonical", href: "https://www.ejemplo.com/" },
       ],
     },
+    pageTransition: { name: "blur", mode: "out-in" },
+    layoutTransition: { name: "opacity", mode: "out-in" },
   },
 });
