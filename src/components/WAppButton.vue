@@ -72,4 +72,9 @@
     width: 50dvw;
   }
 }
+@media screen and (min-width: 1400px) {
+  .container_button_wa {
+    width: 4dvw;
+  }
+}
 </style>
