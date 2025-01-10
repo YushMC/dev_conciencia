@@ -4,7 +4,7 @@
 
     <!-- Este contenedor será el nodo raíz animado -->
     <NuxtPage> </NuxtPage>
-
+    <WAppButton></WAppButton>
     <Footer></Footer>
   </div>
 </template>

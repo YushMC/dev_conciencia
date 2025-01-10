@@ -118,6 +118,7 @@ li {
 .container_power_by h4 {
   width: 100%;
   display: flex;
+  font-size: 0.6rem;
   justify-content: end;
   align-items: center;
   gap: 0.5rem;

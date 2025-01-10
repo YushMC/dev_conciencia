@@ -11,10 +11,9 @@
         :centeredSlides="true"
         :spaceBetween="30"
         :loop="true"
-        :slidesPerView="1"
         :navigation="true"
         :pagination="true"
-        :breakpoints="breakpoints"
+        :breakpoints="breakpoints2"
         class="mySwiper"
       >
         <swiper-slide>
@@ -155,7 +154,6 @@
       <Swiper
         :modules="[Pagination, Navigation]"
         :grabCursor="true"
-        :slidesPerView="1"
         :loop="true"
         :spaceBetween="30"
         :autoplay="{
@@ -286,15 +284,25 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 // Configuración de breakpoints
 const breakpoints = {
-  640: {
+  900: {
     slidesPerView: 1,
     spaceBetween: 20,
   },
-  768: {
+  1280: {
     slidesPerView: 2,
     spaceBetween: 30,
   },
-  1024: {
+  1400: {
+    slidesPerView: 3,
+    spaceBetween: 40,
+  },
+};
+const breakpoints2 = {
+  900: {
+    slidesPerView: 1,
+    spaceBetween: 20,
+  },
+  1200: {
     slidesPerView: 3,
     spaceBetween: 40,
   },
@@ -358,7 +366,8 @@ section {
 .card_slide .container_icon {
   height: 17%;
   background-image: url("/assets/corazon.svg");
-  background-size: auto;
+  background-size: contain;
+  background-origin: content-box;
   background-repeat: repeat-x;
   mask-image: linear-gradient(black 50%, transparent);
 }
@@ -487,15 +496,28 @@ section {
   box-shadow: inset 0px -90px 5px #0000000a;
 }
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1400px) {
   .mail {
     height: 25dvh;
   }
   .mail::before {
-    top: 8%;
+    top: 10%;
   }
   .mail:hover .container_paper {
-    transform: translateY(-21.5rem);
+    transform: translateY(-17.5rem);
+  }
+
+  .mail:hover::before {
+    transform: rotate(180deg) scaleX(3.1) scaleY(1.5) translateY(90px);
+  }
+
+  .swiper-slide {
+    height: 80dvh !important;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .swiper-slide {
+    height: 60dvh !important;
   }
 }
 @media screen and (max-width: 900px) {

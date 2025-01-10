@@ -229,7 +229,7 @@ nav {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     transition: all 0.3s linear;
-    transform: translateX(-300px);
+    transform: translateX(-500px);
   }
   nav.active {
     transform: translateX(0px);
@@ -336,6 +336,12 @@ nav {
   }
   .submenu a {
     color: #b47f4a;
+  }
+  label:hover > a {
+    color: #fff;
+  }
+  label.active > a {
+    color: #fff;
   }
 }
 </style>

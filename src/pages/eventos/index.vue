@@ -33,43 +33,9 @@
         </div>
       </div>
       <article>
-        <Swiper
-          :modules="[Pagination, Navigation, Autoplay]"
-          :grabCursor="true"
-          :centeredSlides="true"
-          :spaceBetween="30"
-          :loop="true"
-          :slidesPerView="1"
-          :autoplay="{
-            delay: 2500,
-            disableOnInteraction: false,
-          }"
-          :navigation="true"
-          :pagination="true"
-          :breakpoints="breakpoints"
-          class="mySwiper"
-        >
-          <swiper-slide>
-            <div class="card_slide">
-              <img src="/assets/locations_examples/1.jpg" alt="" />
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="card_slide">
-              <img src="/assets/locations_examples/1.jpg" alt="" />
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="card_slide">
-              <img src="/assets/locations_examples/1.jpg" alt="" />
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="card_slide">
-              <img src="/assets/locations_examples/1.jpg" alt="" />
-            </div>
-          </swiper-slide>
-        </Swiper>
+        <div class="container_flayer">
+          <img src="/assets/locations_examples/1.jpg" alt="" />
+        </div>
         <div class="container_text_evento">
           <hr class="bg_color_secundario" />
           <h2 class="titulo text_color_secundario">Descripción General</h2>
@@ -196,7 +162,7 @@ useHead({
 }
 .dashboard_eventos {
   width: 100%;
-  height: 70dvh;
+  height: 100dvh;
   position: relative;
   display: grid;
   grid-template-columns: 0.5fr 1.5fr 4fr;
@@ -223,7 +189,7 @@ aside {
 
 .container_cards_eventos {
   width: 100%;
-  height: 65dvh;
+  height: 95dvh;
   overflow-y: scroll;
   overflow-x: hidden;
   display: flex;
@@ -271,17 +237,27 @@ aside {
 }
 article {
   width: 100%;
+  height: 100%;
   border-left: #b47f4a solid 2px;
   padding: 2%;
-  display: grid;
-  grid-template-rows: 20dvh 60dvh;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
   overflow: hidden;
   scrollbar-width: none;
 }
-article .swiper {
+article .container_flayer {
   margin: 0 auto;
   width: 40dvw;
-  height: 100% !important;
+  height: 45%;
+}
+.container_flayer img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4/3;
+  object-fit: contain;
+  object-position: center;
+  overflow: hidden;
 }
 article .card_slide {
   width: 100%;
@@ -290,7 +266,7 @@ article .card_slide {
   overflow: hidden;
 }
 article .container_text_evento {
-  height: 100% !important;
+  height: 50% !important;
   overflow: hidden;
 }
 .container_text_evento h2 {
@@ -376,7 +352,7 @@ article a {
   article {
     height: 80dvh;
   }
-  article .swiper {
+  article .container_flayer {
     width: 70dvw;
   }
 }
