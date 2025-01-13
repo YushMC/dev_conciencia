@@ -104,9 +104,8 @@
           </div>
           <div class="container_paper">
             <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas
-              velit ratione enim, aliquid inventore veniam eum? Eveniet
-              aspernatur assumenda non!
+              Sanar de raíz el corazón, mente, cuerpo y alma de cada ser humano
+              a través de la meditación.
             </p>
           </div>
         </div>
@@ -120,9 +119,8 @@
           </div>
           <div class="container_paper">
             <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas
-              velit ratione enim, aliquid inventore veniam eum? Eveniet
-              aspernatur assumenda non!
+              Despertar la conciencia desde el amor para conectar con el ser
+              divino y vivir una vida en plenitud
             </p>
           </div>
         </div>
@@ -135,11 +133,14 @@
             </div>
           </div>
           <div class="container_paper">
-            <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas
-              velit ratione enim, aliquid inventore veniam eum? Eveniet
-              aspernatur assumenda non!
-            </p>
+            <ul>
+              <li>Amor</li>
+              <li>Confianza</li>
+              <li>Paz</li>
+              <li>Conciencia</li>
+              <li>Lealtad</li>
+              <li>Respeto</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -480,7 +481,7 @@ section {
 
   width: 100%;
   margin: auto;
-  padding: 2%;
+  padding: 5% 3%;
   background: #fcf7f3;
   height: 30dvh;
   opacity: 0;
@@ -495,7 +496,10 @@ section {
   clip-path: polygon(0 0, 100% 0%, 100% 72%, 51% 100%, 0 69%);
   box-shadow: inset 0px -90px 5px #0000000a;
 }
-
+.container_paper ul {
+  margin: 0% 5%;
+  color: #b47f4a;
+}
 @media screen and (max-width: 1400px) {
   .mail {
     height: 25dvh;

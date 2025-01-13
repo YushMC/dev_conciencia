@@ -9,14 +9,19 @@
         </h3>
       </div>
       <div class="container_status">
-        <h5 class="active">
-          Próximamente <span v-if="!isAvaible"><button>Reservar</button></span>
+        <h5 :class="{ active: status === 'Proximamente' }">
+          Próximamente
+          <span v-if="status === 'Proximamente'"
+            ><button>Reservar</button></span
+          >
         </h5>
-        <h5>¡En curso!</h5>
-        <h5>Terminado</h5>
+        <h5 :class="{ active: status === 'En curso' }">¡En curso!</h5>
+        <h5 :class="{ active: status === 'Terminado' }" v-if="isLogin">
+          Terminado
+        </h5>
       </div>
     </div>
-    <div class="container_imgs_evento bg_color_principal">
+    <div class="container_imgs_evento bg_color_principal" v-if="!isAvaible">
       <div class="container_principal">
         <img
           src="https://blog.rentcars.com/wp-content/uploads/2019/12/foto_blog.jpg"
@@ -51,33 +56,84 @@
         </div>
       </div>
     </div>
+    <div class="container_flayer bg_color_principal" v-else>
+      <img src="/assets/locations_examples/1.jpg" alt="" />
+    </div>
     <div class="container_description">
       <ul class="container_submenu">
-        <li class="active">Descripción</li>
-        <li>Locación</li>
-        <li>Comentarios</li>
+        <li
+          :class="{ active: !isSelectedUbicacion }"
+          v-if="isAvaible"
+          @click="
+            {
+              isSelectedUbicacion = false;
+            }
+          "
+        >
+          Descripción
+        </li>
+        <li class="active" v-if="!isAvaible">Resumen</li>
+        <li
+          v-if="isAvaible"
+          :class="{ active: isSelectedUbicacion }"
+          @click="
+            {
+              isSelectedUbicacion = true;
+            }
+          "
+        >
+          Ubicación
+        </li>
       </ul>
       <div class="container_info">
         <div class="content_description">
           <section>
-            <h2 class="text_color_principal">Acerca de esta meditación</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Reiciendis quas sequi quae id. Dicta, eos natus quibusdam tempora
-              architecto illum suscipit impedit nostrum necessitatibus
-              blanditiis ratione, laudantium omnis repudiandae eius nemo tempore
-              odit reiciendis cupiditate. Nam debitis animi culpa est facere,
-              similique libero tempora id amet ut esse expedita placeat, eveniet
-              voluptatem magnam quibusdam! Pariatur earum vel saepe nemo commodi
-              minima accusantium excepturi. Dignissimos necessitatibus
-              perspiciatis doloremque nisi fugiat dicta nostrum amet iste earum
-              maiores, mollitia, ipsum id ducimus. Aspernatur assumenda
-              praesentium voluptatum doloribus recusandae, sunt sint iste
-              ducimus! Sed itaque dicta sequi distinctio fuga, fugiat officia?
-              Tenetur, illo quis.
-            </p>
+            <div class="container_info_desciption" v-if="!isSelectedUbicacion">
+              <h2 class="text_color_principal">Acerca de esta meditación</h2>
+              <p v-show="isAvaible">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Reiciendis quas sequi quae id. Dicta, eos natus quibusdam
+                tempora architecto illum suscipit impedit nostrum necessitatibus
+                blanditiis ratione, laudantium omnis repudiandae eius nemo
+                tempore odit reiciendis cupiditate. Nam debitis animi culpa est
+                facere, similique libero tempora id amet ut esse expedita
+                placeat, eveniet voluptatem magnam quibusdam! Pariatur earum vel
+                saepe nemo commodi minima accusantium excepturi. Dignissimos
+                necessitatibus perspiciatis doloremque nisi fugiat dicta nostrum
+                amet iste earum maiores, mollitia, ipsum id ducimus. Aspernatur
+                assumenda praesentium voluptatum doloribus recusandae, sunt sint
+                iste ducimus! Sed itaque dicta sequi distinctio fuga, fugiat
+                officia? Tenetur, illo quis.
+              </p>
+              <p v-show="!isAvaible">
+                Resumen: Lorem ipsum dolor sit amet consectetur adipisicing
+                elit. Reiciendis quas sequi quae id. Dicta, eos natus quibusdam
+                tempora architecto illum suscipit impedit nostrum necessitatibus
+                blanditiis ratione, laudantium omnis repudiandae eius nemo
+                tempore odit reiciendis cupiditate. Nam debitis animi culpa est
+                facere, similique libero tempora id amet ut esse expedita
+                placeat, eveniet voluptatem magnam quibusdam! Pariatur earum vel
+                saepe nemo commodi minima accusantium excepturi. Dignissimos
+                necessitatibus perspiciatis doloremque nisi fugiat dicta nostrum
+                amet iste earum maiores, mollitia, ipsum id ducimus. Aspernatur
+                assumenda praesentium voluptatum doloribus recusandae, sunt sint
+                iste ducimus! Sed itaque dicta sequi distinctio fuga, fugiat
+                officia? Tenetur, illo quis.
+              </p>
+            </div>
+            <div class="content_map" v-else>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5910.250011240538!2d-101.56913538378157!3d21.063714057165676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2smx!4v1736805270196!5m2!1ses!2smx"
+                width="100%"
+                height="500"
+                style="border: 0"
+                allowfullscreen="true"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
           </section>
-          <section>
+          <section v-if="!isSelectedUbicacion">
             <h2><span>$3,500</span> por persona</h2>
             <hr class="bg_color_secundario" />
             <div>
@@ -93,6 +149,100 @@
             <h3>Total <span>$7,000</span></h3>
             <button>Reservar Ahora</button>
           </section>
+          <section v-else>
+            <h2>Ubicacion:</h2>
+          </section>
+        </div>
+        <div id="Testimonios" v-if="!isAvaible">
+          <h2 class="titulo text_color_principal">Comentarios</h2>
+          <hr class="bg_color_secundario" />
+          <Swiper
+            :modules="[Pagination, Navigation]"
+            :grabCursor="true"
+            :loop="true"
+            :spaceBetween="30"
+            :autoplay="{
+              delay: 2500,
+              disableOnInteraction: false,
+            }"
+            :navigation="true"
+            :pagination="true"
+            :breakpoints="breakpoints"
+            class="mySwiper"
+          >
+            <swiper-slide>
+              <div class="card_slide_testimonio">
+                <div class="container_img">
+                  <img src="/assets/img_profiles/1.jpg" alt="" />
+                  <div class="container_icon_video">
+                    <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+                  </div>
+                </div>
+                <div class="container_testimonio">
+                  <h3><b>Nombre</b></h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Repellat magni, quod non quasi dignissimos magnam tempora
+                    quam minus illum dolores.
+                  </p>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div class="card_slide_testimonio">
+                <div class="container_img">
+                  <img src="/assets/img_profiles/2.jpg" alt="" />
+                  <div class="container_icon_video">
+                    <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+                  </div>
+                </div>
+                <div class="container_testimonio">
+                  <h3><b>Nombre</b></h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Repellat magni, quod non quasi dignissimos magnam tempora
+                    quam minus illum dolores.
+                  </p>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div class="card_slide_testimonio">
+                <div class="container_img">
+                  <img src="/assets/img_profiles/3.jpg" alt="" />
+                  <div class="container_icon_video">
+                    <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+                  </div>
+                </div>
+                <div class="container_testimonio">
+                  <h3><b>Nombre</b></h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Repellat magni, quod non quasi dignissimos magnam tempora
+                    quam minus illum dolores.
+                  </p>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div class="card_slide_testimonio">
+                <div class="container_img">
+                  <img src="/assets/img_profiles/4.jpg" alt="" />
+                  <div class="container_icon_video">
+                    <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+                  </div>
+                </div>
+                <div class="container_testimonio">
+                  <h3><b>Nombre</b></h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Repellat magni, quod non quasi dignissimos magnam tempora
+                    quam minus illum dolores.
+                  </p>
+                </div>
+              </div>
+            </swiper-slide>
+          </Swiper>
         </div>
       </div>
     </div>
@@ -100,10 +250,45 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
+
+const status = ref<string>("Proximamente");
+
+const { isLogin } = useInfoUser();
 
 const isAvaible = ref<boolean>(false);
+const isSelectedUbicacion = ref<boolean>(false);
 
+const watchStatus = () => {
+  if (status.value !== "Terminado") {
+    isAvaible.value = true;
+  } else {
+    isAvaible.value = false;
+  }
+};
+
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
+
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+// Opcionales: módulos para Swiper
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+const breakpoints = {
+  900: {
+    slidesPerView: 1,
+    spaceBetween: 20,
+  },
+  1280: {
+    slidesPerView: 2,
+    spaceBetween: 30,
+  },
+  1400: {
+    slidesPerView: 3,
+    spaceBetween: 40,
+  },
+};
 import { useHead } from "unhead";
 
 useHead({
@@ -133,6 +318,10 @@ useHead({
     },
     */
   ],
+});
+
+onMounted(() => {
+  watchStatus();
 });
 </script>
 
@@ -175,7 +364,7 @@ useHead({
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 .container_status h5 {
@@ -254,6 +443,11 @@ useHead({
 .container_imgs_evento .container_otros div:last-child {
   cursor: pointer;
 }
+.container_info_desciption {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 .container_imgs_evento .container_otros div:last-child h3 {
   position: absolute;
   width: 100%;
@@ -267,6 +461,24 @@ useHead({
   color: #fff;
   background: #b47f4a8a;
   backdrop-filter: blur(1px);
+}
+
+.container_flayer {
+  padding: 2% 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container_flayer img {
+  width: 50%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
+  transition: all 0.3s linear;
+}
+.container_flayer img:hover {
+  transform: scale(1.1);
 }
 
 @media screen and (max-width: 600px) {
@@ -301,6 +513,7 @@ useHead({
   color: #b47f4a;
   font-size: 1.5rem;
   opacity: 0.5;
+  cursor: pointer;
 }
 .container_submenu li.active {
   border-bottom: 3px solid #b47f4a;
@@ -361,5 +574,78 @@ useHead({
   font-size: 1.5rem;
   font-weight: 600;
   border-bottom: 2px solid #b47f4a;
+}
+#Testimonios {
+  width: 100%;
+  margin: 2% 0;
+}
+
+#Testimonios .swiper-slide {
+  height: fit-content !important;
+  display: flex !important;
+}
+#Testimonios .titulo:nth-child(2) {
+  margin-top: -5%;
+  margin-bottom: 2%;
+}
+.card_slide_testimonio {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.card_slide_testimonio .container_img {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+.card_slide_testimonio .container_img > img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+}
+.card_slide_testimonio .container_img .container_icon_video {
+  position: absolute;
+  width: 3dvw;
+  right: 1rem;
+  bottom: 0;
+  background: #ffffffa2;
+  backdrop-filter: blur(5px);
+  border-radius: 100%;
+}
+.card_slide_testimonio .container_testimonio {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+.card_slide_testimonio .container_testimonio h3,
+.card_slide_testimonio .container_testimonio p {
+  text-align: left;
+}
+
+@media screen and (max-width: 600px) {
+  .card_slide_testimonio {
+    display: flex;
+    flex-direction: column;
+  }
+  .container_icon_video {
+    width: 20dvw !important;
+    right: 7rem !important;
+    bottom: -1.8rem !important;
+  }
+}
+
+.content_map {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="container_account">
-          <NuxtLink to="#cuenta">
+          <NuxtLink to="/cuenta">
             <img src="/assets/icon_user.svg" alt="" />
             <span>Cuenta</span>
           </NuxtLink>
