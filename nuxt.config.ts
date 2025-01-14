@@ -32,6 +32,10 @@ export default defineNuxtConfig({
       title: "Conciencia del Ser Divino", // Título predeterminado (si no se define uno dinámico)
       meta: [
         {
+          name: "theme-color",
+          content: "#f8f3ee",
+        },
+        {
           name: "description",
           content: "Somos Conciencia del Ser Divino",
         },

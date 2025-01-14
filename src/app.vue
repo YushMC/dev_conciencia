@@ -117,7 +117,9 @@ body {
 .swiper-button-prev:hover {
   opacity: 1;
 }
-
+input[type="checkbox"] {
+  accent-color: #b47f4a;
+}
 .text_color_principal {
   color: #b47f4a;
 }
