@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{ 'active' : isActive }">
     <div class="fast_access">
       <div class="container_logo" to="/">
         <img src="/assets/logo_without_bg.png" alt="" />
@@ -16,11 +16,25 @@
       <a href="#">Ayuda</a>
     </div>
   </header>
+  <div id="cerrarMenu" @click="toggleStateHeader" v-if="isActive"></div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { watch } from 'vue';
+import { useHeaderAccount } from '~/composables/useHeaderAccount';
+
+const { isActive, toggleStateHeader } = useHeaderAccount();
+
+watch(isActive, (newValue) => {
+  console.log('El estado de isActive cambió a:', newValue);
+});
+
+</script>
 
 <style scoped>
+#cerrarMenu{
+  display: none;
+}
 header {
   width: 100%;
   height: 100dvh;
@@ -37,6 +51,10 @@ header {
   box-shadow: 0px 0px 10px 0px rgba(126, 126, 126, 0.315);
   z-index: 100;
 }
+.active{
+  transform: translateX(0px);
+}
+
 .fast_access {
   width: 100%;
   display: flex;
@@ -87,5 +105,29 @@ header {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+@media screen and (max-width: 800px) {
+  header {
+    position: fixed;
+    background: #f8f3ee;
+    width: 60dvw;
+    transform: translateX(-500px);
+    transition: all 0.3s linear;
+    z-index: 100;
+  }
+
+  .active {
+    transform: translateX(0px);
+  }
+  #cerrarMenu{
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100dvh;
+    background: #b47f4a2d;
+    backdrop-filter: blur(10px);
+    z-index: 90;
+  }
 }
 </style>

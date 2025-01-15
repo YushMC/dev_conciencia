@@ -1,7 +1,11 @@
 <template>
   <div class="container_main_dashboard">
-    <h1>Hola, Roberto Gomez</h1>
-    <img src="" alt="" />
+    <div class="info_user">
+      <h1>Hola, Roberto Gomez <span id="mostrar_menu" @click="toggleStateHeader">Mostrar</span></h1>
+      <img :src="url_logo" alt="" @click="toggleStateHeader" />
+      <img src="/assets/logo_without_bg.png" alt="" id="logo_conciencia">
+    </div>
+
     <div class="container_sections">
       <section>
         <div class="container_asides_horizontal">
@@ -26,8 +30,7 @@
           <aside>
             <h3>Reservar Meditación</h3>
             <p>
-              Reserva una meditación privada o <br />asiste a uno de nuestros
-              eventos!
+              Reserva una meditación privada o asiste a uno de nuestros eventos!
             </p>
             <router-link to="#">Reservar ahora</router-link>
           </aside>
@@ -88,7 +91,7 @@
           </details>
         </div>
         <div class="container_form">
-          <details open>
+          <details>
             <summary class="category">
               Comentario
               <div class="important">&nbsp;</div>
@@ -104,7 +107,7 @@
       <section>
         <aside>
           <h3 class="category">Notificaciones</h3>
-          <details open>
+          <details>
             <summary>
               Nuevas Notificaciones: <span> 1</span>
               <div class="important">&nbsp;</div>
@@ -117,7 +120,7 @@
         </aside>
         <aside>
           <h3 class="category">Historial de asistencias</h3>
-          <details open>
+          <details>
             <summary>Selecciona un mes o año para ver tu historial:</summary>
             <div class="container_fechas">
               <select id="month" name="month">
@@ -176,12 +179,18 @@ definePageMeta({
   layout: "accounts", // Nombre del layout que deseas usar
 });
 
+const { toggleStateHeader } = useHeaderAccount();
+
 import { ref } from "vue";
 
 const rol = ref<string>("Administrador");
+const url_logo = ref<string>("https://github.com/YushMC.png");
 </script>
 
 <style scoped>
+#logo_conciencia{
+  display: none;
+  }
 .container_main_dashboard {
   width: 100%;
   height: 100%;
@@ -190,6 +199,17 @@ const rol = ref<string>("Administrador");
   flex-direction: column;
   gap: 2rem;
   overflow-y: auto;
+}
+.info_user {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.info_user img {
+  width: 5dvw;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
 }
 .container_sections {
   width: 100%;
@@ -230,6 +250,7 @@ const rol = ref<string>("Administrador");
 .container_sections section:nth-child(2) aside {
   width: 100%;
   padding: 5%;
+  height: fit-content;
 }
 
 aside h3 {
@@ -378,6 +399,37 @@ aside table tr:nth-of-type(even) {
     width: 100%;
     resize: none;
     field-sizing: content;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .container_sections {
+    grid-template-columns: 2fr 2fr !important;
+  }
+}
+@media screen and (max-width: 800px) {
+  #logo_conciencia{
+    position: absolute;
+    width: 10dvw;
+    display: block;
+    bottom: 0%;
+    right: 0%;
+    z-index: 100;
+    background: #fff;
+  }
+  .container_sections {
+    display: flex;
+    flex-direction: column;
+  }
+  .info_user {
+    margin-top: 2%;
+    position: relative;
+  }
+  .info_user h1 {
+    font-size: 1.5rem;
+  }
+  .info_user img {
+    width: 30dvw;
   }
 }
 </style>

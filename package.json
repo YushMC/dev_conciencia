@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "deploy": "npm run generate && gh-pages -d dist"
   },
   "dependencies": {
     "@nuxt/image": "^1.8.1",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@nuxtjs/sitemap": "^7.0.1",
-    "@types/swiper": "^5.4.3"
+    "@types/swiper": "^5.4.3",
+    "gh-pages": "^6.3.0"
   }
 }

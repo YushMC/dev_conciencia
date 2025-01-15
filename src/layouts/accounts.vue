@@ -39,4 +39,10 @@
     background-position: 0% 0%;
   }
 }
+@media screen and (max-width: 800px) {
+  .container_body {
+    display: flex;
+    width: 100%;
+  }
+}
 </style>
