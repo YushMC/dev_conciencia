@@ -18,16 +18,8 @@
 
     <div class="container_sections">
       <section>
+        <!-- 
         <div class="container_asides_horizontal">
-          <aside id="editarPerfil">
-            <h3>Editar Perfil</h3>
-            <ul>
-              <li>Información personal</li>
-              <li>Métodos de acceso</li>
-              <li>Métodos de pago</li>
-            </ul>
-            <a @click="toogleStateModal">Cuenta</a>
-          </aside>
           <!-- 
           <aside id="expediente">
             <h3>Consultar Expediente</h3>
@@ -38,14 +30,7 @@
             </p>
             <a href="#">Solicitar</a>
           </aside>
-          -->
-          <aside id="reservas">
-            <h3>Reservar Meditación</h3>
-            <p>
-              Reserva una meditación privada o asiste a uno de nuestros eventos!
-            </p>
-            <router-link to="#">Reservar ahora</router-link>
-          </aside>
+          
         </div>
         <!-- 
         <div class="container_form" id="cuestionarios">
@@ -104,7 +89,38 @@
             </form>
           </details>
         </div>
+        
         -->
+        <aside class="container_form">
+          <h3 class="category">Historial de asistencias</h3>
+          <details>
+            <summary>Selecciona un mes o año para ver tu historial:</summary>
+            <div class="container_fechas">
+              <select id="month" name="month">
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+              </select>
+              <select id="year" name="year">
+                <option value="2025">2025</option>
+              </select>
+            </div>
+            <FullCalendar
+              :events="calendarEvents"
+              :initialView="'dayGridMonth'"
+              :headerToolbar="headerToolbarConfig"
+            />
+          </details>
+        </aside>
         <div class="container_form" id="comentarios" v-if="newComment">
           <details>
             <summary class="category">
@@ -133,52 +149,16 @@
             </ul>
           </details>
         </aside>
-        <aside id="asistencias">
-          <h3 class="category">Historial de asistencias</h3>
-          <details>
-            <summary>Selecciona un mes o año para ver tu historial:</summary>
-            <div class="container_fechas">
-              <select id="month" name="month">
-                <option value="01">Enero</option>
-                <option value="02">Febrero</option>
-                <option value="03">Marzo</option>
-                <option value="04">Abril</option>
-                <option value="05">Mayo</option>
-                <option value="06">Junio</option>
-                <option value="07">Julio</option>
-                <option value="08">Agosto</option>
-                <option value="09">Septiembre</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Diciembre</option>
-              </select>
-              <select id="year" name="year">
-                <option value="2025">2025</option>
-              </select>
-            </div>
-            <table>
-              <caption>
-                Listado de Asistencias correspondiente a: Enero
-              </caption>
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Lugar</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>09/01/2025</td>
-                  <td>Guadalajara</td>
-                </tr>
-                <tr>
-                  <td>09/01/2025</td>
-                  <td>Guadalajara</td>
-                </tr>
-              </tbody>
-            </table>
-          </details>
+        <aside id="editarPerfil">
+          <h3>Editar Perfil</h3>
+          <ul>
+            <li>Información personal</li>
+            <li>Métodos de acceso</li>
+            <li>Métodos de pago</li>
+          </ul>
+          <a @click="toogleStateModal">Cuenta</a>
         </aside>
+
         <aside v-if="rolUser === 'Administrador'" id="administrador">
           <h3 class="category">Panel de Administrador</h3>
           <p>Ingresa al panel de admistrador para funciones más avanzadas!</p>
@@ -204,6 +184,22 @@ import { ref } from "vue";
 const newComment = ref<boolean>(false);
 const newQuestions = ref<boolean>(false);
 
+import FullCalendar from "@fullcalendar/vue3";
+import dayGridPlugin from "@fullcalendar/daygrid";
+
+// Configuración para el encabezado del calendario
+const headerToolbarConfig = {
+  start: "prev,next today", // Botones al inicio
+  center: "title", // Título del mes
+  end: "dayGridMonth,dayGridWeek", // Cambios de vista
+};
+
+// Lista de eventos desde tus variables
+const calendarEvents = ref([
+  { title: "Evento 1", start: "2025-01-15" },
+  { title: "Evento 2", start: "2025-01-16" },
+  { title: "Evento 3", start: "2025-01-20", end: "2025-01-22" },
+]);
 // Configuración del tour
 </script>
 
@@ -334,7 +330,7 @@ aside .container_fechas select {
   color: #553b21;
 }
 aside table {
-  width: 2rem !important;
+  width: 100% !important;
   border-radius: 10px;
   font-size: 1em;
   font-family: sans-serif;
