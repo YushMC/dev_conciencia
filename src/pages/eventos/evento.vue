@@ -59,7 +59,7 @@ tion
     </div>
     <div class="container_flayer bg_color_principal" v-else id="reservar">
       <img src="/assets/locations_examples/1.jpg" alt="" />
-      <section class="precios">
+      <section class="precios" v-if="status !== 'En curso'">
         <h2><span>$3,500</span> por persona</h2>
         <hr class="bg_color_secundario" />
         <div>
@@ -72,6 +72,11 @@ tion
         </select>
         <h3>Total <span>$7,000</span></h3>
         <button>Reservar Ahora</button>
+      </section>
+      <section v-else>
+        <h3 class="titulo text_color_principal">
+          ¡Esta meditación esta en curso!
+        </h3>
       </section>
     </div>
     <div class="container_description">
@@ -115,7 +120,7 @@ tion
                 officia? Tenetur, illo quis.
               </p>
             </div>
-            <div class="content_map">
+            <div class="content_map" v-if="isAvaible">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5910.250011240538!2d-101.56913538378157!3d21.063714057165676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2smx!4v1736805270196!5m2!1ses!2smx"
                 width="100%"
@@ -127,7 +132,7 @@ tion
               ></iframe>
             </div>
           </section>
-          <section class="precios">
+          <section class="precios" v-if="isAvaible">
             <h2>Ubicacion</h2>
           </section>
         </div>
@@ -230,7 +235,7 @@ tion
 <script setup lang="ts">
 import { ref, watch, onMounted } from "vue";
 
-const status = ref<string>("Proximamente");
+const status = ref<string>("En curso");
 
 const { isLogin } = useInfoUser();
 
@@ -446,6 +451,7 @@ onMounted(() => {
   padding: 2% 10%;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
 }
 .container_flayer img {
@@ -455,9 +461,6 @@ onMounted(() => {
   object-position: center;
   border-radius: 20px;
   transition: all 0.3s linear;
-}
-.container_flayer img:hover {
-  transform: scale(1.1);
 }
 
 @media screen and (max-width: 600px) {

@@ -28,6 +28,7 @@
             </ul>
             <a @click="toogleStateModal">Cuenta</a>
           </aside>
+          <!-- 
           <aside id="expediente">
             <h3>Consultar Expediente</h3>
             <p>
@@ -37,6 +38,7 @@
             </p>
             <a href="#">Solicitar</a>
           </aside>
+          -->
           <aside id="reservas">
             <h3>Reservar Meditación</h3>
             <p>
@@ -45,7 +47,9 @@
             <router-link to="#">Reservar ahora</router-link>
           </aside>
         </div>
+        <!-- 
         <div class="container_form" id="cuestionarios">
+          
           <details>
             <summary class="category">
               Cuestionarios activos <span>1</span>
@@ -100,7 +104,8 @@
             </form>
           </details>
         </div>
-        <div class="container_form" id="comentarios">
+        -->
+        <div class="container_form" id="comentarios" v-if="newComment">
           <details>
             <summary class="category">
               Comentario

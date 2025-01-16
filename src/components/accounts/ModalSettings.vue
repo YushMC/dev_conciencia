@@ -52,6 +52,36 @@
           </div>
         </div>
       </details>
+      <details class="seccion_ajustes_2">
+        <summary>Editar ubicación</summary>
+        <div class="seccion_ajustes">
+          <label for="">Calle</label>
+          <input type="text" placeholder="Coloque su calle." />
+        </div>
+        <div class="seccion_ajustes">
+          <label for="">Número Exterior</label>
+          <input type="number" placeholder="Coloque su numero exterior." />
+        </div>
+        <div class="seccion_ajustes">
+          <label for="">Número Interior</label>
+          <input
+            type="number"
+            placeholder="(opcional) Coloque su numero interior."
+          />
+        </div>
+        <div class="seccion_ajustes">
+          <label for="">Ciudad</label>
+          <input type="text" placeholder="Coloque su numero Exterior." />
+        </div>
+        <div class="seccion_ajustes">
+          <label for="">Estado</label>
+          <input type="text" placeholder="Coloque su numero Exterior." />
+        </div>
+        <div class="seccion_ajustes">
+          <label for="">C.P.</label>
+          <input type="number" placeholder="Coloque su código postal." />
+        </div>
+      </details>
     </article>
   </div>
   <div id="cerrarModal" v-if="isActiveModal" @click="toogleStateModal"></div>
@@ -59,7 +89,7 @@
 
 <script setup lang="ts">
 const { toogleStateModal, isActiveModal } = useModalAccount();
-const { nameUser, contrasenaUser } = useInfoUser();
+const { nameUser, contrasenaUser, urlLogoUser } = useInfoUser();
 
 import { ref } from "vue";
 
@@ -175,7 +205,7 @@ details.seccion_ajustes {
   display: flex;
   flex-direction: column;
 }
-details.seccion_ajustes summary {
+summary {
   color: #6d3e0b !important;
 }
 details.seccion_ajustes .container_imagen {
@@ -288,6 +318,12 @@ details.seccion_ajustes .container_imagen label {
   padding: 2%;
   border: none;
   border-radius: 5px;
+}
+.seccion_ajustes_2 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 @media screen and (max-width: 1000px) {
   details.seccion_ajustes .container_imagen {
