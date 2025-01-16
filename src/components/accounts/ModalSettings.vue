@@ -172,8 +172,8 @@ const triggerFileInput = () => {
   gap: 1rem;
 }
 details.seccion_ajustes {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
 }
 details.seccion_ajustes summary {
   color: #6d3e0b !important;
