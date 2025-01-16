@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-const isLogin = ref<boolean>(false);
+const isLogin = ref<boolean>(true);
 const nameUser = ref<string>("Roberto");
 const rolUser = ref<string>("Usuario");
 const urlLogoUser = ref<string>("https://github.com/YushMC.png");

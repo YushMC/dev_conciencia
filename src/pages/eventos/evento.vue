@@ -235,7 +235,7 @@ tion
 <script setup lang="ts">
 import { ref, watch, onMounted } from "vue";
 
-const status = ref<string>("En curso");
+const status = ref<string>("Proximamente");
 
 const { isLogin } = useInfoUser();
 
