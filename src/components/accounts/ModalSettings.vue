@@ -37,10 +37,18 @@
             <button @click="triggerFileInput" v-if="imagePreview" id="cambiar">
               Cambiar archivo
             </button>
-            <button @click="removeImage" v-if="imagePreview" id="eliminar">
+            <button
+              @click="removeImage"
+              v-if="imagePreview !== urlLogoUser"
+              id="eliminar"
+            >
               Cancelar
             </button>
-            <button @click="onSubmit" v-if="imagePreview" id="cargar">
+            <button
+              @click="onSubmit"
+              v-if="imagePreview !== urlLogoUser"
+              id="cargar"
+            >
               Cargar
             </button>
           </div>
@@ -148,6 +156,10 @@ const removeImage = () => {
 const triggerFileInput = () => {
   fileInput.value?.click();
 };
+
+onMounted(() => {
+  imagePreview.value = urlLogoUser.value;
+});
 </script>
 
 <style scoped>

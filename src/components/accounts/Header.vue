@@ -8,7 +8,9 @@
           <h4>Nivel 1</h4>
         </div>
       </div>
-      <NuxtLink to="/cuenta" active-class="link_active">Panel</NuxtLink>
+
+      <a @click="toogleStateModal">Cuenta</a>
+      <NuxtLink to="/cuenta" active-class="link_active">Agendar</NuxtLink>
       <NuxtLink to="/">Sitio Principal</NuxtLink>
     </div>
     <div class="others">
@@ -24,6 +26,7 @@ import { watch } from "vue";
 import { useHeaderAccount } from "~/composables/useHeaderAccount";
 
 const { isActive, toggleStateHeader } = useHeaderAccount();
+const { toogleStateModal } = useModalAccount();
 
 watch(isActive, (newValue) => {
   console.log("El estado de isActive cambió a:", newValue);

@@ -182,4 +182,29 @@ main {
   display: flex;
   flex-direction: column;
 }
+
+.custom-event-title {
+  width: 100% !important;
+  position: relative !important;
+  height: 50% !important;
+  font-weight: bold;
+  color: white !important; /* Puedes cambiar el color del título */
+  font-size: 1rem; /* Tamaño de fuente */
+  text-overflow: ellipsis;
+  padding: 5%;
+  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Usar el pseudo-elemento ::after para agregar contenido */
+.event-icon {
+  position: relative;
+  /* Ajusta la posición vertical si es necesario */
+  font-size: 16px; /* Tamaño del ícono/texto */
+  z-index: 100;
+}
 </style>

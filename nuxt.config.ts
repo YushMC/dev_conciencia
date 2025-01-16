@@ -8,15 +8,14 @@ export default defineNuxtConfig({
   },
   */
   compatibilityDate: "2024-11-01",
-  ssr: false, // Asegúrate de que está habilitado
+  ssr: true, // Asegúrate de que está habilitado
   srcDir: "src/",
-  target: "static",
   build: {
     transpile: ["unhead"], // Asegúrate de que unhead sea correctamente transpilado
   },
   devtools: { enabled: false },
   // plugins: ["~/plugins/driver.js"],
-  modules: ["@nuxtjs/sitemap"],
+
   /*
   sitemap: {
     hostname: "https://tu-dominio.com",
@@ -65,12 +64,5 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: "blur", mode: "out-in" },
     layoutTransition: { name: "opacity", mode: "out-in" },
-  },
-  router: {
-    // Aquí configuramos el hook para hacer scroll hacia arriba después de cada cambio de ruta
-    afterEach(to, from) {
-      // Hacemos que el scroll se posicione en la parte superior
-      window.scrollTo(0, 0);
-    },
   },
 });

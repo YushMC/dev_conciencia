@@ -7,6 +7,7 @@
           >Mostrar</span
         >
       </h1>
+
       <img
         :src="urlLogoUser"
         alt=""
@@ -18,108 +19,26 @@
 
     <div class="container_sections">
       <section>
-        <!-- 
-        <div class="container_asides_horizontal">
-          <!-- 
-          <aside id="expediente">
-            <h3>Consultar Expediente</h3>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Asperiores odit, enim placeat iusto possimus nulla omnis.
-              Perferendis explicabo impedit mollitia.
-            </p>
-            <a href="#">Solicitar</a>
-          </aside>
-          
-        </div>
-        <!-- 
-        <div class="container_form" id="cuestionarios">
-          
-          <details>
-            <summary class="category">
-              Cuestionarios activos <span>1</span>
-              <div class="important" v-if="newQuestions">&nbsp;</div>
-            </summary>
-            <form action="">
-              <label for="">
-                1.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corporis, ad?
-              </label>
-              <input type="text" />
-              <label for="">
-                1.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corporis, ad?
-              </label>
-              <input type="text" />
-              <label for="">
-                1.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corporis, ad?
-              </label>
-              <input type="text" />
-              <label for="">
-                1.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corporis, ad?
-              </label>
-              <input type="text" />
-              <label for="">
-                1.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corporis, ad?
-              </label>
-              <input type="text" />
-              <label for="">
-                1.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corporis, ad?
-              </label>
-              <input type="text" />
-              <label for="">
-                1.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corporis, ad?
-              </label>
-              <input type="text" />
-              <label for="">
-                1.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corporis, ad?
-              </label>
-              <input type="text" />
-              <label for="">
-                1.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corporis, ad?
-              </label>
-              <input type="text" />
-            </form>
-          </details>
-        </div>
-        
-        -->
         <aside class="container_form">
-          <h3 class="category">Historial de asistencias</h3>
-          <details>
-            <summary>Selecciona un mes o año para ver tu historial:</summary>
-            <div class="container_fechas">
-              <select id="month" name="month">
-                <option value="01">Enero</option>
-                <option value="02">Febrero</option>
-                <option value="03">Marzo</option>
-                <option value="04">Abril</option>
-                <option value="05">Mayo</option>
-                <option value="06">Junio</option>
-                <option value="07">Julio</option>
-                <option value="08">Agosto</option>
-                <option value="09">Septiembre</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Diciembre</option>
-              </select>
-              <select id="year" name="year">
-                <option value="2025">2025</option>
-              </select>
+          <h3 class="category">Agenda</h3>
+          <client-only>
+            <FullCalendar :options="calendarOptions" />
+          </client-only>
+          <div
+            v-if="showMenu"
+            class="custom-menu"
+            :style="{ top: `${menuPosition.y}px`, left: `${menuPosition.x}px` }"
+          >
+            <div>
+              <strong>Opciones para el {{ selectedDate }}</strong>
             </div>
-            <FullCalendar
-              :events="calendarEvents"
-              :initialView="'dayGridMonth'"
-              :headerToolbar="headerToolbarConfig"
-            />
-          </details>
+            <ul>
+              <li @click="handleOption('Opción 1')" v-if="isActiveButtonReserv">
+                Reservar
+              </li>
+              <li @click="handleOption('Opción 2')">Ver Detalles</li>
+            </ul>
+          </div>
         </aside>
         <div class="container_form" id="comentarios" v-if="newComment">
           <details>
@@ -136,29 +55,12 @@
         </div>
       </section>
       <section>
-        <aside id="notificaciones">
-          <h3 class="category">Notificaciones</h3>
+        <aside>
+          <h3 class="category">Reservar</h3>
           <details>
-            <summary>
-              Nuevas Notificaciones: <span> 1</span>
-              <div class="important">&nbsp;</div>
-            </summary>
-            <ul>
-              <li>Soporte: Solicitud aprovada.</li>
-              <hr />
-            </ul>
+            <summary>Reservar ahora</summary>
           </details>
         </aside>
-        <aside id="editarPerfil">
-          <h3>Editar Perfil</h3>
-          <ul>
-            <li>Información personal</li>
-            <li>Métodos de acceso</li>
-            <li>Métodos de pago</li>
-          </ul>
-          <a @click="toogleStateModal">Cuenta</a>
-        </aside>
-
         <aside v-if="rolUser === 'Administrador'" id="administrador">
           <h3 class="category">Panel de Administrador</h3>
           <p>Ingresa al panel de admistrador para funciones más avanzadas!</p>
@@ -186,20 +88,94 @@ const newQuestions = ref<boolean>(false);
 
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import esLocale from "@fullcalendar/core/locales/es";
 
-// Configuración para el encabezado del calendario
-const headerToolbarConfig = {
-  start: "prev,next today", // Botones al inicio
-  center: "title", // Título del mes
-  end: "dayGridMonth,dayGridWeek", // Cambios de vista
-};
+const selectedDate = ref<string | null>(null);
+const showMenu = ref(false);
+const menuPosition = ref<{ x: number; y: number }>({ x: 0, y: 0 });
+const isActiveButtonReserv = ref(false);
 
-// Lista de eventos desde tus variables
-const calendarEvents = ref([
-  { title: "Evento 1", start: "2025-01-15" },
-  { title: "Evento 2", start: "2025-01-16" },
-  { title: "Evento 3", start: "2025-01-20", end: "2025-01-22" },
+const events = ref([
+  {
+    title: "Terminado",
+    date: "2024-12-11",
+    display: "background",
+    backgroundColor: "rgba(0, 0, 0, 1)",
+    icono: "✔️",
+  },
+  {
+    title: "Terminado",
+    date: "2024-12-26",
+    display: "background",
+    backgroundColor: "rgba(0, 0, 0, 1)",
+    icono: "✔️",
+  },
+  {
+    title: "Terminado",
+    date: "2025-01-11",
+    display: "background",
+    backgroundColor: "rgba(0, 0, 0, 1)",
+    icono: "✔️",
+  },
+  {
+    title: "Terminado",
+    date: "2025-01-12",
+    display: "background",
+    backgroundColor: "rgba(0, 0, 0, 1)",
+    icono: "✔️",
+  },
+  {
+    title: "Proximamente",
+    date: "2025-01-20",
+    display: "background",
+    backgroundColor: "rgba(0, 0, 255, 1)",
+    icono: "➡️",
+  },
 ]);
+
+// Opciones del calendario
+const calendarOptions = ref({
+  plugins: [dayGridPlugin, interactionPlugin],
+  locale: esLocale, // Establecer el idioma español
+  initialView: "dayGridMonth",
+  events: events.value,
+  eventContent: (arg: any) => {
+    // Asegúrate de que `icono` esté presente y se accede correctamente
+    const icon = arg.event.extendedProps.icono || ""; // Aquí garantizamos que "icono" esté definido
+    return {
+      html: `<span class="custom-event-title">
+        <span>${arg.event.title}</span>
+        <span class="event-icon">${icon}</span>  <!-- Renderizamos el ícono aquí -->
+      </span>`,
+    };
+  },
+  dateClick: (info: any) => {
+    // Al hacer clic en una fecha, mostrar el menú
+    selectedDate.value = info.dateStr; // Guardamos la fecha seleccionada
+    menuPosition.value = {
+      x: info.jsEvent.pageX - 300,
+      y: info.jsEvent.pageY - 200,
+    }; // Obtenemos la posición del clic
+    showMenu.value = true; // Mostramos el menú
+    console.log(info.title);
+
+    // Buscar el evento que coincide con la fecha seleccionada
+    const event = events.value.find((event) => event.date === info.dateStr);
+
+    // Verificar si el evento fue encontrado y comparar el título
+    if (event && event.title === "Proximamente") {
+      isActiveButtonReserv.value = true; // Mostrar el botón si el título no es "Proximamente"
+    } else {
+      isActiveButtonReserv.value = false; // No mostrar el botón si el título es "Proximamente"
+    }
+  },
+});
+
+const handleOption = (option: string) => {
+  console.log(`Opción seleccionada: ${option}`);
+  showMenu.value = false; // Ocultamos el menú después de seleccionar una opción
+};
 // Configuración del tour
 </script>
 
@@ -240,9 +216,6 @@ const calendarEvents = ref([
 }
 .container_sections section:first-child {
   height: 100%;
-
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 .container_sections section .container_asides_horizontal {
   width: 100%;
@@ -262,11 +235,29 @@ const calendarEvents = ref([
   border-radius: 10px;
   backdrop-filter: blur(20px);
 }
-
-.container_sections section:nth-child(2) aside {
+.info_user section {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.container_sections section:nth-child(2) aside,
+.info_user aside {
   width: 100%;
-  padding: 5%;
+  padding: 2rem;
+  background: #ffffff;
   height: fit-content;
+  border-radius: 10px;
+  margin-right: 5%;
+}
+.info_user aside {
+  width: 50% !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.info_user aside a {
+  width: 30%;
 }
 
 aside h3 {
@@ -419,6 +410,30 @@ aside table tr:nth-of-type(even) {
   }
 }
 
+.custom-menu {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+  width: 200px;
+  font-size: 14px;
+}
+
+.custom-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.custom-menu li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.custom-menu li:hover {
+  background-color: #f0f0f0;
+}
 /*
 
 @keyframes bounce {
@@ -434,9 +449,10 @@ aside table tr:nth-of-type(even) {
 }
   */
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1300px) {
   .container_sections {
-    grid-template-columns: 2fr 2fr !important;
+    display: flex;
+    flex-direction: column;
   }
 }
 @media screen and (max-width: 800px) {
