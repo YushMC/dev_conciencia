@@ -1,7 +1,7 @@
 <template>
-  <header :class="{ 'active' : isActive }">
+  <header :class="{ active: isActive }">
     <div class="fast_access">
-      <div class="container_logo" to="/">
+      <div class="container_logo">
         <img src="/assets/logo_without_bg.png" alt="" />
         <div class="datos_user">
           <h3>Roberto Gomez</h3>
@@ -20,19 +20,18 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
-import { useHeaderAccount } from '~/composables/useHeaderAccount';
+import { watch } from "vue";
+import { useHeaderAccount } from "~/composables/useHeaderAccount";
 
 const { isActive, toggleStateHeader } = useHeaderAccount();
 
 watch(isActive, (newValue) => {
-  console.log('El estado de isActive cambió a:', newValue);
+  console.log("El estado de isActive cambió a:", newValue);
 });
-
 </script>
 
 <style scoped>
-#cerrarMenu{
+#cerrarMenu {
   display: none;
 }
 header {
@@ -51,7 +50,7 @@ header {
   box-shadow: 0px 0px 10px 0px rgba(126, 126, 126, 0.315);
   z-index: 100;
 }
-.active{
+.active {
   transform: translateX(0px);
 }
 
@@ -63,20 +62,18 @@ header {
 }
 .container_logo {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 3fr;
+  display: flex;
   align-items: center;
   border-radius: 20px;
   gap: 1rem;
   backdrop-filter: blur(20px);
 }
 .container_logo img {
-  width: 100%;
+  width: 30%;
   height: 100%;
   aspect-ratio: 1/1;
 }
 .container_logo .datos_user {
-  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -120,7 +117,7 @@ header {
   .active {
     transform: translateX(0px);
   }
-  #cerrarMenu{
+  #cerrarMenu {
     display: block;
     position: fixed;
     width: 100%;

@@ -3,7 +3,10 @@
     <Header></Header>
 
     <!-- Este contenedor será el nodo raíz animado -->
-    <NuxtPage> </NuxtPage>
+    <div>
+      <NuxtPage> </NuxtPage>
+    </div>
+
     <WAppButton></WAppButton>
     <Footer></Footer>
   </div>

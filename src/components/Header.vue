@@ -36,10 +36,10 @@
           </div>
         </div>
         <div class="container_account">
-          <NuxtLink to="/cuenta">
+          <a @click.prevent="checkLoggin">
             <img src="/assets/icon_user.svg" alt="" />
             <span>Cuenta</span>
-          </NuxtLink>
+          </a>
         </div>
       </nav>
       <div
@@ -55,13 +55,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"; // Estado del checkbox
-const isChecked = ref(false);
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+const isChecked = ref(false);
 const isResponsiveMenu = ref(false);
+// Obtener el enrutador
+const router = useRouter();
 
 const toggleMenu = () => {
   isResponsiveMenu.value = !isResponsiveMenu.value;
+};
+
+const checkLoggin = () => {
+  if (!localStorage.getItem("token")) {
+    router.push("/");
+  } else {
+    router.push("/cuenta");
+  }
 };
 </script>
 
@@ -170,7 +181,9 @@ nav {
 .menu > a {
   color: #b47f4a;
   padding: 1%;
+  cursor: pointer;
 }
+
 .menu a.active {
   border-bottom: solid 2px #b47f4a;
 }

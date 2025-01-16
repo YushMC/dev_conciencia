@@ -1,3 +1,4 @@
+tion
 <template>
   <main>
     <div class="container_info_evento bg_color_principal">
@@ -12,7 +13,7 @@
         <h5 :class="{ active: status === 'Proximamente' }">
           Próximamente
           <span v-if="status === 'Proximamente'"
-            ><button>Reservar</button></span
+            ><a href="#reservar">Reservar</a></span
           >
         </h5>
         <h5 :class="{ active: status === 'En curso' }">¡En curso!</h5>
@@ -56,39 +57,32 @@
         </div>
       </div>
     </div>
-    <div class="container_flayer bg_color_principal" v-else>
+    <div class="container_flayer bg_color_principal" v-else id="reservar">
       <img src="/assets/locations_examples/1.jpg" alt="" />
+      <section class="precios">
+        <h2><span>$3,500</span> por persona</h2>
+        <hr class="bg_color_secundario" />
+        <div>
+          <h5>Fecha</h5>
+          <h5>Marzo 30, 2025</h5>
+        </div>
+        <h5>Inivitado</h5>
+        <select name="" id="">
+          <option value="">1</option>
+        </select>
+        <h3>Total <span>$7,000</span></h3>
+        <button>Reservar Ahora</button>
+      </section>
     </div>
     <div class="container_description">
       <ul class="container_submenu">
-        <li
-          :class="{ active: !isSelectedUbicacion }"
-          v-if="isAvaible"
-          @click="
-            {
-              isSelectedUbicacion = false;
-            }
-          "
-        >
-          Descripción
-        </li>
-        <li class="active" v-if="!isAvaible">Resumen</li>
-        <li
-          v-if="isAvaible"
-          :class="{ active: isSelectedUbicacion }"
-          @click="
-            {
-              isSelectedUbicacion = true;
-            }
-          "
-        >
-          Ubicación
-        </li>
+        <li class="active" v-if="isAvaible">Descripción</li>
+        <li class="active" v-else>Resumen</li>
       </ul>
       <div class="container_info">
         <div class="content_description">
           <section>
-            <div class="container_info_desciption" v-if="!isSelectedUbicacion">
+            <div class="container_info_desciption">
               <h2 class="text_color_principal">Acerca de esta meditación</h2>
               <p v-show="isAvaible">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -121,7 +115,7 @@
                 officia? Tenetur, illo quis.
               </p>
             </div>
-            <div class="content_map" v-else>
+            <div class="content_map">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5910.250011240538!2d-101.56913538378157!3d21.063714057165676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2smx!4v1736805270196!5m2!1ses!2smx"
                 width="100%"
@@ -133,24 +127,8 @@
               ></iframe>
             </div>
           </section>
-          <section v-if="!isSelectedUbicacion">
-            <h2><span>$3,500</span> por persona</h2>
-            <hr class="bg_color_secundario" />
-            <div>
-              <h5>Fecha</h5>
-              <select name="" id="">
-                <option value="">Marzo 30, 2025</option>
-              </select>
-            </div>
-            <h5>Inivitado</h5>
-            <select name="" id="">
-              <option value="">1</option>
-            </select>
-            <h3>Total <span>$7,000</span></h3>
-            <button>Reservar Ahora</button>
-          </section>
-          <section v-else>
-            <h2>Ubicacion:</h2>
+          <section class="precios">
+            <h2>Ubicacion</h2>
           </section>
         </div>
         <div id="Testimonios" v-if="!isAvaible">
@@ -250,14 +228,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 
 const status = ref<string>("Proximamente");
 
 const { isLogin } = useInfoUser();
 
 const isAvaible = ref<boolean>(false);
-const isSelectedUbicacion = ref<boolean>(false);
 
 const watchStatus = () => {
   if (status.value !== "Terminado") {
@@ -389,13 +366,15 @@ onMounted(() => {
   width: 100%;
   margin: 2% 0;
 }
-.container_status h5 span button {
-  width: 100%;
+.container_status h5 span a {
+  display: block;
+  width: 100% !important;
   border-radius: 10px;
   border: #b47f4a 2px solid;
   background: #b47f4a;
   color: #fff;
-  padding: 2%;
+  padding: 2% 5%;
+  font-size: 0.8rem;
   cursor: pointer;
 }
 .container_imgs_evento {
@@ -466,7 +445,7 @@ onMounted(() => {
 .container_flayer {
   padding: 2% 10%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 .container_flayer img {
@@ -529,29 +508,33 @@ onMounted(() => {
   flex-direction: column;
   gap: 2rem;
 }
-.content_description section:last-child {
+
+.precios {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   border-radius: 10px;
   border: #b47f4a solid 2px;
   padding: 5%;
 }
 
-.content_description section:last-child h5,
-.content_description section:last-child h2 {
+.precios h5,
+.precios h2 {
   color: #b47f4a;
 }
-.content_description section:last-child h2 span {
+.precios h2 span {
   font-size: 4rem;
 }
-.content_description section:last-child hr {
+.precios hr {
   margin: 0;
 }
-.content_description section:last-child div {
+.precios div {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
-.content_description section:last-child button {
+.precios button {
   border: #b47f4a solid 2px;
   background: #b47f4a;
   color: #fff;
@@ -559,7 +542,7 @@ onMounted(() => {
   border-radius: 10px;
   font-size: 1rem;
 }
-.content_description section:last-child select {
+.precios select {
   border: 2px solid transparent;
   border-bottom: #b47f4a solid 2px;
   background: none;
@@ -567,10 +550,10 @@ onMounted(() => {
   padding: 2%;
   font-weight: 600 !important;
 }
-.content_description section:last-child h3 {
+.precios h3 {
   color: #b47f4a;
 }
-.content_description section:last-child h3 span {
+.precios span {
   font-size: 1.5rem;
   font-weight: 600;
   border-bottom: 2px solid #b47f4a;

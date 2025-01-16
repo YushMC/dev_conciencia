@@ -21,6 +21,7 @@ body {
 a {
   text-decoration: none;
   color: #b47f4a;
+  cursor: pointer;
 }
 h1 {
   color: #b47f4a;

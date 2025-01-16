@@ -1,5 +1,5 @@
 <template>
-  <main class="contenedor_pages">
+  <div>
     <Frontpage></Frontpage>
 
     <section id="Proximos-Eventos">
@@ -240,7 +240,7 @@
         </swiper-slide>
       </Swiper>
     </section>
-  </main>
+  </div>
 </template>
 <script lang="ts" setup>
 import { useHead } from "unhead";

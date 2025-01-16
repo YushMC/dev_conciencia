@@ -1,9 +1,21 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  /*
+  vite: {
+    optimizeDeps: {
+      include: ["driver.js"],
+    },
+  },
+  */
   compatibilityDate: "2024-11-01",
-  ssr: true, // Asegúrate de que está habilitado
+  ssr: false, // Asegúrate de que está habilitado
   srcDir: "src/",
+  target: "static",
+  build: {
+    transpile: ["unhead"], // Asegúrate de que unhead sea correctamente transpilado
+  },
   devtools: { enabled: false },
+  // plugins: ["~/plugins/driver.js"],
   modules: ["@nuxtjs/sitemap"],
   /*
   sitemap: {
@@ -14,14 +26,6 @@ export default defineNuxtConfig({
     },
   },
   */
-  nitro: {
-    publicAssets: [
-      {
-        baseURL: "/",
-        dir: "public",
-      },
-    ],
-  },
   app: {
     head: {
       htmlAttrs: {
@@ -29,7 +33,7 @@ export default defineNuxtConfig({
       },
       charset: "utf-8",
       titleTemplate: "%s - Conciencia del Ser Divino", // Plantilla para títulos dinámicos
-      title: "Conciencia del Ser Divino", // Título predeterminado (si no se define uno dinámico)
+      //title: "Conciencia del Ser Divino", // Título predeterminado (si no se define uno dinámico)
       meta: [
         {
           name: "theme-color",
@@ -61,5 +65,12 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: "blur", mode: "out-in" },
     layoutTransition: { name: "opacity", mode: "out-in" },
+  },
+  router: {
+    // Aquí configuramos el hook para hacer scroll hacia arriba después de cada cambio de ruta
+    afterEach(to, from) {
+      // Hacemos que el scroll se posicione en la parte superior
+      window.scrollTo(0, 0);
+    },
   },
 });

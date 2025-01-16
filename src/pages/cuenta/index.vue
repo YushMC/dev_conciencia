@@ -1,24 +1,34 @@
 <template>
   <div class="container_main_dashboard">
     <div class="info_user">
-      <h1>Hola, Roberto Gomez <span id="mostrar_menu" @click="toggleStateHeader">Mostrar</span></h1>
-      <img :src="url_logo" alt="" @click="toggleStateHeader" />
-      <img src="/assets/logo_without_bg.png" alt="" id="logo_conciencia">
+      <h1>
+        Hola, {{ nameUser }}
+        <span id="mostrar_menu" @click="toggleStateHeader" style="display: none"
+          >Mostrar</span
+        >
+      </h1>
+      <img
+        :src="urlLogoUser"
+        alt=""
+        @click="toggleStateHeader"
+        id="botonMenu"
+      />
+      <img src="/assets/logo_without_bg.png" alt="" id="logo_conciencia" />
     </div>
 
     <div class="container_sections">
       <section>
         <div class="container_asides_horizontal">
-          <aside>
+          <aside id="editarPerfil">
             <h3>Editar Perfil</h3>
             <ul>
               <li>Información personal</li>
               <li>Métodos de acceso</li>
               <li>Métodos de pago</li>
             </ul>
-            <router-link to="#">Cuenta</router-link>
+            <a @click="toogleStateModal">Cuenta</a>
           </aside>
-          <aside>
+          <aside id="expediente">
             <h3>Consultar Expediente</h3>
             <p>
               Lorem, ipsum dolor sit amet consectetur adipisicing elit.
@@ -27,7 +37,7 @@
             </p>
             <a href="#">Solicitar</a>
           </aside>
-          <aside>
+          <aside id="reservas">
             <h3>Reservar Meditación</h3>
             <p>
               Reserva una meditación privada o asiste a uno de nuestros eventos!
@@ -35,11 +45,11 @@
             <router-link to="#">Reservar ahora</router-link>
           </aside>
         </div>
-        <div class="container_form">
+        <div class="container_form" id="cuestionarios">
           <details>
             <summary class="category">
               Cuestionarios activos <span>1</span>
-              <div class="important">&nbsp;</div>
+              <div class="important" v-if="newQuestions">&nbsp;</div>
             </summary>
             <form action="">
               <label for="">
@@ -90,11 +100,11 @@
             </form>
           </details>
         </div>
-        <div class="container_form">
+        <div class="container_form" id="comentarios">
           <details>
             <summary class="category">
               Comentario
-              <div class="important">&nbsp;</div>
+              <div class="important" v-if="newComment">&nbsp;</div>
             </summary>
             <label for="">
               Deja tu comentario acerca de:
@@ -105,7 +115,7 @@
         </div>
       </section>
       <section>
-        <aside>
+        <aside id="notificaciones">
           <h3 class="category">Notificaciones</h3>
           <details>
             <summary>
@@ -118,7 +128,7 @@
             </ul>
           </details>
         </aside>
-        <aside>
+        <aside id="asistencias">
           <h3 class="category">Historial de asistencias</h3>
           <details>
             <summary>Selecciona un mes o año para ver tu historial:</summary>
@@ -164,13 +174,14 @@
             </table>
           </details>
         </aside>
-        <aside v-if="rol === 'Administrador'">
+        <aside v-if="rolUser === 'Administrador'" id="administrador">
           <h3 class="category">Panel de Administrador</h3>
           <p>Ingresa al panel de admistrador para funciones más avanzadas!</p>
           <a href="#" target="_blank">Ir al panel</a>
         </aside>
       </section>
     </div>
+    <AccountsModalSettings></AccountsModalSettings>
   </div>
 </template>
 
@@ -180,17 +191,21 @@ definePageMeta({
 });
 
 const { toggleStateHeader } = useHeaderAccount();
+const { toogleStateModal } = useModalAccount();
+const { nameUser, rolUser, urlLogoUser } = useInfoUser();
 
 import { ref } from "vue";
 
-const rol = ref<string>("Administrador");
-const url_logo = ref<string>("https://github.com/YushMC.png");
+const newComment = ref<boolean>(false);
+const newQuestions = ref<boolean>(false);
+
+// Configuración del tour
 </script>
 
 <style scoped>
-#logo_conciencia{
+#logo_conciencia {
   display: none;
-  }
+}
 .container_main_dashboard {
   width: 100%;
   height: 100%;
@@ -296,6 +311,7 @@ aside a {
   color: #fff;
   border-radius: 10px;
   text-align: center;
+  cursor: pointer;
 }
 /* Histyorial */
 aside .container_fechas {
@@ -402,13 +418,28 @@ aside table tr:nth-of-type(even) {
   }
 }
 
+/*
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+  */
+
 @media screen and (max-width: 1500px) {
   .container_sections {
     grid-template-columns: 2fr 2fr !important;
   }
 }
 @media screen and (max-width: 800px) {
-  #logo_conciencia{
+  #logo_conciencia {
     position: absolute;
     width: 10dvw;
     display: block;
@@ -430,6 +461,11 @@ aside table tr:nth-of-type(even) {
   }
   .info_user img {
     width: 30dvw;
+  }
+
+  .container_modal {
+    width: 80%;
+    left: 10%;
   }
 }
 </style>
