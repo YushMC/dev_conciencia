@@ -1,22 +1,33 @@
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { jwtDecode } from "jwt-decode";
+import { Meditator } from "~/store/meditator";
 
-const isLogin = ref<boolean>(true);
-const nameUser = ref<string>("Roberto");
-const rolUser = ref<string>("Usuario");
-const urlLogoUser = ref<string>("https://github.com/YushMC.png");
-const contrasenaUser = ref<string>("1234567890");
+const useInfoUser = () => {
+  const token = ref("");
 
-const toggleStateLogin = () => {
-  isLogin.value = !isLogin.value;
-};
+  const setToken = (tokens: any) => {
+    token.value = tokens;
+  };
 
-export const useInfoUser = () => {
+  const decodedToken = computed<Meditator | null>(() => {
+    if (!token.value) return null;
+    try {
+      return jwtDecode<Meditator>(token.value);
+    } catch (error) {
+      console.error("Error al decodificar el token", error);
+      return null;
+    }
+  });
+
+  const removeToken = () => {
+    token.value = "";
+    localStorage.removeItem("token");
+  };
   return {
-    isLogin,
-    nameUser,
-    rolUser,
-    urlLogoUser,
-    contrasenaUser,
-    toggleStateLogin,
+    decodedToken,
+    removeToken,
+    setToken,
   };
 };
+
+export default useInfoUser;

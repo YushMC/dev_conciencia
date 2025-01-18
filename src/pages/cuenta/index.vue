@@ -2,14 +2,14 @@
   <div class="container_main_dashboard">
     <div class="info_user">
       <h1>
-        Hola, {{ nameUser }}
+        Hola, {{ meditator.name }}
         <span id="mostrar_menu" @click="toggleStateHeader" style="display: none"
           >Mostrar</span
         >
       </h1>
 
       <img
-        :src="urlLogoUser"
+        :src="meditator.photo"
         alt=""
         @click="toggleStateHeader"
         id="botonMenu"
@@ -61,11 +61,6 @@
             <summary>Reservar ahora</summary>
           </details>
         </aside>
-        <aside v-if="rolUser === 'Administrador'" id="administrador">
-          <h3 class="category">Panel de Administrador</h3>
-          <p>Ingresa al panel de admistrador para funciones más avanzadas!</p>
-          <a href="#" target="_blank">Ir al panel</a>
-        </aside>
       </section>
     </div>
     <AccountsModalSettings></AccountsModalSettings>
@@ -76,16 +71,22 @@
 definePageMeta({
   layout: "accounts", // Nombre del layout que deseas usar
 });
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+import { Meditator } from "~/store/meditator";
+const meditator = ref<Meditator>(new Meditator());
 
 const { toggleStateHeader } = useHeaderAccount();
-const { toogleStateModal } = useModalAccount();
-const { nameUser, rolUser, urlLogoUser } = useInfoUser();
+import useInfoUser from "~/composables/useInfoUser";
 
+const { setToken } = useInfoUser();
 import { ref } from "vue";
 
 const newComment = ref<boolean>(false);
 const newQuestions = ref<boolean>(false);
 
+// calendario
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -177,6 +178,14 @@ const handleOption = (option: string) => {
   showMenu.value = false; // Ocultamos el menú después de seleccionar una opción
 };
 // Configuración del tour
+onBeforeMount(() => {
+  if (!localStorage.getItem("token")) {
+    return router.push("/cuenta/login");
+  } else {
+    const token = ref(localStorage.getItem("token"));
+    setToken(token.value);
+  }
+});
 </script>
 
 <style scoped>

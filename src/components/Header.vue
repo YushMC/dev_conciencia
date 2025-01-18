@@ -69,7 +69,7 @@ const toggleMenu = () => {
 
 const checkLoggin = () => {
   if (!localStorage.getItem("token")) {
-    router.push("/");
+    router.push("/cuenta/login");
   } else {
     router.push("/cuenta");
   }

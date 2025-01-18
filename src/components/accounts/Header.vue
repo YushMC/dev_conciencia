@@ -14,7 +14,7 @@
       <NuxtLink to="/">Sitio Principal</NuxtLink>
     </div>
     <div class="others">
-      <a href="#">Ajustes</a>
+      <button @click="logout">Cerrar Sesión</button>
       <a href="#">Ayuda</a>
     </div>
   </header>
@@ -28,9 +28,16 @@ import { useHeaderAccount } from "~/composables/useHeaderAccount";
 const { isActive, toggleStateHeader } = useHeaderAccount();
 const { toogleStateModal } = useModalAccount();
 
+import { useAuthStore } from "~/store/auth";
+const authStore = useAuthStore();
+
 watch(isActive, (newValue) => {
   console.log("El estado de isActive cambió a:", newValue);
 });
+
+const logout = () => {
+  authStore.logout();
+};
 </script>
 
 <style scoped>

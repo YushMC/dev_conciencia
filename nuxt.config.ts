@@ -15,7 +15,12 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: false },
   // plugins: ["~/plugins/driver.js"],
-
+  plugins: [
+    "~/plugins/sweetalert2.ts", // Asegúrate de agregar tu plugin aquí
+  ],
+  imports: {
+    dirs: ["store"], // Asegura que los stores en la carpeta `store` se detecten automáticamente
+  },
   /*
   sitemap: {
     hostname: "https://tu-dominio.com",
