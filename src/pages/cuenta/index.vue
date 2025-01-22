@@ -2,18 +2,13 @@
   <div class="container_main_dashboard">
     <div class="info_user">
       <h1>
-        Hola, {{ meditator.name }}
+        Hola {{ meditator?.name }}!
         <span id="mostrar_menu" @click="toggleStateHeader" style="display: none"
           >Mostrar</span
         >
       </h1>
 
-      <img
-        :src="meditator.photo"
-        alt=""
-        @click="toggleStateHeader"
-        id="botonMenu"
-      />
+      <img :src="imgpreview" alt="" @click="toggleStateHeader" id="botonMenu" />
       <img src="/assets/logo_without_bg.png" alt="" id="logo_conciencia" />
     </div>
 
@@ -27,7 +22,10 @@
           <div
             v-if="showMenu"
             class="custom-menu"
-            :style="{ top: `${menuPosition.y}px`, left: `${menuPosition.x}px` }"
+            :style="{
+              top: `${menuPosition.y}px`,
+              left: `${menuPosition.x}px`,
+            }"
           >
             <div>
               <strong>Opciones para el {{ selectedDate }}</strong>
@@ -74,18 +72,17 @@ definePageMeta({
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-import { Meditator } from "~/store/meditator";
-const meditator = ref<Meditator>(new Meditator());
-
 const { toggleStateHeader } = useHeaderAccount();
-import useInfoUser from "~/composables/useInfoUser";
 
-const { setToken } = useInfoUser();
+const { meditator, hydrate } = useInfoUser();
+
+console.log(meditator);
+
 import { ref } from "vue";
 
 const newComment = ref<boolean>(false);
 const newQuestions = ref<boolean>(false);
-
+const imgpreview = ref<string>("");
 // calendario
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -177,13 +174,14 @@ const handleOption = (option: string) => {
   console.log(`Opción seleccionada: ${option}`);
   showMenu.value = false; // Ocultamos el menú después de seleccionar una opción
 };
-// Configuración del tour
+
 onBeforeMount(() => {
-  if (!localStorage.getItem("token")) {
-    return router.push("/cuenta/login");
-  } else {
-    const token = ref(localStorage.getItem("token"));
-    setToken(token.value);
+  hydrate();
+});
+// Configuración del tour
+onMounted(() => {
+  if (meditator.value?.photo) {
+    imgpreview.value = meditator.value?.photo || "";
   }
 });
 </script>
@@ -191,6 +189,13 @@ onBeforeMount(() => {
 <style scoped>
 #logo_conciencia {
   display: none;
+}
+#botonMenu {
+  width: 5dvw;
+  object-fit: cover;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  cursor: pointer;
 }
 .container_main_dashboard {
   width: 100%;

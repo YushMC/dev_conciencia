@@ -21,6 +21,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["store"], // Asegura que los stores en la carpeta `store` se detecten automáticamente
   },
+
   /*
   sitemap: {
     hostname: "https://tu-dominio.com",
@@ -61,7 +62,7 @@ export default defineNuxtConfig({
       link: [
         {
           rel: "shortcut icon",
-          href: "/hoa.png",
+          href: "/favicon.ico",
         },
         //cual es la ruta cononica o la base
         { rel: "canonical", href: "https://www.ejemplo.com/" },
@@ -69,5 +70,8 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: "blur", mode: "out-in" },
     layoutTransition: { name: "opacity", mode: "out-in" },
+  },
+  routeRules: {
+    "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /dashboard
   },
 });

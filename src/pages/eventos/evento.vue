@@ -17,7 +17,7 @@ tion
           >
         </h5>
         <h5 :class="{ active: status === 'En curso' }">¡En curso!</h5>
-        <h5 :class="{ active: status === 'Terminado' }" v-if="isLogin">
+        <h5 :class="{ active: status === 'Terminado' }" v-if="isLogged">
           Terminado
         </h5>
       </div>
@@ -237,7 +237,7 @@ import { ref, watch, onMounted } from "vue";
 
 const status = ref<string>("Proximamente");
 
-const { isLogin } = useInfoUser();
+const { isLogged } = useInfoUser();
 
 const isAvaible = ref<boolean>(false);
 

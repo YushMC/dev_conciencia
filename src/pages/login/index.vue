@@ -1,7 +1,7 @@
 <template>
   <main class="container_login">
     <section id="content_info">
-      <picture>
+      <picture @click="router.push('/')" style="cursor: pointer">
         <img src="/assets/logo_without_bg.png" alt="" />
       </picture>
       <h2>
@@ -19,33 +19,9 @@
         <span v-if="!isActiveSignUp">Crear Cuenta</span>
         <span v-else>Iniciar Sesión</span>
       </button>
-      <div class="container_form">
-        <form action="" id="logIn" :class="{ active: !isActiveSignUp }">
-          <h4>Iniciar Sesión</h4>
-          <div class="container_input">
-            <input
-              type="text"
-              id="user"
-              v-model="meditator.user"
-              placeholder="Ingresa tu Usuario"
-            />
-            <label for="user">Usuario</label>
-          </div>
-          <div class="container_input">
-            <input
-              type="password"
-              id="contra1"
-              v-model="meditator.password"
-              placeholder="Ingresa tu Contraseña"
-            />
-            <label for="contra1">Contraseña</label>
-          </div>
-          <button @click.prevent="login" class="signUp">Entrar</button>
-        </form>
-      </div>
     </section>
     <div class="container_form">
-      <form action="" id="signUp" :class="{ active_absolute: isActiveSignUp }">
+      <form action="" id="signUp" :class="{ active: isActiveSignUp }">
         <h4>Crear Cuenta</h4>
         <div class="container_input">
           <input
@@ -179,6 +155,28 @@
           Crear Cuenta
         </button>
       </form>
+      <form action="" id="logIn" :class="{ active: !isActiveSignUp }">
+        <h4>Iniciar Sesión</h4>
+        <div class="container_input">
+          <input
+            type="text"
+            id="user"
+            v-model="meditator.user"
+            placeholder="Ingresa tu Usuario"
+          />
+          <label for="user">Usuario</label>
+        </div>
+        <div class="container_input">
+          <input
+            type="password"
+            id="contra1"
+            v-model="meditator.password"
+            placeholder="Ingresa tu Contraseña"
+          />
+          <label for="contra1">Contraseña</label>
+        </div>
+        <button @click.prevent="login" class="signUp">Entrar</button>
+      </form>
     </div>
   </main>
 </template>
@@ -187,6 +185,7 @@
 definePageMeta({
   layout: "login", // Nombre del layout que deseas usar
 });
+
 import { useHead } from "unhead";
 import { ref, onBeforeMount } from "vue";
 
@@ -201,11 +200,11 @@ watch(textTittle, (newValue) => {
     title: textTittle.value,
   });
 });
-import useInfoUser from "~/composables/useInfoUser";
+import Swal from "sweetalert2";
 
-const { decodedToken } = useInfoUser();
+const { setToken } = useInfoUser();
+
 import { useRouter } from "vue-router";
-
 const router = useRouter();
 const isActiveSignUp = ref(false);
 
@@ -234,12 +233,20 @@ const toggleSignUp = () => {
 };
 
 import { useAuthStore } from "~/store/auth";
-import { Meditator } from "~/store/meditator";
 
 const authStore = useAuthStore();
 
-const login = () => {
-  authStore.login(meditator.value);
+const login = async () => {
+  if (!meditator.value.user.trim() || !meditator.value.password.trim()) {
+    Swal.fire({
+      title: "Error",
+      text: "Por favor, llena todos los campos.",
+      icon: "error",
+    });
+    return;
+  }
+  await authStore.login(meditator.value);
+  setToken(authStore.token ?? "");
   router.push("/cuenta");
 };
 
@@ -247,7 +254,7 @@ const errores = ref<string[]>([]);
 
 const validarFormulario = () => {
   errores.value = []; // Reiniciar errores
-  /*
+
   if (!meditator.value.email.trim())
     errores.value.push("El correo electrónico es obligatorio.");
   if (!meditator.value.password.trim())
@@ -266,22 +273,27 @@ const validarFormulario = () => {
 
   if (errores.value.length === 0) {
     register();
+  } else {
+    Swal.fire({
+      title: "Error",
+      text: "Por favor, llena los campos.",
+      icon: "error",
+    });
   }
-    */
-  register();
 };
 
-const register = () => {
+const register = async () => {
   if (meditator.value.password === contrasena_2.value) {
     if (!imageFile.value) {
       window.alert("Por favor, selecciona una imagen antes de continuar.");
       return;
     }
 
-    authStore.register(
+    await authStore.register(
       meditator.value,
       imageFile.value // Ahora se asegura que no sea null
     );
+    setToken(authStore.token ?? "");
   }
 };
 
@@ -356,6 +368,7 @@ onBeforeMount(() => {
   background-attachment: fixed;
   opacity: 1; /* Establecer la visibilidad */
   transition: opacity 0.3s linear; /* Aplicar transición a opacity */
+  overflow: hidden;
 }
 
 .container_login.active {
@@ -410,7 +423,7 @@ onBeforeMount(() => {
 }
 form {
   margin: 2% 0;
-  width: 100%;
+  width: 50%;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -418,22 +431,6 @@ form {
   padding: 1rem;
   border-radius: 10px;
   transition: all 0.8s linear;
-}
-#logIn {
-  position: absolute;
-  top: 0;
-  left: -50dvw;
-  opacity: 0;
-  visibility: hidden;
-}
-
-#logIn.active {
-  width: 100%;
-  opacity: 1;
-  visibility: visible;
-  position: relative;
-  top: 0;
-  left: 0;
 }
 
 form .container_input {
@@ -496,28 +493,49 @@ form button,
 .signUp {
   color: #fff !important;
 }
+
+#logIn,
 #signUp {
-  position: relative;
-  max-height: 90dvh;
-  width: 50%;
+  position: absolute;
+  width: fit-content;
+  min-width: 50%;
+  max-width: 80%;
+  left: 100%;
   margin: auto;
+  top: 10dvh !important;
+  transition: all 0.3s ease-in-out;
   opacity: 0;
   visibility: hidden;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: space-evenly;
 }
-#signUp.active_absolute {
+#signUp {
+  height: 80dvh;
+}
+#logIn {
+  height: 40dvh;
+}
+#logIn.active,
+#signUp.active {
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #ffffff71;
+  position: relative;
+  left: 0;
+  top: -3dvh !important;
   opacity: 1;
   visibility: visible;
-  position: relative;
-  z-index: 100;
-  background: #ffffff9a;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
 }
+
 #signUp h4 {
   color: #b47f4a;
 }
 
-#signUp button {
+#signUp button,
+#logIn button {
   background: #b47f4a;
   padding: 2%;
   margin: 2% 0;

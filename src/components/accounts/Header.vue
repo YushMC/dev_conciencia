@@ -22,21 +22,38 @@
 </template>
 
 <script setup lang="ts">
+import Swal from "sweetalert2";
 import { watch } from "vue";
 import { useHeaderAccount } from "~/composables/useHeaderAccount";
 
 const { isActive, toggleStateHeader } = useHeaderAccount();
 const { toogleStateModal } = useModalAccount();
+const { removeToken } = useInfoUser();
 
 import { useAuthStore } from "~/store/auth";
 const authStore = useAuthStore();
+
+import { useRouter } from "vue-router";
+const router = useRouter(); // Llamar useRouter() solo una vez
 
 watch(isActive, (newValue) => {
   console.log("El estado de isActive cambió a:", newValue);
 });
 
-const logout = () => {
+const logout = async () => {
+  removeToken();
   authStore.logout();
+  await Swal.fire({
+    title: "Cerrando Sesión...",
+    text: "Por favor espera mientras procesamos tu solicitud.",
+    allowOutsideClick: false,
+    timer: 1500, // Añadir un tiempo de espera antes de cerrar
+    didOpen: () => {
+      Swal.showLoading(); // Muestra un loader
+    },
+  });
+  Swal.close();
+  router.push("/login");
 };
 </script>
 
@@ -112,6 +129,16 @@ header {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 95%;
+  margin: 5% auto;
+}
+.others button {
+  padding: 5%;
+  background: #b47f4a;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 800px) {

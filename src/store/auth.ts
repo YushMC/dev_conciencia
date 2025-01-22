@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import { Meditator } from "./meditator";
 
 import Swal from "sweetalert2";
+
+const api: string = "http://192.168.1.173/conciencia-api/public/api/meditator";
 
 interface LoginResponse {
   token: string;
@@ -13,135 +14,285 @@ export const useAuthStore = defineStore("auth", {
   }),
 
   actions: {
-    async login(meditator: Meditator) {
+    async login(meditator: any) {
       try {
         Swal.fire({
           title: "Iniciando Sesión...",
-          text: "Por favor espera mientras procesamos tu solicitud.",
-          allowOutsideClick: false, // No permitir cerrar el alert al hacer clic fuera
+          text: "Por favor espera...",
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
         });
+
         const body = new URLSearchParams();
-        body.append("user", meditator.user /* || tel */);
+        body.append("user", meditator.user);
         body.append("pass", meditator.password);
 
-        const { data, error } = await useFetch<LoginResponse>(
-          "http://192.168.1.162/conciencia-api/public/api/meditator/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body,
-          }
-        );
+        const { data, error } = await useFetch<LoginResponse>(api + "/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body,
+        });
 
         Swal.close();
+
         if (error.value) {
-          console.error(error.value);
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Ocurrio un error al iniciar sesión",
+            text: "Error al iniciar sesión.",
           });
+          return;
         }
+
         if (data.value) {
           this.token = data.value.token;
           localStorage.setItem("token", this.token);
-          // Redirigir a la ruta principal "/"
           Swal.fire({
             title: "Bienvenido!",
             icon: "success",
-            text: "Es grato tenerte de vuelta!",
+            text: "Inicio de sesión exitoso!",
           });
         }
       } catch (err) {
-        console.error("Error en login:", err);
-        // Mostrar una alerta con el mensaje de error
-        window.alert("Credenciales incorrectas: " + err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error en el login.",
+        });
       }
     },
 
-    async register(meditator: Meditator, photoFile: File) {
+    async register(meditator: any, photoFile: File | null) {
       try {
         Swal.fire({
           title: "Registrando Usuario...",
           text: "Por favor espera mientras procesamos tu solicitud.",
-          allowOutsideClick: false, // No permitir cerrar el alert al hacer clic fuera
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
         });
+
         const formData = new FormData();
         formData.append("pass", meditator.password);
         formData.append("name", meditator.name);
         formData.append("email", meditator.email);
         formData.append("phone", meditator.phone);
-        if (photoFile) formData.append("photo", photoFile); // Verificamos si existe el archivo
+        if (photoFile) formData.append("photo", photoFile); // Adjuntar imagen si hay
         formData.append("city", meditator.city);
         formData.append("state", meditator.state);
         formData.append("birthdate", meditator.birthdate);
 
         const { data, error } = await useFetch<LoginResponse>(
-          "http://192.168.1.162/conciencia-api/public/api/meditator/register",
+          api + "/register",
           {
             method: "POST",
-            body: formData, // Se envía directamente como FormData
-            headers: {
-              Accept: "aplication/json",
-            },
+            body: formData,
+            headers: { Accept: "application/json" },
           }
         );
+
         Swal.close();
 
         if (error.value) {
-          console.error("Error en la solicitud:", error);
           Swal.fire({
             icon: "error",
             title: "Oops...",
             text:
-              "Ocurrio un error al crear el usuario" +
+              "Error al registrar el usuario: " +
               JSON.stringify(error.value.data.message),
           });
           return;
         }
 
         if (data.value) {
+          this.token = data.value.token;
           localStorage.setItem("token", data.value.token);
           Swal.fire({
-            title: "Bienvenido!",
+            title: "Registro Exitoso!",
             icon: "success",
-            text: "Usuario creado correctamente.",
+            text: "Tu cuenta ha sido creada correctamente.",
           });
-          // Redirigir a la ruta principal "/"
         }
       } catch (err) {
-        console.error("Error al crear el usuario:", err);
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Ocurrio un error al crear el usuario" + err,
+          text: "Error al registrar usuario.",
         });
       }
     },
-    /* 
-    async fetchUser() {
+
+    async update(meditator: any, token: string) {
       try {
+        Swal.fire({
+          title: "Actualizando Datos...",
+          text: "Por favor espera mientras procesamos tu solicitud.",
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          didOpen: async () => {
+            Swal.showLoading();
+          },
+        });
+
+        const body = JSON.stringify({
+          name: meditator.name,
+          email: meditator.email,
+          phone: meditator.phone,
+          birthdate: meditator.birthdate,
+        });
+
+        const { data, error } = await useFetch<LoginResponse>(api + "/update", {
+          method: "PUT",
+          body,
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `${token}`,
+          },
+        });
+        Swal.close();
+
+        if (error.value) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text:
+              "Error al actualizar el usuario: " +
+              JSON.stringify(error.value.data.message),
+          });
+          return;
+        }
+
+        if (data.value) {
+          Swal.fire({
+            title: "Actualización Exitosa!",
+            icon: "success",
+            text: "Tu cuenta ha sido actualizada correctamente.",
+          });
+        }
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error al actualizar usuario.",
+        });
+      }
+    },
+
+    async updatePhoto(photoFile: File, token: string) {
+      try {
+        Swal.fire({
+          title: "Actualizando Foto...",
+          text: "Por favor espera mientras procesamos tu solicitud.",
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          didOpen: async () => {
+            Swal.showLoading();
+          },
+        });
+
+        const formData = new FormData();
+        formData.append("photo", photoFile);
+
         const { data, error } = await useFetch<LoginResponse>(
-          "/api/meditator/register",
+          api + "/updatePhoto",
           {
+            method: "POST",
+            body: formData,
             headers: {
-              Authorization: `Bearer ${this.token}`,
+              Accept: "application/json",
+              Authorization: `${token}`,
             },
           }
         );
 
-        if (error.value) throw new Error("No se pudo obtener el usuario");
+        Swal.close();
+
+        if (error.value) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text:
+              "Error al actualizar la foto: " +
+              JSON.stringify(error.value.data.message),
+          });
+          return;
+        }
 
         if (data.value) {
-          this.user = data.value;
+          Swal.fire({
+            title: "Actualización Exitosa!",
+            icon: "success",
+            text: "Tu foto ha sido actualizada correctamente.",
+          });
+        }
+      } catch (err) {}
+    },
+
+    async updatePsw(meditator: any, newPass: string, token: string) {
+      try {
+        Swal.fire({
+          title: "Actualizando Contraseña...",
+          text: "Por favor espera mientras procesamos tu solicitud.",
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          didOpen: async () => {
+            Swal.showLoading();
+          },
+        });
+
+        const formData = new FormData();
+        formData.append("pass", newPass);
+        formData.append("old_pass", meditator.password);
+
+        console.log("nueva contraseña: " + formData.get("pass"));
+        console.log("contraseña antigua: " + formData.get("old_pass"));
+
+        const { data, error } = await useFetch<LoginResponse>(
+          api + "/changePsw",
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Accept: "application/json",
+              Authorization: `${token}`,
+            },
+          }
+        );
+
+        Swal.close();
+
+        if (error.value) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text:
+              "Error al actualizar la contraseña: " +
+              JSON.stringify(error.value.data.message),
+          });
+          return;
+        }
+
+        if (data.value) {
+          Swal.fire({
+            title: "Actualización Exitosa!",
+            icon: "success",
+            text: "Tu contraseña ha sido actualizada correctamente.",
+          });
         }
       } catch (err) {
-        console.error("Error obteniendo usuario:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error al actualizar contraseña.",
+        });
       }
     },
-    */
 
     logout() {
       this.token = null;

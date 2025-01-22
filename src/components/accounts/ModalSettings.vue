@@ -1,19 +1,53 @@
 <template>
   <div class="container_modal" :class="{ active: isActiveModal }">
     <article>
-      <h3>Mi Cuenta: {{ nameUser }}</h3>
+      <h3>Mi Cuenta:</h3>
       <div class="seccion_ajustes">
         <label for="">Nombre</label>
-        <input type="text" :value="nameUser" disabled />
+        <input type="text" v-model="meditator.name" />
       </div>
       <div class="seccion_ajustes">
-        <label for="">Contraseña</label>
-        <input
-          type="password"
-          :value="contrasenaUser"
-          placeholder="Coloque una nueva contraseña."
-        />
+        <label for="">Correo Electrónico</label>
+        <input type="email" v-model="meditator.email" />
       </div>
+      <div class="seccion_ajustes">
+        <label for="">Teléfono</label>
+        <input type="text" v-model="phoneWithoutCountryCode" />
+      </div>
+      <div class="container_input">
+        <input
+          type="date"
+          id="date"
+          placeholder=""
+          v-model="meditator.birthdate"
+        />
+        <label for="date"> Fecha de Nacimiento </label>
+      </div>
+      <div class="seccion_ajustes">
+        <button @click="updateInfo">Guardar Cambios</button>
+      </div>
+      <details class="seccion_ajustes">
+        <summary>Cambiar Contraseña</summary>
+        <div class="seccion_ajustes">
+          <label for="">Contraseña Actual</label>
+          <input
+            type="password"
+            placeholder="Coloque la contraseña actual."
+            v-model="meditator.password"
+          />
+        </div>
+        <div class="seccion_ajustes">
+          <label for="">Nueva Contraseña</label>
+          <input
+            type="password"
+            placeholder="Coloque una nueva contraseña."
+            v-model="newPsw"
+          />
+        </div>
+
+        <button @click="updatePsw">Cambiar Contraseña</button>
+      </details>
+
       <details class="seccion_ajustes">
         <summary>Editar Imagen de perfil</summary>
         <div class="container_imagen">
@@ -39,14 +73,14 @@
             </button>
             <button
               @click="removeImage"
-              v-if="imagePreview !== urlLogoUser"
+              v-if="imagePreview !== meditator.photo"
               id="eliminar"
             >
               Cancelar
             </button>
             <button
               @click="onSubmit"
-              v-if="imagePreview !== urlLogoUser"
+              v-if="imagePreview !== meditator.photo"
               id="cargar"
             >
               Cargar
@@ -60,36 +94,6 @@
           </div>
         </div>
       </details>
-      <details class="seccion_ajustes_2">
-        <summary>Editar ubicación</summary>
-        <div class="seccion_ajustes">
-          <label for="">Calle</label>
-          <input type="text" placeholder="Coloque su calle." />
-        </div>
-        <div class="seccion_ajustes">
-          <label for="">Número Exterior</label>
-          <input type="number" placeholder="Coloque su numero exterior." />
-        </div>
-        <div class="seccion_ajustes">
-          <label for="">Número Interior</label>
-          <input
-            type="number"
-            placeholder="(opcional) Coloque su numero interior."
-          />
-        </div>
-        <div class="seccion_ajustes">
-          <label for="">Ciudad</label>
-          <input type="text" placeholder="Coloque su numero Exterior." />
-        </div>
-        <div class="seccion_ajustes">
-          <label for="">Estado</label>
-          <input type="text" placeholder="Coloque su numero Exterior." />
-        </div>
-        <div class="seccion_ajustes">
-          <label for="">C.P.</label>
-          <input type="number" placeholder="Coloque su código postal." />
-        </div>
-      </details>
     </article>
   </div>
   <div id="cerrarModal" v-if="isActiveModal" @click="toogleStateModal"></div>
@@ -97,9 +101,21 @@
 
 <script setup lang="ts">
 const { toogleStateModal, isActiveModal } = useModalAccount();
-const { nameUser, contrasenaUser, urlLogoUser } = useInfoUser();
+import { ref, watch } from "vue";
+import Swal from "sweetalert2";
 
-import { ref } from "vue";
+const { meditator } = useInfoUser();
+
+const phoneWithoutCountryCode = computed({
+  get() {
+    return meditator.value.phone.slice(2);
+  },
+  set(value) {
+    meditator.value.phone = meditator.value.phone.slice(0, 2) + value;
+  },
+});
+
+const newPsw = ref<string>("");
 
 // Estado para almacenar la imagen seleccionada
 const imagePreview = ref<string | null>(null);
@@ -131,12 +147,30 @@ const onImageChange = (event: Event) => {
 };
 
 // Función para manejar el envío del formulario
-const onSubmit = () => {
-  if (imageFile.value) {
-    // Aquí enviarías la imagen a tu servidor o realizarías la acción necesaria
-    console.log("Imagen lista para enviar:", imageFile.value);
-  } else {
-    console.log("No se seleccionó una imagen");
+const onSubmit = async () => {
+  if (!imageFile.value) {
+    return;
+  }
+  try {
+    Swal.fire({
+      icon: "warning",
+      title: "Confirmar cambios",
+      text: "¿Estás seguro de que deseas guardar los cambios realizados?",
+      showCancelButton: true,
+      confirmButtonText: "Continuar",
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token") || "";
+        if (imageFile.value) {
+          await authStore.updatePhoto(imageFile.value, token);
+        }
+      } else {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
+  } catch (e) {
+    Swal.fire("Error", "No se pudo guardar la imagen", "error");
   }
 };
 
@@ -157,8 +191,58 @@ const triggerFileInput = () => {
   fileInput.value?.click();
 };
 
+import { useAuthStore } from "~/store/auth";
+
+const authStore = useAuthStore();
+
+const updateInfo = async () => {
+  try {
+    Swal.fire({
+      icon: "warning",
+      title: "Confirmar cambios",
+      text: "¿Estás seguro de que deseas guardar los cambios realizados?",
+      showCancelButton: true,
+      confirmButtonText: "Continuar",
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token") || "";
+        await authStore.update(meditator.value, token);
+      } else {
+        Swal.fire("Operación concelada.", "", "info");
+      }
+    });
+  } catch (e) {
+    Swal.fire("Error", "No se pudo actualizar la información.", "error");
+  }
+};
+
+const updatePsw = async () => {
+  try {
+    Swal.fire({
+      icon: "warning",
+      title: "Confirmar cambios",
+      text: "¿Estás seguro de que deseas guardar los cambios realizados a la contraseña?",
+      showCancelButton: true,
+      confirmButtonText: "Continuar",
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token") || "";
+        await authStore.updatePsw(meditator.value, newPsw.value, token);
+      } else {
+        Swal.fire("Operación cancelada.", "", "info");
+      }
+    });
+  } catch (e) {
+    Swal.fire("Error", "No se pudo guardar la contraseña.", "error");
+  }
+};
+
 onMounted(() => {
-  imagePreview.value = urlLogoUser.value;
+  if (meditator.value.photo) {
+    imagePreview.value = meditator.value.photo;
+  }
 });
 </script>
 
@@ -216,6 +300,7 @@ onMounted(() => {
 details.seccion_ajustes {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
 }
 summary {
   color: #6d3e0b !important;
@@ -251,6 +336,17 @@ details.seccion_ajustes .container_imagen label {
 .seccion_ajustes input[type="text"],
 .seccion_ajustes input[type="password"] {
   width: 100%;
+}
+
+.seccion_ajustes button {
+  width: 100%;
+  padding: 1rem;
+  background: #b47f4a;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s linear;
 }
 
 .seccion_ajustes input[type="file"] {
@@ -336,6 +432,58 @@ details.seccion_ajustes .container_imagen label {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.container_input {
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+}
+.container_input:nth-child(2) {
+  margin-top: 2%;
+}
+.container_input input {
+  margin-top: 1dvh;
+
+  border-radius: 5px;
+  border: #b47f4a 2px solid;
+  background: none;
+  font-size: 1.2rem;
+  outline: none;
+  transition: all 0.3s linear;
+  padding: 1%;
+}
+.container_input input:focus {
+  background: #ffffff71;
+  backdrop-filter: blur(50px);
+  padding: 4%;
+  padding-top: 3dvh;
+}
+.container_input input ~ label {
+  position: absolute;
+  top: 4dvh;
+  left: 2px;
+  color: #b47f4a;
+  transition: all 0.3s linear;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+}
+.container_input input:focus ~ label {
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: #ffffffef;
+  padding: 1%;
+  border-radius: 5px;
+  backdrop-filter: blur(50px);
+  border: #b47f4a 2px solid;
+  opacity: 1;
+  visibility: visible;
+}
+.container_login form input ~ label.active {
+  position: relative !important;
 }
 @media screen and (max-width: 1000px) {
   details.seccion_ajustes .container_imagen {

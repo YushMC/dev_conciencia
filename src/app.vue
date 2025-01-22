@@ -2,7 +2,17 @@
   <NuxtLayout> </NuxtLayout>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, onBeforeMount } from "vue";
+
+const { setToken } = useInfoUser();
+
+onBeforeMount(() => {
+  if (localStorage.getItem("token")) {
+    setToken(localStorage.getItem("token") ?? "");
+  }
+});
+</script>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");

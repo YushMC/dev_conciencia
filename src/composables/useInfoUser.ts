@@ -1,32 +1,55 @@
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { jwtDecode } from "jwt-decode";
 import { Meditator } from "~/store/meditator";
 
-const useInfoUser = () => {
-  const token = ref("");
+const token = ref<string>("");
+const meditator = ref(new Meditator()); // Hacer la instancia reactiva
+const isLogged = ref(false);
 
-  const setToken = (tokens: any) => {
-    token.value = tokens;
+const useInfoUser = () => {
+  const hydrate = () => {
+    if (token.value) {
+      try {
+        const decoded = jwtDecode<Meditator>(token.value);
+        // Asignar los valores del token decodificado a la instancia
+        Object.assign(meditator.value, decoded);
+        isLogged.value = true;
+      } catch (error) {
+        console.error("Error al decodificar el token", error);
+      }
+    }
   };
 
-  const decodedToken = computed<Meditator | null>(() => {
-    if (!token.value) return null;
+  const setToken = (tokens: string) => {
+    token.value = tokens;
+
     try {
-      return jwtDecode<Meditator>(token.value);
+      const decoded = jwtDecode<Meditator>(token.value);
+      // Asignar los valores del token decodificado a la instancia
+      Object.assign(meditator.value, decoded);
+      isLogged.value = true;
     } catch (error) {
       console.error("Error al decodificar el token", error);
-      return null;
     }
-  });
+  };
 
   const removeToken = () => {
     token.value = "";
     localStorage.removeItem("token");
+    Object.assign(meditator.value, new Meditator());
+    isLogged.value = false;
   };
+
+  // Hydrate the state when the composable is initialized
+  hydrate();
+
   return {
-    decodedToken,
-    removeToken,
+    token,
+    meditator,
+    isLogged,
     setToken,
+    removeToken,
+    hydrate,
   };
 };
 

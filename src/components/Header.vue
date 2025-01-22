@@ -35,12 +35,14 @@
             <NuxtLink to="#Testimonios">Testimonios</NuxtLink>
           </div>
         </div>
-        <div class="container_account">
-          <a @click.prevent="checkLoggin">
-            <img src="/assets/icon_user.svg" alt="" />
-            <span>Cuenta</span>
-          </a>
-        </div>
+        <client-only>
+          <div class="container_account">
+            <NuxtLink to="/cuenta">
+              <img :src="meditator?.photo" alt="" />
+              <span>Cuenta</span>
+            </NuxtLink>
+          </div>
+        </client-only>
       </nav>
       <div
         id="controler_menu"
@@ -55,24 +57,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted } from "vue";
+
+const { meditator } = useInfoUser();
 
 const isChecked = ref(false);
 const isResponsiveMenu = ref(false);
-// Obtener el enrutador
-const router = useRouter();
+
+onMounted(() => {
+  console.log("a " + meditator.value?.photo);
+});
 
 const toggleMenu = () => {
   isResponsiveMenu.value = !isResponsiveMenu.value;
-};
-
-const checkLoggin = () => {
-  if (!localStorage.getItem("token")) {
-    router.push("/cuenta/login");
-  } else {
-    router.push("/cuenta");
-  }
 };
 </script>
 
