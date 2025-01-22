@@ -250,20 +250,14 @@ export const useAuthStore = defineStore("auth", {
         formData.append("pass", newPass);
         formData.append("old_pass", meditator.password);
 
-        console.log("nueva contraseña: " + formData.get("pass"));
-        console.log("contraseña antigua: " + formData.get("old_pass"));
-
-        const { data, error } = await useFetch<LoginResponse>(
-          api + "/changePsw",
-          {
-            method: "POST",
-            body: formData,
-            headers: {
-              Accept: "application/json",
-              Authorization: `${token}`,
-            },
-          }
-        );
+        const { data, error } = await useFetch(api + "/changePsw", {
+          method: "POST",
+          body: formData,
+          headers: {
+            Accept: "application/json",
+            Authorization: `${token}`,
+          },
+        });
 
         Swal.close();
 
