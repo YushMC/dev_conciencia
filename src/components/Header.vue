@@ -38,7 +38,12 @@
         <client-only>
           <div class="container_account">
             <NuxtLink to="/cuenta">
-              <img :src="meditator?.photo" alt="" />
+              <img
+                :src="meditator?.photo"
+                alt=""
+                v-if="meditator.photo.trim() !== ''"
+              />
+              <img src="/assets/icon_user.svg" alt="" v-else />
               <span>Cuenta</span>
             </NuxtLink>
           </div>

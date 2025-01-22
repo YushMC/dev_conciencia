@@ -30,6 +30,7 @@
             v-model="meditator.name"
             placeholder="Ingresa tu Nombre"
           />
+
           <label for="name"> Nombre </label>
         </div>
         <div class="container_input">
@@ -124,13 +125,19 @@
             >
           </h6>
           <input
-            type="password"
+            :type="isPasswordVisibleCreate ? 'text' : 'password'"
             id="contra2"
             v-model="meditator.password"
             placeholder="Ingresa tu Contraseña"
             :class="{ error: isErrorContra }"
             minlength="6"
             pattern=""
+          />
+          <img
+            :src="isPasswordVisibleCreate ? visibleIcon : hiddenIcon"
+            alt="icono"
+            class="icon_eye"
+            @click="togglePasswordVisibilityCreate"
           />
           <label for="contra2">Contraseña</label>
         </div>
@@ -141,14 +148,19 @@
             >
           </h6>
           <input
-            type="password"
+            :type="isPasswordVisibleCreate2 ? 'text' : 'password'"
             id="contra3"
             v-model="contrasena_2"
             placeholder="Repite tu Contraseña"
             :class="{ error: isErrorContra }"
             minlength="6"
           />
-
+          <img
+            :src="isPasswordVisibleCreate2 ? visibleIcon : hiddenIcon"
+            alt="icono"
+            class="icon_eye"
+            @click="togglePasswordVisibilityCreate2"
+          />
           <label for="contra3">Repetir Contraseña</label>
         </div>
         <button class="signUp" @click.prevent="validarFormulario">
@@ -168,10 +180,16 @@
         </div>
         <div class="container_input">
           <input
-            type="password"
+            :type="isPasswordVisible ? 'text' : 'password'"
             id="contra1"
             v-model="meditator.password"
             placeholder="Ingresa tu Contraseña"
+          />
+          <img
+            :src="isPasswordVisible ? visibleIcon : hiddenIcon"
+            alt="icono"
+            class="icon_eye"
+            @click="togglePasswordVisibility"
           />
           <label for="contra1">Contraseña</label>
         </div>
@@ -188,6 +206,9 @@ definePageMeta({
 
 import { useHead } from "unhead";
 import { ref, onBeforeMount } from "vue";
+
+import hiddenIcon from "~/assets/gui/hidden.svg";
+import visibleIcon from "~/assets/gui/visible.svg";
 
 const textTittle = ref("Iniciar Sesión");
 
@@ -211,6 +232,21 @@ const isActiveSignUp = ref(false);
 const meditator = ref<Meditator>(new Meditator());
 
 const contrasena_2 = ref("");
+const isPasswordVisible = ref(false);
+const isPasswordVisibleCreate = ref(false);
+const isPasswordVisibleCreate2 = ref(false);
+
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value;
+};
+
+const togglePasswordVisibilityCreate = () => {
+  isPasswordVisibleCreate.value = !isPasswordVisibleCreate.value;
+};
+
+const togglePasswordVisibilityCreate2 = () => {
+  isPasswordVisibleCreate2.value = !isPasswordVisibleCreate2.value;
+};
 
 const isErrorContra = ref(false);
 const isShortContra = ref(false);
@@ -512,7 +548,8 @@ form button,
   justify-content: space-evenly;
 }
 #signUp {
-  height: 80dvh;
+  height: 90dvh;
+  padding-top: 16rem;
 }
 #logIn {
   height: 40dvh;

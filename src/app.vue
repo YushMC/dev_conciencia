@@ -217,4 +217,17 @@ main {
   font-size: 16px; /* Tamaño del ícono/texto */
   z-index: 100;
 }
+
+.icon_eye {
+  position: absolute;
+  width: 2dvw;
+  right: 1rem;
+  top: 20%;
+  transition: all 0.3s linear;
+  cursor: pointer;
+}
+
+.container_input input:focus ~ .icon_eye {
+  top: 30%;
+}
 </style>

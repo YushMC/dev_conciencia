@@ -42,7 +42,11 @@ export const useAuthStore = defineStore("auth", {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Error al iniciar sesión.",
+            html: `
+          <h3>Ocurrió un error al iniciar sesión:</h3>
+            <br>
+            <h5 style='color:red;'>
+            ${error.value.message}</h5>`,
           });
           return;
         }
@@ -60,7 +64,10 @@ export const useAuthStore = defineStore("auth", {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Error en el login.",
+          html: `
+          <h3>Ocurrió un error al iniciar sesión:</h3>
+            <br>
+            <h5 style='color:red;'>${err}</h5>`,
         });
       }
     },
@@ -279,11 +286,12 @@ export const useAuthStore = defineStore("auth", {
             text: "Tu contraseña ha sido actualizada correctamente.",
           });
         }
-      } catch (err) {
+      } catch (err: any) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: "Error al actualizar contraseña.",
+          html: err.message,
         });
       }
     },

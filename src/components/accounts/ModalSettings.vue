@@ -31,17 +31,29 @@
         <div class="seccion_ajustes">
           <label for="">Contraseña Actual</label>
           <input
-            type="password"
+            :type="isPasswordVisible ? 'text' : 'password'"
             placeholder="Coloque la contraseña actual."
             v-model="meditator.password"
+          />
+          <img
+            :src="isPasswordVisible ? visibleIcon : hiddenIcon"
+            alt="icono"
+            class="icon_eye"
+            @click="togglePasswordVisibility"
           />
         </div>
         <div class="seccion_ajustes">
           <label for="">Nueva Contraseña</label>
           <input
-            type="password"
+            :type="isNewPasswordVisible ? 'text' : 'password'"
             placeholder="Coloque una nueva contraseña."
             v-model="newPsw"
+          />
+          <img
+            :src="isNewPasswordVisible ? visibleIcon : hiddenIcon"
+            alt="icono"
+            class="icon_eye"
+            @click="toggleNewPasswordVisibility"
           />
         </div>
 
@@ -106,6 +118,20 @@ import Swal from "sweetalert2";
 
 const { meditator } = useInfoUser();
 
+import hiddenIcon from "~/assets/gui/hidden.svg";
+import visibleIcon from "~/assets/gui/visible.svg";
+
+const isPasswordVisible = ref(false);
+const isNewPasswordVisible = ref(false);
+
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value;
+};
+
+const toggleNewPasswordVisibility = () => {
+  isNewPasswordVisible.value = !isNewPasswordVisible.value;
+};
+
 const phoneWithoutCountryCode = computed({
   get() {
     return meditator.value.phone.slice(2);
@@ -166,7 +192,7 @@ const onSubmit = async () => {
           await authStore.updatePhoto(imageFile.value, token);
         }
       } else {
-        Swal.fire("Changes are not saved", "", "info");
+        Swal.fire("Operación cancelada", "", "info");
       }
     });
   } catch (e) {
