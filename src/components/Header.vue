@@ -22,13 +22,16 @@
             <input type="checkbox" id="subMenu" v-model="isChecked" />
 
             <label for="subMenu" :class="{ active: isChecked }">
-              <NuxtLink to="/eventos" active-class="active">Eventos</NuxtLink>
+              <NuxtLink to="/experiencias" active-class="active"
+                >Experiencias</NuxtLink
+              >
               <span v-if="isChecked"> &#9650;</span>
               <span v-else> &#9660;</span>
             </label>
             <div class="submenu">
-              <NuxtLink to="/#Proximos-Eventos">Proximos Eventos</NuxtLink>
-              <NuxtLink to="#Eventos-Privados">Eventos Privados</NuxtLink>
+              <NuxtLink to="#Experiencias-Privadas"
+                >Experiencias Privadas</NuxtLink
+              >
             </div>
           </div>
           <div class="menu">
@@ -68,10 +71,6 @@ const { meditator } = useInfoUser();
 
 const isChecked = ref(false);
 const isResponsiveMenu = ref(false);
-
-onMounted(() => {
-  console.log("a " + meditator.value?.photo);
-});
 
 const toggleMenu = () => {
   isResponsiveMenu.value = !isResponsiveMenu.value;

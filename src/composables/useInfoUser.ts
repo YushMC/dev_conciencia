@@ -4,7 +4,7 @@ import { Meditator } from "~/store/meditator";
 
 const token = ref<string>("");
 const meditator = ref(new Meditator()); // Hacer la instancia reactiva
-const isLogged = ref(false);
+const isLogged = ref<any>();
 
 const useInfoUser = () => {
   const hydrate = () => {
@@ -15,7 +15,7 @@ const useInfoUser = () => {
         Object.assign(meditator.value, decoded);
         isLogged.value = true;
       } catch (error) {
-        console.error("Error al decodificar el token", error);
+        isLogged.value = false;
       }
     }
   };
@@ -29,7 +29,7 @@ const useInfoUser = () => {
       Object.assign(meditator.value, decoded);
       isLogged.value = true;
     } catch (error) {
-      console.error("Error al decodificar el token", error);
+      isLogged.value = false;
     }
   };
 

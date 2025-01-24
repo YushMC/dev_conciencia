@@ -1,28 +1,40 @@
-tion
 <template>
   <main>
-    <div class="container_info_evento bg_color_principal">
+    <div class="container_info_evento bg_color_principal" v-if="experiencia">
       <div class="container_text">
-        <h2 class="text_color_principal titulo">Meditación en Guadalajara</h2>
-        <h3 class="location_info">
-          <span><img src="/assets/gui/location.svg" alt="" /></span> San Pedro
-          Tlaquepaque, Guadalajara, Jalisco, México
+        <!-- Verifica si 'experiencia' y 'description' están disponibles antes de mostrarlas -->
+        <h2 class="text_color_principal titulo" v-if="experiencia?.description">
+          {{ experiencia.description }}
+        </h2>
+        <h3
+          class="location_info"
+          v-if="experiencia?.city && experiencia?.state && experiencia?.country"
+        >
+          <span><img src="/assets/gui/location.svg" alt="" /></span>
+          {{ experiencia.address }}
+          <br />{{ experiencia.city }}, {{ experiencia.state }},
+          {{ experiencia.country }}.
         </h3>
       </div>
       <div class="container_status">
-        <h5 :class="{ active: status === 'Proximamente' }">
+        <h5 :class="{ active: experiencia?.id_experience_status === 1 }">
           Próximamente
-          <span v-if="status === 'Proximamente'"
-            ><a href="#reservar">Reservar</a></span
-          >
         </h5>
-        <h5 :class="{ active: status === 'En curso' }">¡En curso!</h5>
-        <h5 :class="{ active: status === 'Terminado' }" v-if="isLogged">
+        <h5 :class="{ active: experiencia?.id_experience_status === 2 }">
+          ¡En curso!
+        </h5>
+        <h5
+          :class="{ active: experiencia?.id_experience_status === 3 }"
+          v-if="isLogged"
+        >
           Terminado
         </h5>
       </div>
     </div>
-    <div class="container_imgs_evento bg_color_principal" v-if="!isAvaible">
+    <div
+      v-if="experiencia?.id_experience_status === 3"
+      class="container_imgs_evento bg_color_principal"
+    >
       <div class="container_principal">
         <img
           src="https://blog.rentcars.com/wp-content/uploads/2019/12/foto_blog.jpg"
@@ -30,6 +42,7 @@ tion
         />
       </div>
       <div class="container_otros">
+        <!-- Imágenes adicionales -->
         <div>
           <img
             src="https://visitagdl.com/wp-content/uploads/2023/03/ofvc_blog_reunimos-lo-mejor_portada.png"
@@ -58,20 +71,28 @@ tion
       </div>
     </div>
     <div class="container_flayer bg_color_principal" v-else id="reservar">
-      <img src="/assets/locations_examples/1.jpg" alt="" />
-      <section class="precios" v-if="status !== 'En curso'">
-        <h2><span>$3,500</span> por persona</h2>
-        <hr class="bg_color_secundario" />
+      <img :src="experiencia?.flyer" alt="" />
+      <section class="precios" v-if="experiencia?.id_experience_status !== 3">
+        <h1>{{ experiencia?.description }}</h1>
+        <select v-model="selectedPrice">
+          <option value="1">
+            ${{ experiencia?.single_price }} por 1 persona.
+          </option>
+          <option
+            v-if="experiencia?.promo_price && experiencia?.persons_promo"
+            value="2"
+          >
+            Promoción: ${{ experiencia?.promo_price }} por
+            {{ experiencia?.persons_promo }} personas!
+          </option>
+        </select>
         <div>
           <h5>Fecha</h5>
-          <h5>Marzo 30, 2025</h5>
+          <h5>{{ experiencia?.init_date }}</h5>
         </div>
-        <h5>Inivitado</h5>
-        <select name="" id="">
-          <option value="">1</option>
-        </select>
-        <h3>Total <span>$7,000</span></h3>
-        <button>Reservar Ahora</button>
+        <button @click="reservar(isLogged)">
+          <span>{{ textButton }}</span>
+        </button>
       </section>
       <section v-else>
         <h3 class="titulo text_color_principal">
@@ -81,62 +102,21 @@ tion
     </div>
     <div class="container_description">
       <ul class="container_submenu">
-        <li class="active" v-if="isAvaible">Descripción</li>
-        <li class="active" v-else>Resumen</li>
+        <li class="active">Ubicación</li>
       </ul>
       <div class="container_info">
         <div class="content_description">
           <section>
-            <div class="container_info_desciption">
-              <h2 class="text_color_principal">Acerca de esta meditación</h2>
-              <p v-show="isAvaible">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Reiciendis quas sequi quae id. Dicta, eos natus quibusdam
-                tempora architecto illum suscipit impedit nostrum necessitatibus
-                blanditiis ratione, laudantium omnis repudiandae eius nemo
-                tempore odit reiciendis cupiditate. Nam debitis animi culpa est
-                facere, similique libero tempora id amet ut esse expedita
-                placeat, eveniet voluptatem magnam quibusdam! Pariatur earum vel
-                saepe nemo commodi minima accusantium excepturi. Dignissimos
-                necessitatibus perspiciatis doloremque nisi fugiat dicta nostrum
-                amet iste earum maiores, mollitia, ipsum id ducimus. Aspernatur
-                assumenda praesentium voluptatum doloribus recusandae, sunt sint
-                iste ducimus! Sed itaque dicta sequi distinctio fuga, fugiat
-                officia? Tenetur, illo quis.
-              </p>
-              <p v-show="!isAvaible">
-                Resumen: Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Reiciendis quas sequi quae id. Dicta, eos natus quibusdam
-                tempora architecto illum suscipit impedit nostrum necessitatibus
-                blanditiis ratione, laudantium omnis repudiandae eius nemo
-                tempore odit reiciendis cupiditate. Nam debitis animi culpa est
-                facere, similique libero tempora id amet ut esse expedita
-                placeat, eveniet voluptatem magnam quibusdam! Pariatur earum vel
-                saepe nemo commodi minima accusantium excepturi. Dignissimos
-                necessitatibus perspiciatis doloremque nisi fugiat dicta nostrum
-                amet iste earum maiores, mollitia, ipsum id ducimus. Aspernatur
-                assumenda praesentium voluptatum doloribus recusandae, sunt sint
-                iste ducimus! Sed itaque dicta sequi distinctio fuga, fugiat
-                officia? Tenetur, illo quis.
-              </p>
+            <div
+              class="content_map"
+              v-if="experiencia?.id_experience_status !== 3"
+            >
+              <EventosMaps :lat="experiencia?.lat" :lng="experiencia?.lng">
+              </EventosMaps>
             </div>
-            <div class="content_map" v-if="isAvaible">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5910.250011240538!2d-101.56913538378157!3d21.063714057165676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2smx!4v1736805270196!5m2!1ses!2smx"
-                width="100%"
-                height="500"
-                style="border: 0"
-                allowfullscreen="true"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-              ></iframe>
-            </div>
-          </section>
-          <section class="precios" v-if="isAvaible">
-            <h2>Ubicacion</h2>
           </section>
         </div>
-        <div id="Testimonios" v-if="!isAvaible">
+        <div id="Testimonios" v-if="experiencia?.id_experience_status === 3">
           <h2 class="titulo text_color_principal">Comentarios</h2>
           <hr class="bg_color_secundario" />
           <Swiper
@@ -229,25 +209,119 @@ tion
         </div>
       </div>
     </div>
+    <aside>
+      <h1>Reservar: {{ experiencia?.description }}</h1>
+      <div class="container_aside">
+        <div class="content_info">
+          <h3>Reserva a nombre de:</h3>
+          <picture title="No es posible cambiar de persona.">
+            <img :src="meditator.photo || ''" alt="" v-if="meditator.photo" />
+            <h5 v-if="meditator.name">{{ meditator.name }}</h5>
+          </picture>
+        </div>
+        <div class="content_info">
+          <h3>Agregar acompañante:</h3>
+          <details open>
+            <summary>Registrar Acompañantes:</summary>
+            <div class="container_input_search">
+              <img src="/assets/gui/search_icon.svg" alt="" />
+              <input
+                type="text"
+                placeholder="Buscar por teléfono..."
+                ref="inputRef"
+              />
+              <button @click="searchMeditatorLocal">Buscar</button>
+            </div>
+          </details>
+          <div
+            class="selectedPerson"
+            v-for="meditator in dataMeditator"
+            :key="meditator.id"
+          >
+            <h2>Meditadores encontrados:</h2>
+            <div class="content_info">
+              <h1>{{ meditator.name }}</h1>
+            </div>
+          </div>
+          <p v-if="dataMeditator.length === 0">
+            No se han encontrado meditadores
+          </p>
+        </div>
+      </div>
+    </aside>
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
+import { useHead } from "unhead";
+import { ref, onMounted, watchEffect, onBeforeMount } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useFetch } from "nuxt/app";
 
-const status = ref<string>("Proximamente");
+import Swal from "sweetalert2";
 
-const { isLogged } = useInfoUser();
+const { isLogged, meditator, token, hydrate } = useInfoUser();
+const { searchMeditator, dataMeditator } = useApiFindByPhone();
 
-const isAvaible = ref<boolean>(false);
+const route = useRoute();
+const router = useRouter();
+const eventoId = route.params.id as string;
 
-const watchStatus = () => {
-  if (status.value !== "Terminado") {
-    isAvaible.value = true;
+const showModalReserva = ref<boolean>(false);
+
+interface ExperienceData {
+  experience: any;
+}
+
+// Usamos useFetch para obtener los datos de la API
+const { data, pending, error } = useFetch<ExperienceData>(
+  `http://192.168.1.177/conciencia-api/public/api/experience/${eventoId}`
+);
+
+// Observamos los cambios en 'data' y lo asignamos a 'experiencia' cuando esté disponible
+const experiencia = computed(() => data.value?.experience || {});
+
+const selectedPrice = ref<number>(2);
+const textButton = ref("Reservar");
+
+const reservar = async (isLogged: boolean) => {
+  if (isLogged) {
+    showModalReserva.value = !showModalReserva.value;
   } else {
-    isAvaible.value = false;
+    try {
+      Swal.fire({
+        icon: "info",
+        title: "Cuenta no detectada",
+        text: "Para esta opción es necesario iniciar sesión.",
+        showCancelButton: true,
+        confirmButtonText: "Iniciar Sesión",
+      }).then(async (result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          router.push("/login");
+        } else {
+          Swal.fire("Operación cancelada", "", "info");
+        }
+      });
+    } catch (err) {}
   }
 };
+
+const inputRef = ref<HTMLInputElement | null>(null);
+
+const searchMeditatorLocal = () => {
+  searchMeditator(inputRef.value?.value || "", token.value);
+};
+
+watchEffect(() => {
+  if (error.value) {
+    router.push("/");
+  }
+});
+
+useHead({
+  title: experiencia.value.description,
+});
 
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
@@ -271,39 +345,13 @@ const breakpoints = {
     spaceBetween: 40,
   },
 };
-import { useHead } from "unhead";
-
-useHead({
-  title: "Meditación en Guadalajara",
-  meta: [
-    {
-      name: "description",
-      content: "Página de inicio de Conciencia del Ser Divino",
-    },
-    //etiquetas og
-    { property: "og:title", content: "Inicio - Conciencia del Ser Divino" },
-    { property: "og:description", content: "Somos Conciencia del Ser Divino" },
-    // { property: 'og:image', content: 'https://www.ejemplo.com/imagen.jpg' },
-    { property: "og:url", content: "https://www.ejemplo.com/" },
-    { property: "og:type", content: "website" },
-    //etiquetas para twitter
-    { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:site", content: "@ConcienciaDelSerDivino" },
-    //etiquetas para facebook
-    { property: "article:publisher", content: "https://www.facebook.com/" },
-  ],
-  link: [
-    /* no recomendable si se quiere remplazar a las cononicas
-    {
-      rel: "shortlink",
-      href: "https://tusitio.com/shortlink", // Aquí colocas la URL corta
-    },
-    */
-  ],
+onBeforeMount(() => {
+  hydrate();
 });
-
 onMounted(() => {
-  watchStatus();
+  if (experiencia.value.id_experience_status === 3 && isLogged) {
+    router.push("/");
+  }
 });
 </script>
 
@@ -456,8 +504,8 @@ onMounted(() => {
 }
 .container_flayer img {
   width: 50%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
+  aspect-ratio: 4/3;
+  object-fit: contain;
   object-position: center;
   border-radius: 20px;
   transition: all 0.3s linear;
@@ -502,17 +550,21 @@ onMounted(() => {
   opacity: 1;
 }
 .content_description {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 2rem;
 }
 .content_description section {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
 .precios {
+  width: 50%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -544,6 +596,7 @@ onMounted(() => {
   padding: 2%;
   border-radius: 10px;
   font-size: 1rem;
+  cursor: pointer;
 }
 .precios select {
   border: 2px solid transparent;
@@ -551,7 +604,8 @@ onMounted(() => {
   background: none;
   color: #b47f4a;
   padding: 2%;
-  font-weight: 600 !important;
+  font-size: 1.5rem;
+  font-weight: 400 !important;
 }
 .precios h3 {
   color: #b47f4a;
@@ -633,5 +687,120 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+aside {
+  position: fixed;
+  z-index: 100;
+  width: 60dvw;
+  height: 90dvh;
+  overflow: hidden;
+  padding: 2rem;
+  background: #ffffff;
+  top: 5dvh;
+  left: 20dvw;
+  border-radius: 20px;
+  border: #b47f4a 2px solid;
+  box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.container_aside {
+  margin: auto;
+  width: 100%;
+  height: 95%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.container_aside .content_info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-x: hidden;
+  padding: 2%;
+}
+.content_info h3 {
+  width: fit-content;
+  padding: 1%;
+  padding-bottom: 1%;
+  border-bottom: #b47f4a solid 2px;
+  color: #b47f4a;
+}
+.container_aside picture {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 5px;
+  background: #f1dcc6;
+  padding: 1rem;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.container_aside picture img {
+  width: 5dvw;
+  border-radius: 100%;
+  aspect-ratio: 1/1;
+}
+.content_info details {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.content_info details summary {
+  margin-bottom: 2%;
+}
+.content_info details .container_input_search {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.container_input_search input {
+  width: 70%;
+  padding: 1rem;
+  padding-left: 2rem;
+  border: none;
+  border-bottom: #b47f4a solid 2px;
+  outline: none;
+  font-size: 1rem;
+}
+.container_input_search button {
+  width: 25%;
+  background: none;
+  border: 2px solid #b47f4a;
+  border-radius: 10px;
+  color: #fff;
+  background: #b47f4a;
+  font-weight: 600;
+  padding: 1%;
+  cursor: pointer;
+}
+
+.container_input_search img {
+  position: absolute;
+  top: 1rem;
+  left: 0.2rem;
+  width: 1rem;
+}
+
+.selectedPerson {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  border-radius: 10px;
+  background: #ca9fff;
+}
+
+.selectedPerson h1 {
+  color: #ffffff;
+  font-size: 1.5rem;
 }
 </style>

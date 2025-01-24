@@ -74,4 +74,17 @@ export default defineNuxtConfig({
   routeRules: {
     "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /dashboard
   },
+  nitro: {
+    prerender: {
+      routes: await fetch(
+        "http://192.168.1.177/conciencia-api/public/api/experiences"
+      )
+        .then((res) => res.json())
+        .then((data) =>
+          data.experiences.map(
+            (evento: { slug: string }) => `/experiencias/${evento.slug}`
+          )
+        ),
+    },
+  },
 });

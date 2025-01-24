@@ -9,13 +9,12 @@
         </div>
       </div>
 
-      <a @click="toogleStateModal">Cuenta</a>
-      <NuxtLink to="/cuenta" active-class="link_active">Agendar</NuxtLink>
-      <NuxtLink to="/">Sitio Principal</NuxtLink>
+      <a @click="toogleStateModal">Ajustes de cuenta</a>
+      <NuxtLink to="/cuenta" active-class="link_active">Inicio</NuxtLink>
+      <NuxtLink to="/" active-class="link_active">Sitio Principal</NuxtLink>
     </div>
     <div class="others">
-      <button @click="logout">Cerrar Sesión</button>
-      <a href="#">Ayuda</a>
+      <button @click="logout" style="background: red">Cerrar Sesión</button>
     </div>
   </header>
   <div id="cerrarMenu" @click="toggleStateHeader" v-if="isActive"></div>
@@ -35,10 +34,6 @@ const authStore = useAuthStore();
 
 import { useRouter } from "vue-router";
 const router = useRouter(); // Llamar useRouter() solo una vez
-
-watch(isActive, (newValue) => {
-  console.log("El estado de isActive cambió a:", newValue);
-});
 
 const logout = async () => {
   removeToken();

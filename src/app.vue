@@ -5,12 +5,15 @@
 <script setup lang="ts">
 import { ref, onBeforeMount } from "vue";
 
+//tokens
 const { setToken } = useInfoUser();
+const { initFetchEventos } = useApiEventos(); // Removed redeclaration
 
 onBeforeMount(() => {
   if (localStorage.getItem("token")) {
     setToken(localStorage.getItem("token") ?? "");
   }
+  initFetchEventos();
 });
 </script>
 

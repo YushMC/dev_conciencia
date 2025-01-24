@@ -69,14 +69,17 @@
 definePageMeta({
   layout: "accounts", // Nombre del layout que deseas usar
 });
+import { useHead } from "unhead";
+
+useHead({
+  title: "Cuenta",
+});
 import { useRouter } from "vue-router";
 const router = useRouter();
 
 const { toggleStateHeader } = useHeaderAccount();
 
 const { meditator, hydrate } = useInfoUser();
-
-console.log(meditator);
 
 import { ref } from "vue";
 
@@ -156,7 +159,6 @@ const calendarOptions = ref({
       y: info.jsEvent.pageY - 200,
     }; // Obtenemos la posición del clic
     showMenu.value = true; // Mostramos el menú
-    console.log(info.title);
 
     // Buscar el evento que coincide con la fecha seleccionada
     const event = events.value.find((event) => event.date === info.dateStr);
@@ -171,7 +173,6 @@ const calendarOptions = ref({
 });
 
 const handleOption = (option: string) => {
-  console.log(`Opción seleccionada: ${option}`);
   showMenu.value = false; // Ocultamos el menú después de seleccionar una opción
 };
 

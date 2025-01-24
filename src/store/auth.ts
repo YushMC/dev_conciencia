@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import Swal from "sweetalert2";
 
-const api: string = "http://192.168.1.173/conciencia-api/public/api/meditator";
+const api: string = "http://192.168.1.177/conciencia-api/public/api/meditator";
 
 interface LoginResponse {
   token: string;
@@ -60,14 +60,14 @@ export const useAuthStore = defineStore("auth", {
             text: "Inicio de sesión exitoso!",
           });
         }
-      } catch (err) {
+      } catch (err: any) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
           html: `
           <h3>Ocurrió un error al iniciar sesión:</h3>
             <br>
-            <h5 style='color:red;'>${err}</h5>`,
+            <h5 style='color:red;'>${err.message}</h5>`,
         });
       }
     },
@@ -109,9 +109,10 @@ export const useAuthStore = defineStore("auth", {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text:
-              "Error al registrar el usuario: " +
-              JSON.stringify(error.value.data.message),
+            html: `<h3>Error al registrar:</h3>
+              <br><h5 style='color: red;'>${JSON.stringify(
+                error.value.data.message
+              )}</h5>`,
           });
           return;
         }
@@ -125,11 +126,12 @@ export const useAuthStore = defineStore("auth", {
             text: "Tu cuenta ha sido creada correctamente.",
           });
         }
-      } catch (err) {
+      } catch (err: any) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Error al registrar usuario.",
+          html: `<h3>Error al registrar:</h3>
+              <br><h5 style='color: red;'>${err.message}</h5>`,
         });
       }
     },
@@ -168,9 +170,10 @@ export const useAuthStore = defineStore("auth", {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text:
-              "Error al actualizar el usuario: " +
-              JSON.stringify(error.value.data.message),
+            html: `<h3>Error al actualizar la información:</h3>
+              <br><h5 style='color: red;'>${JSON.stringify(
+                error.value.data.message
+              )}</h5>`,
           });
           return;
         }
@@ -182,11 +185,12 @@ export const useAuthStore = defineStore("auth", {
             text: "Tu cuenta ha sido actualizada correctamente.",
           });
         }
-      } catch (err) {
+      } catch (err: any) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Error al actualizar usuario.",
+          html: `<h3>Error al actualizar la información:</h3>
+              <br><h5 style='color: red;'>${err.message}</h5>`,
         });
       }
     },
@@ -224,9 +228,10 @@ export const useAuthStore = defineStore("auth", {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text:
-              "Error al actualizar la foto: " +
-              JSON.stringify(error.value.data.message),
+            html: `<h3>Error al actualizar la foto:</h3>
+              <br><h5 style='color: red;'>${JSON.stringify(
+                error.value.data.message
+              )}</h5>`,
           });
           return;
         }
@@ -238,7 +243,14 @@ export const useAuthStore = defineStore("auth", {
             text: "Tu foto ha sido actualizada correctamente.",
           });
         }
-      } catch (err) {}
+      } catch (err: any) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          html: `<h3>Error al actualizar la foto:</h3>
+              <br><h5 style='color: red;'>${err.message}</h5>`,
+        });
+      }
     },
 
     async updatePsw(meditator: any, newPass: string, token: string) {
@@ -272,9 +284,10 @@ export const useAuthStore = defineStore("auth", {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text:
-              "Error al actualizar la contraseña: " +
-              JSON.stringify(error.value.data.message),
+            html: `<h3>Error al actualizar la contraseña:</h3>
+              <br><h5 style='color: red;'>${JSON.stringify(
+                error.value.data.message
+              )}</h5>`,
           });
           return;
         }
@@ -290,8 +303,8 @@ export const useAuthStore = defineStore("auth", {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Error al actualizar contraseña.",
-          html: err.message,
+          html: `<h3>Error al actualizar la contraseña:</h3>
+              <br><h5 style='color: red;'>${err.message}</h5>`,
         });
       }
     },

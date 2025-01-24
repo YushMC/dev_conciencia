@@ -15,6 +15,7 @@
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/vue3": "^6.1.15",
+    "@googlemaps/js-api-loader": "^1.16.8",
     "@nuxt/image": "^1.8.1",
     "@pinia/nuxt": "^0.9.0",
     "@tsparticles/vue3": "^3.0.1",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@nuxtjs/sitemap": "^7.0.1",
+    "@types/google.maps": "^3.58.1",
     "@types/swiper": "^5.4.3",
     "gh-pages": "^6.3.0"
   }
