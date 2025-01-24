@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import Swal from "sweetalert2";
 
-const api: string = "http://192.168.1.177/conciencia-api/public/api/meditator";
+const api = ref("");
 
 interface LoginResponse {
   token: string;
@@ -30,11 +30,14 @@ export const useAuthStore = defineStore("auth", {
         body.append("user", meditator.user);
         body.append("pass", meditator.password);
 
-        const { data, error } = await useFetch<LoginResponse>(api + "/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body,
-        });
+        const { data, error } = await useFetch<LoginResponse>(
+          api.value + "/meditator/login",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body,
+          }
+        );
 
         Swal.close();
 
@@ -95,7 +98,7 @@ export const useAuthStore = defineStore("auth", {
         formData.append("birthdate", meditator.birthdate);
 
         const { data, error } = await useFetch<LoginResponse>(
-          api + "/register",
+          api.value + "/meditator/register",
           {
             method: "POST",
             body: formData,
@@ -155,15 +158,18 @@ export const useAuthStore = defineStore("auth", {
           birthdate: meditator.birthdate,
         });
 
-        const { data, error } = await useFetch<LoginResponse>(api + "/update", {
-          method: "PUT",
-          body,
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `${token}`,
-          },
-        });
+        const { data, error } = await useFetch<LoginResponse>(
+          api.value + "/meditator/update",
+          {
+            method: "PUT",
+            body,
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `${token}`,
+            },
+          }
+        );
         Swal.close();
 
         if (error.value) {
@@ -211,7 +217,7 @@ export const useAuthStore = defineStore("auth", {
         formData.append("photo", photoFile);
 
         const { data, error } = await useFetch<LoginResponse>(
-          api + "/updatePhoto",
+          api.value + "/meditator/updatePhoto",
           {
             method: "POST",
             body: formData,
@@ -312,6 +318,10 @@ export const useAuthStore = defineStore("auth", {
     logout() {
       this.token = null;
       localStorage.removeItem("token");
+    },
+
+    setApiUrl(url: string) {
+      api.value = url;
     },
   },
 });

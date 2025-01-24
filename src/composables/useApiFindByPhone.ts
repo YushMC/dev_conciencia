@@ -12,9 +12,14 @@ interface ApiResponse {
   meditator: FindMeditator[];
 }
 
+const api = ref("");
+
 const dataMeditator = ref<FindMeditator[]>([]);
 
 export const useApiFindByPhone = () => {
+  const setApiFindMeditator = (url: string) => {
+    api.value = url;
+  };
   const searchMeditator = async (phone: string, token: string) => {
     try {
       Swal.fire({
@@ -27,7 +32,7 @@ export const useApiFindByPhone = () => {
         },
       });
       const response = await $fetch<ApiResponse>(
-        "http://192.168.1.177/conciencia-api/public/api/meditator/findByPhone",
+        api.value + "/meditator/findByPhone",
         {
           method: "PUT",
           headers: {
@@ -68,5 +73,6 @@ export const useApiFindByPhone = () => {
     dataMeditator,
     resetDataMeditator,
     searchMeditator,
+    setApiFindMeditator,
   };
 };

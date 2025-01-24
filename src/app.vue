@@ -7,12 +7,23 @@ import { ref, onBeforeMount } from "vue";
 
 //tokens
 const { setToken } = useInfoUser();
-const { initFetchEventos } = useApiEventos(); // Removed redeclaration
+const { setApiFindMeditator } = useApiFindByPhone();
+const { initFetchEventos, setApiForEventos } = useApiEventos(); // Removed redeclaration
+
+const config = useRuntimeConfig();
+const authStore = useAuthStore();
+
+if (config.public.apiUrl) {
+  authStore.setApiUrl(config.public.apiUrl.toString());
+  setApiForEventos(config.public.apiUrl.toString());
+  setApiFindMeditator(config.public.apiUrl.toString());
+}
 
 onBeforeMount(() => {
   if (localStorage.getItem("token")) {
     setToken(localStorage.getItem("token") ?? "");
   }
+
   initFetchEventos();
 });
 </script>

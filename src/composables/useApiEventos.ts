@@ -18,12 +18,18 @@ interface ApiResponse {
   experiences: Experience[];
 }
 
+const api = ref("");
+
 const dataEventos = ref<Experience[]>([]);
 
 export const useApiEventos = () => {
+  const setApiForEventos = (url: string) => {
+    api.value = url;
+  };
+
   const initFetchEventos = () => {
     const { data, error, pending } = useFetch<ApiResponse>(
-      "http://192.168.1.177/conciencia-api/public/api/experiences",
+      api.value + "/experiences",
       {
         lazy: true,
         default: () => ({ message: "", experiences: [] }), // Valor inicial vacío
@@ -43,5 +49,6 @@ export const useApiEventos = () => {
   return {
     dataEventos,
     initFetchEventos,
+    setApiForEventos,
   };
 };

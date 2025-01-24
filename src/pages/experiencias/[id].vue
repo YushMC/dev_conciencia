@@ -421,9 +421,12 @@ interface ExperienceData {
   experience: any;
 }
 
+const config = useRuntimeConfig(); // Adjust the import path as necessary
+const api = config.public.apiUrl.toString();
+
 // Usamos useFetch para obtener los datos de la API
 const { data, pending, error } = useFetch<ExperienceData>(
-  `http://192.168.1.177/conciencia-api/public/api/experience/${eventoId}`
+  api + `/experience/${eventoId}`
 );
 
 // Observamos los cambios en 'data' y lo asignamos a 'experiencia' cuando esté disponible

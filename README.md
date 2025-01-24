@@ -1,75 +1,20 @@
-# Nuxt Minimal Starter
+# Guía de instalación
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Para instalar el proyecto y realizar modificaiones, es necesario clonar el repositirio con la rama main.
 
-## Setup
+**La rama gh-pages sirve para publicar los archivos estaticos generados**
 
-Make sure to install dependencies:
+# comandos
 
-```bash
-# npm
-npm install
+`npm i`
+para instalar las dependencias
 
-# pnpm
-pnpm install
+`npm run dev`
+para levantar el servidor en modo dev
 
-# yarn
-yarn install
+`npm run deploy`
+para crear la distrubución (estaticos) y subirlos a la rama estatica (gh-pages)
 
-# bun
-bun install
-```
+# Notas
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+para cambiar la ip de la api, modificar el .env
