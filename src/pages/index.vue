@@ -29,7 +29,7 @@
                 </p>
               </div>
               <div class="container_buttons">
-                <NuxtLink to="/eventos/evento">Más Información</NuxtLink>
+                <NuxtLink to="#">Más Información</NuxtLink>
               </div>
             </div>
           </div>
@@ -47,7 +47,7 @@
                 </p>
               </div>
               <div class="container_buttons">
-                <NuxtLink to="/eventos/evento">Más Información</NuxtLink>
+                <NuxtLink to="#">Más Información</NuxtLink>
               </div>
             </div>
           </div>
@@ -65,7 +65,7 @@
                 </p>
               </div>
               <div class="container_buttons">
-                <NuxtLink to="/eventos/evento">Más Información</NuxtLink>
+                <NuxtLink to="#">Más Información</NuxtLink>
               </div>
             </div>
           </div>
