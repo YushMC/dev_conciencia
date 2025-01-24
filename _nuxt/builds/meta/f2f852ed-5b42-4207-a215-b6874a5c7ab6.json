@@ -1,0 +1,1 @@
+{"id":"f2f852ed-5b42-4207-a215-b6874a5c7ab6","timestamp":1737754573868,"matcher":{"static":{},"wildcard":{"/cuenta":{"appMiddleware":{"auth":true}}},"dynamic":{}},"prerendered":["/","/login","/experiencias","/experiencias/meditacion-guadalajara-5","/experiencias/meditacion-guadalajara","/cuenta"]}
