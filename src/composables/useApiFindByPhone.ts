@@ -17,6 +17,15 @@ const dataMeditator = ref<FindMeditator[]>([]);
 export const useApiFindByPhone = () => {
   const searchMeditator = async (phone: string, token: string) => {
     try {
+      Swal.fire({
+        title: "Buscando...",
+        text: "Por favor espera un momento...",
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       const response = await $fetch<ApiResponse>(
         "http://192.168.1.177/conciencia-api/public/api/meditator/findByPhone",
         {
@@ -34,7 +43,7 @@ export const useApiFindByPhone = () => {
         ? response.meditator
         : [response.meditator];
 
-      console.log("Meditadores encontrados:", dataMeditator.value);
+      Swal.close();
 
       Swal.fire({
         icon: "success",
@@ -50,8 +59,14 @@ export const useApiFindByPhone = () => {
     }
   };
 
+  const resetDataMeditator = () => {
+    dataMeditator.value = [];
+  };
+  resetDataMeditator();
+
   return {
     dataMeditator,
+    resetDataMeditator,
     searchMeditator,
   };
 };

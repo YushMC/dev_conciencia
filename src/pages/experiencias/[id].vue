@@ -209,7 +209,7 @@
         </div>
       </div>
     </div>
-    <aside>
+    <aside :class="{ active: showModalReserva }">
       <h1>Reservar: {{ experiencia?.description }}</h1>
       <div class="container_aside">
         <div class="content_info">
@@ -218,8 +218,109 @@
             <img :src="meditator.photo || ''" alt="" v-if="meditator.photo" />
             <h5 v-if="meditator.name">{{ meditator.name }}</h5>
           </picture>
+          <h3>Método de Pago:</h3>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 2rem;
+              padding: 2%;
+              overflow-y: auto;
+              overflow-x: hidden;
+            "
+          >
+            <div class="container_payment">
+              <div class="cards">
+                <img src="/assets/gui/icon_visa.png" alt="" />
+                <img src="/assets/gui/icon_masterCard.png" alt="" />
+              </div>
+              <img src="/assets/gui/mp.png" alt="" />
+              <img src="/assets/gui/spei.png" alt="" />
+              <img src="/assets/gui/billete.png" alt="" />
+            </div>
+            <div
+              class="seccion_ajustes"
+              style="flex-direction: column; margin: 0"
+            >
+              <div class="container_input">
+                <label for="" style="top: 0rem; z-index: 100"
+                  >Nombre del propietario de la cuenta:
+                </label>
+                <input type="text" />
+              </div>
+              <div class="container_input">
+                <label for="" style="top: 0rem; z-index: 100"
+                  >Número de tarjeta
+                </label>
+                <input type="number" />
+              </div>
+              <div class="container_input">
+                <label for="" style="top: 0rem; z-index: 100">CVC: </label>
+                <input type="number" />
+              </div>
+              <div class="container_input">
+                <label for="" style="top: 0rem; z-index: 100"
+                  >Vencimiento:
+                </label>
+                <input type="text" />
+              </div>
+            </div>
+            <div
+              style="display: flex; justify-content: space-between; width: 100%"
+            >
+              <h3>
+                Pagar: $
+                {{
+                  selectedPrice == 1
+                    ? experiencia?.single_price
+                    : experiencia?.promo_price
+                }}
+                MXN
+              </h3>
+              <button
+                style="
+                  width: 20%;
+                  padding: 1%;
+                  background: #b47f4a;
+                  color: #fff;
+                  border: none;
+                  border-radius: 10px;
+                  cursor: pointer;
+                "
+              >
+                Pagar
+              </button>
+            </div>
+            <h5 style="color: #b47f4a">Si prefieres pagar un anticipo:</h5>
+            <div
+              style="display: flex; justify-content: space-between; width: 100%"
+            >
+              <h3>
+                Pagar Anticipo: $
+                {{
+                  selectedPrice == 1
+                    ? experiencia?.single_price / 2
+                    : experiencia?.promo_price / 2
+                }}
+                MXN
+              </h3>
+              <button
+                style="
+                  width: 20%;
+                  padding: 1%;
+                  background: #b47f4a;
+                  color: #fff;
+                  border: none;
+                  border-radius: 10px;
+                  cursor: pointer;
+                "
+              >
+                Pagar Anticipo
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="content_info">
+        <div class="content_info" v-if="selectedPrice == 2">
           <h3>Agregar acompañante:</h3>
           <details open>
             <summary>Registrar Acompañantes:</summary>
@@ -232,23 +333,69 @@
               />
               <button @click="searchMeditatorLocal">Buscar</button>
             </div>
+            <p
+              v-if="dataMeditator.length === 0"
+              style="color: red; margin-top: 1%"
+            >
+              No se han encontrado meditadores
+            </p>
+            <p v-else style="margin-top: 1%">Meditadores encontrados:</p>
           </details>
+
           <div
             class="selectedPerson"
             v-for="meditator in dataMeditator"
             :key="meditator.id"
           >
-            <h2>Meditadores encontrados:</h2>
             <div class="content_info">
               <h1>{{ meditator.name }}</h1>
+              <h1 @click="deleteMeditator" class="eliminar">X</h1>
             </div>
           </div>
-          <p v-if="dataMeditator.length === 0">
-            No se han encontrado meditadores
-          </p>
+          <details
+            v-if="dataMeditator.length === 0"
+            class="seccion_ajustes"
+            style="gap: 2rem"
+          >
+            <summary>En caso de no contar con cuenta:</summary>
+            <div class="container_input">
+              <label for="" style="top: 0rem; z-index: 100">Nombre: </label>
+              <input type="text" />
+            </div>
+            <div class="container_input">
+              <label for="" style="top: 0rem; z-index: 100"
+                >Correo Electrónico:
+              </label>
+              <input type="text" />
+            </div>
+            <div class="container_input">
+              <label for="" style="top: 0rem; z-index: 100">Télefono: </label>
+              <input type="text" />
+            </div>
+            <div class="container_input">
+              <label for="" style="top: 0rem; z-index: 100"
+                >Fecha de Nacimiento:
+              </label>
+              <input type="date" />
+            </div>
+            <div class="container_input">
+              <select v-model="meditator.state">
+                <option value="Jalisco">Jalisco</option>
+              </select>
+              <label for="">Estado:</label>
+            </div>
+            <div class="container_input">
+              <select v-model="meditator.city">
+                <option value="Guadalajara">Guadalajara</option>
+              </select>
+              <label for="">Ciudad:</label>
+            </div>
+            <button>Guardar</button>
+          </details>
         </div>
       </div>
     </aside>
+    <div id="cerrarModal" v-if="showModalReserva" @click="toggleModal"></div>
   </main>
 </template>
 
@@ -261,7 +408,8 @@ import { useFetch } from "nuxt/app";
 import Swal from "sweetalert2";
 
 const { isLogged, meditator, token, hydrate } = useInfoUser();
-const { searchMeditator, dataMeditator } = useApiFindByPhone();
+const { searchMeditator, dataMeditator, resetDataMeditator } =
+  useApiFindByPhone();
 
 const route = useRoute();
 const router = useRouter();
@@ -281,8 +429,12 @@ const { data, pending, error } = useFetch<ExperienceData>(
 // Observamos los cambios en 'data' y lo asignamos a 'experiencia' cuando esté disponible
 const experiencia = computed(() => data.value?.experience || {});
 
-const selectedPrice = ref<number>(2);
+const selectedPrice = ref<number>(1);
 const textButton = ref("Reservar");
+
+const toggleModal = () => {
+  showModalReserva.value = !showModalReserva.value;
+};
 
 const reservar = async (isLogged: boolean) => {
   if (isLogged) {
@@ -310,7 +462,19 @@ const reservar = async (isLogged: boolean) => {
 const inputRef = ref<HTMLInputElement | null>(null);
 
 const searchMeditatorLocal = () => {
-  searchMeditator(inputRef.value?.value || "", token.value);
+  if (inputRef.value?.value.trim() !== "") {
+    searchMeditator(inputRef.value?.value || "", token.value);
+  } else {
+    Swal.fire({
+      icon: "info",
+      title: "Campo Vacio",
+      text: "Necesita colocar un número telefónico en el campo.",
+    });
+  }
+};
+
+const deleteMeditator = () => {
+  resetDataMeditator();
 };
 
 watchEffect(() => {
@@ -692,8 +856,8 @@ onMounted(() => {
 aside {
   position: fixed;
   z-index: 100;
-  width: 60dvw;
-  height: 90dvh;
+  width: 0;
+  height: 0;
   overflow: hidden;
   padding: 2rem;
   background: #ffffff;
@@ -705,6 +869,17 @@ aside {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-500px) translateY(-100px);
+  transition: all 0.3s linear;
+}
+aside.active {
+  width: 60dvw;
+  height: 90dvh;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0px) translateY(0px);
 }
 .container_aside {
   margin: auto;
@@ -721,8 +896,13 @@ aside {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  overflow-x: hidden;
+  overflow: hidden;
   padding: 2%;
+}
+.container_aside .content_info:nth-child(2) {
+  border-left: 2px solid #a7744260;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .content_info h3 {
   width: fit-content;
@@ -743,9 +923,10 @@ aside {
   cursor: not-allowed;
 }
 .container_aside picture img {
-  width: 5dvw;
+  width: 2dvw;
   border-radius: 100%;
   aspect-ratio: 1/1;
+  object-fit: cover;
 }
 .content_info details {
   display: flex;
@@ -754,6 +935,9 @@ aside {
 }
 .content_info details summary {
   margin-bottom: 2%;
+  color: #77522e;
+  border-bottom: solid 2px #77532e49;
+  cursor: pointer;
 }
 .content_info details .container_input_search {
   width: 100%;
@@ -795,12 +979,66 @@ aside {
   display: flex;
   flex-direction: column;
   padding: 2%;
-  border-radius: 10px;
-  background: #ca9fff;
 }
 
 .selectedPerson h1 {
   color: #ffffff;
   font-size: 1.5rem;
+}
+.selectedPerson .content_info {
+  border-radius: 10px;
+  background: #ca9fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selectedPerson .content_info .eliminar {
+  font-size: 2rem;
+  padding: 2%;
+  background: red;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.container_payment {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.container_payment img,
+.container_payment .cards {
+  width: 5rem;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.container_payment .cards {
+  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  overflow: hidden;
+  align-items: center;
+  background: #b47f4a52;
+  border-radius: 10px;
+  padding: 1%;
+}
+.container_payment .cards img {
+  width: 100% !important;
+}
+
+#cerrarModal {
+  position: fixed;
+  z-index: 80;
+  backdrop-filter: blur(10px);
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
 }
 </style>

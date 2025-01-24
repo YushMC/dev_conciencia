@@ -229,8 +229,128 @@ main {
   transition: all 0.3s linear;
   cursor: pointer;
 }
+.container_input {
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+  margin-top: 2%;
+}
+.container_input:nth-child(2) {
+  margin-top: 1%;
+}
+.container_input input {
+  margin-top: 1dvh;
 
+  border-radius: 5px;
+  border: #b47f4a 2px solid;
+  background: none;
+  font-size: 1.2rem;
+  outline: none;
+  transition: all 0.3s linear;
+  padding: 1%;
+}
+.container_input input:focus {
+  background: #ffffff71;
+  backdrop-filter: blur(50px);
+  padding: 4%;
+  padding-top: 3dvh;
+}
+.container_input input ~ label {
+  position: absolute;
+  top: 4dvh;
+  left: 2px;
+  color: #b47f4a;
+  transition: all 0.3s linear;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+}
+.container_input input:focus ~ label {
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: #ffffffef;
+  padding: 1%;
+  border-radius: 5px;
+  backdrop-filter: blur(50px);
+  border: #b47f4a 2px solid;
+  opacity: 1;
+  visibility: visible;
+}
+.container_login form input ~ label.active {
+  position: relative !important;
+}
 .container_input input:focus ~ .icon_eye {
   top: 30%;
+}
+.container_input select {
+  margin: 2% 0;
+  padding: 2% 0;
+  background: none;
+  border: none;
+  border-bottom: 4px solid #b47f4a;
+  color: #694929;
+  outline: none;
+}
+
+.seccion_ajustes {
+  position: relative;
+  margin: 4dvh 0;
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  gap: 1rem;
+}
+details.seccion_ajustes {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+summary {
+  color: #6d3e0b !important;
+}
+details.seccion_ajustes .container_imagen {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 2%;
+}
+details.seccion_ajustes .container_imagen label {
+  display: none;
+}
+.seccion_ajustes label {
+  width: fit-content;
+  position: absolute;
+  top: -1.5dvh;
+  left: 0;
+  background: #b47f4a;
+  color: #fff;
+  padding: 0.3rem;
+  border-radius: 5px;
+}
+
+.seccion_ajustes input {
+  padding: 1rem;
+  font-size: 1rem;
+  border: 2px solid #b47f4a;
+  border-radius: 10px;
+}
+
+.seccion_ajustes input[type="text"],
+.seccion_ajustes input[type="password"] {
+  width: 100%;
+}
+
+.seccion_ajustes button {
+  width: 100%;
+  padding: 1rem;
+  background: #b47f4a;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s linear;
 }
 </style>

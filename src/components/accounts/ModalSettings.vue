@@ -315,66 +315,6 @@ onMounted(() => {
   */
 }
 
-.seccion_ajustes {
-  position: relative;
-  margin: 4dvh 0;
-  display: flex;
-  width: 100%;
-  height: fit-content;
-  gap: 1rem;
-}
-details.seccion_ajustes {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-summary {
-  color: #6d3e0b !important;
-}
-details.seccion_ajustes .container_imagen {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  margin-top: 2%;
-}
-details.seccion_ajustes .container_imagen label {
-  display: none;
-}
-.seccion_ajustes label {
-  width: fit-content;
-  position: absolute;
-  top: -1.5dvh;
-  left: 0;
-  background: #b47f4a;
-  color: #fff;
-  padding: 0.3rem;
-  border-radius: 5px;
-}
-
-.seccion_ajustes input {
-  padding: 1rem;
-  font-size: 1rem;
-  border: 2px solid #b47f4a;
-  border-radius: 10px;
-}
-
-.seccion_ajustes input[type="text"],
-.seccion_ajustes input[type="password"] {
-  width: 100%;
-}
-
-.seccion_ajustes button {
-  width: 100%;
-  padding: 1rem;
-  background: #b47f4a;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s linear;
-}
-
 .seccion_ajustes input[type="file"] {
   width: 100%;
   height: 7dvh;

@@ -4,8 +4,7 @@
       <div class="container_logo">
         <img src="/assets/logo_without_bg.png" alt="" />
         <div class="datos_user">
-          <h3>Roberto Gomez</h3>
-          <h4>Nivel 1</h4>
+          <h3>{{ meditator?.name }}</h3>
         </div>
       </div>
 
@@ -27,7 +26,7 @@ import { useHeaderAccount } from "~/composables/useHeaderAccount";
 
 const { isActive, toggleStateHeader } = useHeaderAccount();
 const { toogleStateModal } = useModalAccount();
-const { removeToken } = useInfoUser();
+const { removeToken, meditator } = useInfoUser();
 
 import { useAuthStore } from "~/store/auth";
 const authStore = useAuthStore();

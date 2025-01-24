@@ -469,57 +469,6 @@ form {
   transition: all 0.8s linear;
 }
 
-form .container_input {
-  width: 100%;
-  display: flex;
-  flex-direction: column-reverse;
-  position: relative;
-}
-.container_input:nth-child(2) {
-  margin-top: 2%;
-}
-.container_input input {
-  margin-top: 1dvh;
-
-  border-radius: 5px;
-  border: #b47f4a 2px solid;
-  background: none;
-  font-size: 1.2rem;
-  outline: none;
-  transition: all 0.3s linear;
-  padding: 1%;
-}
-.container_input input:focus {
-  background: #ffffff71;
-  backdrop-filter: blur(50px);
-  padding: 4%;
-  padding-top: 3dvh;
-}
-.container_input input ~ label {
-  position: absolute;
-  top: 4dvh;
-  left: 2px;
-  color: #b47f4a;
-  transition: all 0.3s linear;
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-}
-.container_input input:focus ~ label {
-  top: 0;
-  left: 0;
-  z-index: 100;
-  background: #ffffffef;
-  padding: 1%;
-  border-radius: 5px;
-  backdrop-filter: blur(50px);
-  border: #b47f4a 2px solid;
-  opacity: 1;
-  visibility: visible;
-}
-.container_login form input ~ label.active {
-  position: relative !important;
-}
 form button,
 .signUp {
   background: #b47f4a !important;
@@ -668,15 +617,5 @@ form button,
 }
 .container_input input.error {
   border: solid 2px #e21b1b;
-}
-
-.container_input select {
-  margin: 2% 0;
-  padding: 2% 0;
-  background: none;
-  border: none;
-  border-bottom: 4px solid #b47f4a;
-  color: #694929;
-  outline: none;
 }
 </style>
