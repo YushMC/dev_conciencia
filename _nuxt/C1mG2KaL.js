@@ -1,1 +1,0 @@
-import{r as a}from"./Bl2ueRB0.js";const e=a(!1),o=()=>{e.value=!e.value},l=()=>({isActiveModal:e,toogleStateModal:o}),t=a(!1),s=()=>{t.value=!t.value},r=()=>({isActive:t,toggleStateHeader:s});export{r as a,l as u};
