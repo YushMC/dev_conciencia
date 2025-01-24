@@ -17,4 +17,4 @@ para crear la distrubución (estaticos) y subirlos a la rama estatica (gh-pages)
 
 # Notas
 
-para cambiar la ip de la api, modificar el .env
+para cambiar la ip de la api, modificar el **.env** y el fetch para generar las rutas en el archivo **nuxt.config.ts** entre la linea \*_78 a 80_
