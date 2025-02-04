@@ -6,10 +6,9 @@
       </div>
       <div class="container_links">
         <ul>
-          <li><a href="">Nuestra Escencia</a></li>
-          <li><a href="">Nuestra Presencia</a></li>
-          <li><a href="">Eventos</a></li>
-          <li><a href="">Testimonios</a></li>
+          <li><NuxtLink to="/#Nuestra-Escencia">Nuestra Escencia</NuxtLink></li>
+          <li><NuxtLink to="/experiencias">Experiencias</NuxtLink></li>
+          <li><NuxtLink to="/#Testimonios">Testimonios</NuxtLink></li>
         </ul>
       </div>
     </div>
@@ -28,7 +27,11 @@
         </h4>
       </div>
       <div class="container_power_by">
-        <h4>Powered by<a href="#">Nueva Era Digital</a></h4>
+        <h4>
+          Powered by<a href="https://nuevaeradigital.mx/" target="_blank"
+            >Nueva Era Digital</a
+          >
+        </h4>
       </div>
     </div>
   </footer>
@@ -118,7 +121,7 @@ li {
 .container_power_by h4 {
   width: 100%;
   display: flex;
-  font-size: 0.6rem;
+  font-size: 1rem;
   justify-content: end;
   align-items: center;
   gap: 0.5rem;

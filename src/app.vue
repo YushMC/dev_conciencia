@@ -3,28 +3,39 @@
 </template>
 
 <script setup lang="ts">
+import logo from "~/assets/logo.jpeg";
+
+import { useHead } from "unhead";
+
+useHead({
+  link: [
+    {
+      rel: "icon",
+      type: "image/jpeg",
+      href: logo, // Asegúrate de que esté en `/public/`
+    },
+  ],
+});
+
 import { ref, onBeforeMount } from "vue";
 
 //tokens
 const { setToken } = useInfoUser();
-const { setApiFindMeditator } = useApiFindByPhone();
-const { initFetchEventos, setApiForEventos } = useApiEventos(); // Removed redeclaration
+import { useApiUrl } from "./composables/useApi";
+const { setUrlApi } = useApiUrl(); // Removed redeclaration
+const { initFetchEventos } = useApiEventos();
 
 const config = useRuntimeConfig();
 const authStore = useAuthStore();
 
 if (config.public.apiUrl) {
   authStore.setApiUrl(config.public.apiUrl.toString());
-  setApiForEventos(config.public.apiUrl.toString());
-  setApiFindMeditator(config.public.apiUrl.toString());
+  setUrlApi(config.public.apiUrl.toString());
+  initFetchEventos();
 }
 
-onBeforeMount(() => {
-  if (localStorage.getItem("token")) {
-    setToken(localStorage.getItem("token") ?? "");
-  }
-
-  initFetchEventos();
+onBeforeMount(async () => {
+  setToken();
 });
 </script>
 
@@ -36,9 +47,12 @@ onBeforeMount(() => {
   margin: 0;
   box-sizing: border-box;
   user-select: none;
+  position: relative;
+  min-width: 0;
 }
 body {
   width: 100%;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -46,6 +60,12 @@ a {
   text-decoration: none;
   color: #b47f4a;
   cursor: pointer;
+}
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
 }
 h1 {
   color: #b47f4a;
@@ -55,9 +75,11 @@ h1 {
 p {
   color: #b47f4a;
   line-height: 1.5;
+  text-wrap: pretty;
 }
 label {
   color: #b47f4a;
+  z-index: 90;
 }
 html {
   scroll-behavior: smooth;
@@ -205,12 +227,13 @@ main {
   position: relative;
   display: flex;
   flex-direction: column;
+  content-visibility: auto;
 }
 
 .custom-event-title {
   width: 100% !important;
   position: relative !important;
-  height: 50% !important;
+  height: 80% !important;
   font-weight: bold;
   color: white !important; /* Puedes cambiar el color del título */
   font-size: 1rem; /* Tamaño de fuente */
@@ -231,6 +254,11 @@ main {
   font-size: 16px; /* Tamaño del ícono/texto */
   z-index: 100;
 }
+.custom-event-title span {
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 
 .icon_eye {
   position: absolute;
@@ -239,6 +267,11 @@ main {
   top: 20%;
   transition: all 0.3s linear;
   cursor: pointer;
+}
+@media screen and (max-width: 800px) {
+  .icon_eye {
+    width: 8dvw;
+  }
 }
 .container_input {
   width: 100%;

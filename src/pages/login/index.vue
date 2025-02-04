@@ -21,7 +21,12 @@
       </button>
     </section>
     <div class="container_form">
-      <form action="" id="signUp" :class="{ active: isActiveSignUp }">
+      <form
+        action=""
+        id="signUp"
+        :class="{ active: isActiveSignUp }"
+        :style="{ paddingTop: paddingSignUp }"
+      >
         <h4>Crear Cuenta</h4>
         <div class="container_input">
           <input
@@ -94,11 +99,16 @@
           </div>
           <label for="" style="margin-top: 2%">Foto de Perfil</label>
         </div>
-        <div class="container_input">
+        <div v-if="isloadingState">Cargando</div>
+        <div class="container_input" v-else>
           <select v-model="meditator.state">
-            <option value="Jalisco">Jalisco</option>
-            <option value="Guanajuato">Guanajuato</option>
-            <option value="Michoacan">Michoacán</option>
+            <option
+              :value="state.id"
+              v-for="state in statesData"
+              :key="state.id"
+            >
+              {{ state.name }}
+            </option>
           </select>
           <label for="">Estado:</label>
         </div>
@@ -134,7 +144,7 @@
             pattern=""
           />
           <img
-            :src="isPasswordVisibleCreate ? visibleIcon : hiddenIcon"
+            :src="isPasswordVisibleCreate ? hiddenIcon : visibleIcon"
             alt="icono"
             class="icon_eye"
             @click="togglePasswordVisibilityCreate"
@@ -156,7 +166,7 @@
             minlength="6"
           />
           <img
-            :src="isPasswordVisibleCreate2 ? visibleIcon : hiddenIcon"
+            :src="isPasswordVisibleCreate2 ? hiddenIcon : visibleIcon"
             alt="icono"
             class="icon_eye"
             @click="togglePasswordVisibilityCreate2"
@@ -186,7 +196,7 @@
             placeholder="Ingresa tu Contraseña"
           />
           <img
-            :src="isPasswordVisible ? visibleIcon : hiddenIcon"
+            :src="isPasswordVisible ? hiddenIcon : visibleIcon"
             alt="icono"
             class="icon_eye"
             @click="togglePasswordVisibility"
@@ -224,6 +234,7 @@ watch(textTittle, (newValue) => {
 import Swal from "sweetalert2";
 
 const { setToken } = useInfoUser();
+const { apiUrl } = useApiUrl();
 
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -282,7 +293,7 @@ const login = async () => {
     return;
   }
   await authStore.login(meditator.value);
-  setToken(authStore.token ?? "");
+  setToken();
   router.push("/cuenta");
 };
 
@@ -329,7 +340,7 @@ const register = async () => {
       meditator.value,
       imageFile.value // Ahora se asegura que no sea null
     );
-    setToken(authStore.token ?? "");
+    setToken();
   }
 };
 
@@ -385,8 +396,54 @@ const triggerFileInput = () => {
   fileInput.value?.click();
 };
 
+// Creamos una referencia reactiva para almacenar el navegador detectado
+const paddingSignUp = ref("0");
+// Detectamos el navegador en el hook mounted()
+onMounted(() => {
+  if (process.client) {
+    const userAgent = navigator.userAgent;
+
+    if (userAgent.indexOf("Firefox") !== -1) {
+      paddingSignUp.value = "22rem";
+    } else {
+      paddingSignUp.value = "1rem";
+    }
+  }
+});
+
+const statesData = ref<States[]>([]);
+
+interface States {
+  id: number;
+  name: string;
+  clave: string;
+  // Agrega otras propiedades si existen en la API
+}
+
+interface ApiResponse {
+  states: States[];
+}
+const isloadingState = ref(true);
+const isloadingCitys = ref(false);
+
+const searchStates = async () => {
+  const response = await useFetch<ApiResponse>(apiUrl.value + "/state/list");
+
+  if (response.error) {
+    isloadingState.value = true;
+    return false;
+  }
+
+  if (response.data.value) {
+    statesData.value = response.data.value.states;
+  }
+  isloadingState.value = false;
+};
 onBeforeMount(() => {
   //if (decodedToken.value) return router.push("/cuenta");
+
+  searchStates();
+  console.log(statesData.value);
 });
 </script>
 
@@ -486,6 +543,7 @@ form button,
   min-width: 50%;
   max-width: 80%;
   left: 100%;
+  min-height: 0; /* Soluciona el recorte en Firefox */
   margin: auto;
   top: 10dvh !important;
   transition: all 0.3s ease-in-out;
@@ -498,10 +556,9 @@ form button,
 }
 #signUp {
   height: 90dvh;
-  padding-top: 16rem;
 }
 #logIn {
-  height: 40dvh;
+  height: 50dvh;
 }
 #logIn.active,
 #signUp.active {
@@ -510,6 +567,7 @@ form button,
   background: #ffffff71;
   position: relative;
   left: 0;
+  min-height: 0; /* Soluciona el recorte en Firefox */
   top: -3dvh !important;
   opacity: 1;
   visibility: visible;
@@ -617,5 +675,36 @@ form button,
 }
 .container_input input.error {
   border: solid 2px #e21b1b;
+}
+
+@media screen and (max-width: 600px) {
+  .container_login {
+    display: flex;
+    flex-direction: column;
+  }
+  #content_info {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 40%
+    );
+  }
+  #content_info picture img {
+    width: 10dvh !important;
+  }
+
+  #logIn.active,
+  #signUp.active {
+    background: #ffffffab;
+  }
+
+  #logIn.active {
+    top: -10dvh !important;
+  }
+  #signUp.active {
+    padding-top: 10% !important;
+    width: 100%;
+    height: 60dvh;
+  }
 }
 </style>

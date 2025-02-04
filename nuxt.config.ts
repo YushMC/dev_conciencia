@@ -1,5 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  vite: {
+    server: {
+      fs: {
+        strict: false, // Asegura que Vite pueda leer archivos fuera de `src/`
+      },
+    },
+  },
   /*
   vite: {
     optimizeDeps: {
@@ -60,10 +67,6 @@ export default defineNuxtConfig({
         },
       ],
       link: [
-        {
-          rel: "shortcut icon",
-          href: "/favicon.ico",
-        },
         //cual es la ruta cononica o la base
         { rel: "canonical", href: "https://www.ejemplo.com/" },
       ],
@@ -72,12 +75,13 @@ export default defineNuxtConfig({
     layoutTransition: { name: "opacity", mode: "out-in" },
   },
   routeRules: {
-    "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /dashboard
+    "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /cuenta
   },
+  /*
   nitro: {
     prerender: {
       routes: await fetch(
-        "http://192.168.1.177/conciencia-api/public/api/experiences"
+        "http://192.168.1.3/conciencia-api/public/api/experiences"
       )
         .then((res) => res.json())
         .then((data) =>
@@ -87,6 +91,7 @@ export default defineNuxtConfig({
         ),
     },
   },
+  */
   runtimeConfig: {
     apiUrl: process.env.API_URL, // Solo en el servidor
     public: {

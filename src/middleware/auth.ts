@@ -1,9 +1,13 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   if (process.server) return; // ⚠️ Evitar errores en SSR
 
-  const token = localStorage.getItem("token"); // Obtener token de LocalStorage
+  // 🟢 Hacer una petición al servidor para verificar la autenticación
+  /*
+  const { data } = await useFetch("/api/auth/user");
 
-  if (!token) {
-    return navigateTo("/login"); // Redirigir si no hay token
+  if (!data.value?.authenticated) {
+    return navigateTo("/"); // Redirigir si no está autenticado
   }
+    */
+  return navigateTo("/"); // Redirigir si no está autenticado
 });

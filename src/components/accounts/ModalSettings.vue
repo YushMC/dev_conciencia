@@ -36,7 +36,7 @@
             v-model="meditator.password"
           />
           <img
-            :src="isPasswordVisible ? visibleIcon : hiddenIcon"
+            :src="isPasswordVisible ? hiddenIcon : visibleIcon"
             alt="icono"
             class="icon_eye"
             @click="togglePasswordVisibility"
@@ -50,7 +50,7 @@
             v-model="newPsw"
           />
           <img
-            :src="isNewPasswordVisible ? visibleIcon : hiddenIcon"
+            :src="isNewPasswordVisible ? hiddenIcon : visibleIcon"
             alt="icono"
             class="icon_eye"
             @click="toggleNewPasswordVisibility"
@@ -455,6 +455,13 @@ onMounted(() => {
   details.seccion_ajustes .container_imagen {
     display: flex;
     flex-direction: column-reverse;
+  }
+}
+@media screen and (max-width: 800px) {
+  .container_modal {
+    width: 90%;
+    left: 5%;
+    height: 80%;
   }
 }
 </style>

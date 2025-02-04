@@ -1,72 +1,93 @@
 <template>
-  <header>
-    <div class="container_header">
-      <NuxtLink class="container_logo" to="/">
-        <img src="/assets/logo_without_bg.png" alt="" />
-      </NuxtLink>
-      <nav :class="{ active_submenu: isChecked, active: isResponsiveMenu }">
-        <div class="container_menus">
-          <NuxtLink class="container_logo" to="/" active-class="active">
-            <img src="/assets/logo_without_bg.png" alt="" />
-          </NuxtLink>
-          <div class="menu">
-            <NuxtLink to="/#Nuestra-Escencia">Nuestra Escencia</NuxtLink>
-          </div>
+  <ClientOnly>
+    <header :class="scrollClass">
+      <div class="container_header">
+        <NuxtLink class="container_logo" to="/">
+          <img src="/assets/logo_without_bg.png" alt="" />
+        </NuxtLink>
+        <nav :class="{ active_submenu: isChecked, active: isResponsiveMenu }">
+          <div class="container_menus">
+            <NuxtLink class="container_logo" to="/" active-class="active">
+              <img src="/assets/logo_without_bg.png" alt="" />
+            </NuxtLink>
+            <div class="menu">
+              <NuxtLink to="/#Nuestra-Escencia">Nuestra Escencia</NuxtLink>
+            </div>
+            <!-- 
           <div class="menu">
             <NuxtLink to="/#Nuestra-Precencia">Nuestra Presencia</NuxtLink>
           </div>
+          
           <div class="menu">
             <NuxtLink to="#Nuestra-Historia">Nuestra Historia</NuxtLink>
           </div>
-          <div class="menu">
-            <input type="checkbox" id="subMenu" v-model="isChecked" />
+          -->
+            <div class="menu">
+              <input type="checkbox" id="subMenu" v-model="isChecked" />
 
-            <label for="subMenu" :class="{ active: isChecked }">
-              <NuxtLink to="/experiencias" active-class="active"
-                >Experiencias</NuxtLink
-              >
-              <span v-if="isChecked"> &#9650;</span>
-              <span v-else> &#9660;</span>
-            </label>
-            <div class="submenu">
-              <NuxtLink to="#Experiencias-Privadas"
-                >Experiencias Privadas</NuxtLink
-              >
+              <label for="subMenu" :class="{ active: isChecked }">
+                <NuxtLink to="/experiencias" active-class="active"
+                  >Experiencias</NuxtLink
+                >
+                <span v-if="isChecked"> &#9650;</span>
+                <span v-else> &#9660;</span>
+              </label>
+              <div class="submenu">
+                <a
+                  href="https://wa.me/521234567890?text=Hola!, Me gustaría saber más acerca de una Experiencia Privada!"
+                  target="_blank"
+                  >Experiencias Privadas</a
+                >
+                <NuxtLink to="/experiencias/recuerdos">
+                  Nuestros Recuerdos
+                </NuxtLink>
+              </div>
+            </div>
+            <div class="menu">
+              <NuxtLink to="/#Testimonios">Testimonios</NuxtLink>
             </div>
           </div>
-          <div class="menu">
-            <NuxtLink to="#Testimonios">Testimonios</NuxtLink>
-          </div>
+          <!-- 
+          <client-only>
+            <div class="container_account">
+              <NuxtLink to="/cuenta">
+                <img
+                  :src="meditator?.photo"
+                  alt=""
+                  v-if="meditator.photo.trim() !== ''"
+                />
+                <img src="/assets/icon_user.svg" alt="" v-else />
+                <span>Cuenta</span>
+              </NuxtLink>
+            </div>
+          </client-only>
+          -->
+        </nav>
+        <div
+          id="controler_menu"
+          @click="toggleMenu"
+          v-if="isResponsiveMenu"
+        ></div>
+        <div
+          @click="toggleMenu"
+          id="BotonMenu"
+          class="menu-toggle"
+          :class="{ open: isResponsiveMenu }"
+        >
+          <div class="bar bar1"></div>
+          <div class="bar bar2"></div>
+          <div class="bar bar3"></div>
         </div>
-        <client-only>
-          <div class="container_account">
-            <NuxtLink to="/cuenta">
-              <img
-                :src="meditator?.photo"
-                alt=""
-                v-if="meditator.photo.trim() !== ''"
-              />
-              <img src="/assets/icon_user.svg" alt="" v-else />
-              <span>Cuenta</span>
-            </NuxtLink>
-          </div>
-        </client-only>
-      </nav>
-      <div
-        id="controler_menu"
-        @click="toggleMenu"
-        v-if="isResponsiveMenu"
-      ></div>
-      <button @click="toggleMenu" v-if="!isResponsiveMenu" id="BotonMenu">
-        Mostrar
-      </button>
-    </div>
-  </header>
+      </div>
+    </header>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const { meditator } = useInfoUser();
 
 const isChecked = ref(false);
@@ -75,11 +96,64 @@ const isResponsiveMenu = ref(false);
 const toggleMenu = () => {
   isResponsiveMenu.value = !isResponsiveMenu.value;
 };
+
+const scrollPosition = ref(0);
+const scrollClass = ref("down"); // Clase inicial
+
+// Función para actualizar la clase según el scroll
+const updateScrollClass = () => {
+  if (process.client) {
+    // Evita errores en SSR
+    scrollPosition.value = window.scrollY;
+    scrollClass.value = scrollPosition.value > 600 ? "down" : "top";
+  }
+};
+
+// Agregar evento de scroll solo cuando sea necesario
+const addScrollListener = () => {
+  if (process.client) {
+    window.addEventListener("scroll", updateScrollClass);
+  }
+};
+
+// Remover evento de scroll cuando no se necesita
+const removeScrollListener = () => {
+  if (process.client) {
+    window.removeEventListener("scroll", updateScrollClass);
+  }
+};
+
+// Detectar cambios en la ruta y manejar el scroll
+watch(
+  () => route.path,
+  (newPath) => {
+    if (process.client && newPath === "/") {
+      updateScrollClass();
+      addScrollListener();
+    } else {
+      removeScrollListener();
+      scrollClass.value = "down"; // Reiniciar la clase si la ruta cambia
+    }
+  },
+  { immediate: true }
+);
+
+// Asegurar que el evento de scroll solo se agregue en el cliente
+onMounted(() => {
+  if (route.path === "/") {
+    addScrollListener();
+  }
+});
+
+// Remover el evento al salir del componente
+onUnmounted(() => {
+  removeScrollListener();
+});
 </script>
 
 <style scoped>
 header {
-  position: relative;
+  position: fixed;
   top: 0;
   left: 0;
   position: fixed;
@@ -87,9 +161,23 @@ header {
   height: 100px;
   display: flex;
   z-index: 100;
+  transition: all 0.3s linear;
+}
+
+.top {
+  background: none;
+}
+
+.top .container_header .container_logo img {
+  background: #f8f3ee36;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+.down {
   background: #f8f3ee75;
   backdrop-filter: blur(10px);
 }
+
 .container_header {
   position: relative;
   width: 80%;
@@ -113,6 +201,7 @@ header {
 }
 .container_logo img {
   width: 5rem;
+  transition: all 0.3s linear;
 }
 #controler_menu {
   display: none;
@@ -183,6 +272,7 @@ nav {
   color: #b47f4a;
   padding: 1%;
   cursor: pointer;
+  text-wrap: nowrap;
 }
 
 .menu a.active {
@@ -210,10 +300,43 @@ nav {
 
 #BotonMenu {
   display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 40px;
+  height: 25px;
+  cursor: pointer;
+}
+#BotonMenu .bar {
+  display: none;
+  width: 100%;
+  height: 5px;
+  background-color: #b47f4a;
+  transition: all 0.3s ease;
+}
+
+#BotonMenu.open .bar1 {
+  transform: rotate(45deg) translateY(14px);
+}
+#BotonMenu.open .bar2 {
+  opacity: 0;
+}
+#BotonMenu.open .bar3 {
+  transform: rotate(-45deg) translateY(-14px);
+}
+@media screen and (min-width: 801px) {
+  .top .container_header nav .menu > a,
+  .top .container_header nav .menu > label > a,
+  .top .container_header nav .menu > label > span {
+    color: #fff !important;
+  }
 }
 @media screen and (max-width: 800px) {
-  header {
-    backdrop-filter: blur(10px);
+  .container_header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .container_logo {
+    width: 20%;
   }
   #controler_menu {
     top: 0;
@@ -222,6 +345,7 @@ nav {
     display: block;
     width: 100dvw;
     height: 100dvh;
+    backdrop-filter: blur(10px);
   }
   nav {
     position: fixed;
@@ -346,7 +470,10 @@ nav {
     color: #fff;
   }
   #BotonMenu {
-    display: block;
+    display: flex;
+  }
+  #BotonMenu .bar {
+    display: flex;
   }
   .submenu a {
     color: #b47f4a;

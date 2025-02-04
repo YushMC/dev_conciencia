@@ -56,7 +56,13 @@ export const useAuthStore = defineStore("auth", {
 
         if (data.value) {
           this.token = data.value.token;
-          localStorage.setItem("token", this.token);
+
+          // 🟢 Enviar el token a Nuxt para guardarlo en una cookie HttpOnly
+          await useFetch("/api/auth/login", {
+            method: "POST",
+            body: { token: this.token },
+          });
+
           Swal.fire({
             title: "Bienvenido!",
             icon: "success",
@@ -122,7 +128,11 @@ export const useAuthStore = defineStore("auth", {
 
         if (data.value) {
           this.token = data.value.token;
-          localStorage.setItem("token", data.value.token);
+          // 🟢 Enviar el token a Nuxt para guardarlo en una cookie HttpOnly
+          await useFetch("/api/auth/login", {
+            method: "POST",
+            body: { token: this.token },
+          });
           Swal.fire({
             title: "Registro Exitoso!",
             icon: "success",
@@ -315,9 +325,15 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    logout() {
-      this.token = null;
-      localStorage.removeItem("token");
+    async logout() {
+      this.token = null; // Eliminar el token en el estado de Pinia
+
+      // 🟢 Hacer una petición al backend para borrar la cookie HttpOnly
+      await useFetch("/api/auth/logout", {
+        method: "POST",
+      });
+
+      navigateTo("/login"); // Redirigir al usuario después del logout
     },
 
     setApiUrl(url: string) {

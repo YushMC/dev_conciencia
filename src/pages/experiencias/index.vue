@@ -1,27 +1,23 @@
 <template>
   <main class="container_dashboard_eventos">
     <div class="container_search">
-      <div class="search_bar">
-        <input type="text" />
-        <img src="/assets/gui/search_icon.svg" alt="" />
-      </div>
+      <h2 class="titulo text_color_principal">Próximas Experiencias</h2>
     </div>
 
     <div class="dashboard_eventos" v-if="dataEventos.length">
-      <article v-for="evento in dataEventos" :key="evento.id" class="active">
+      <article
+        v-for="evento in dataEventos"
+        :key="evento.id"
+        class="active"
+        @click=""
+      >
         <div class="container_flayer">
-          <img :src="evento.flyer" alt="" />
-        </div>
-        <div class="container_text_evento">
-          <hr class="bg_color_secundario" />
-          <h2 class="titulo text_color_secundario">Descripción General</h2>
-          <p>
-            {{ evento.description }}
-          </p>
-          <h4 class="text_color_secundario">
-            {{ checkStatus(evento.id_experience_status) }}
-          </h4>
-          <NuxtLink :to="'/experiencias/' + evento.slug">Ver Más</NuxtLink>
+          <img
+            :src="evento.flyer"
+            alt="Flyer Experiencia"
+            loading="lazy"
+            @click="router.push('/experiencias/' + evento.slug)"
+          />
         </div>
       </article>
     </div>
@@ -33,45 +29,35 @@
 
 <script setup lang="ts">
 import { useHead } from "unhead";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 import { onMounted, onBeforeMount } from "vue";
 
 const { dataEventos } = useApiEventos();
 
 onMounted(() => {
   useHead({
-    title: "Eventos",
+    title: "Experiencias",
     meta: [
       {
         name: "description",
-        content: "Página de inicio de Conciencia del Ser Divino",
+        content: "Todas las experiencias que esperan tu llegada!",
       },
-      { property: "og:title", content: "Inicio - Conciencia del Ser Divino" },
+      {
+        property: "og:title",
+        content: "Experiencias - Conciencia del Ser Divino",
+      },
       {
         property: "og:description",
-        content: "Somos Conciencia del Ser Divino",
+        content: "Hecha un vistazo a nuestras próximas experiencias!",
       },
       { property: "og:url", content: "https://www.ejemplo.com/" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@ConcienciaDelSerDivino" },
-      { property: "article:publisher", content: "https://www.facebook.com/" },
+      { property: "og:image", content: "/assets/logo.jpeg" },
     ],
   });
 });
-
-const checkStatus = (status: number) => {
-  switch (status) {
-    case 1:
-      return "Próximamente";
-    case 2:
-      return "En Curso";
-    case 3:
-      return "Finalizado";
-    default:
-      console.warn("Estado no definido:", status);
-      return "No definido";
-  }
-};
 </script>
 
 <style scoped>
@@ -134,92 +120,38 @@ const checkStatus = (status: number) => {
 article {
   width: 20dvw;
   height: fit-content;
-  padding: 2%;
   display: flex;
   gap: 2rem;
   flex-direction: column;
   scrollbar-width: none;
   border-radius: 10px;
-  background: #ffffff8e;
   backdrop-filter: blur(10px);
-
+  background: none;
   transition: all 0.3s linear;
 }
 article.termninated {
   opacity: 0.5;
 }
-article.active {
-  border: solid 2px #b47f4a;
-}
 article:hover {
   transform: scale(1.05);
-  box-shadow: 0px 0px 40px 1px rgba(0, 0, 1, 0.301);
 }
 article .container_flayer {
   width: 100%;
-  height: 60%;
+  height: 100%;
 }
 .container_flayer img {
   width: 100%;
-  height: 40dvh;
-  aspect-ratio: 16/9;
+  border-radius: 10px;
+  aspect-ratio: 1/1;
   object-fit: contain;
   object-position: center;
   overflow: hidden;
-}
-.container_text_evento {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  filter: drop-shadow(1px 1px 6px #00000081);
+  cursor: pointer;
 }
 
-.container_text_evento h2 {
-  font-size: 1.5rem;
-}
-.container_text_evento p {
-  font-size: 0.8rem;
-  margin-bottom: 4%;
-}
-.card_slide img {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 9/16;
-  object-fit: cover;
-  object-position: center;
-}
-hr {
-  margin: 3% 0;
-  opacity: 0.5;
-}
-article h2 {
-  text-align: left;
-}
-p {
-  color: #000;
-  line-height: 1.5;
-  margin: 2% 0;
-}
-article a {
-  width: 50%;
-  font-size: 1.25rem;
-  align-self: flex-start;
-  border: #b47f4a solid 2px;
-  padding: 1% 2%;
-  border-radius: 10px;
-  transition: all 0.3s linear;
-  text-align: center;
-}
-article:hover a {
-  width: 100%;
-  background: #b47f4a;
-  color: #fff;
-}
-
-article:hover a:hover {
-  transform: scale(1.05);
-}
 @media screen and (max-width: 600px) {
-  .dashboard_eventos {
+  .container_dashboard_eventos {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -241,11 +173,12 @@ article:hover a:hover {
     flex-direction: row;
     padding: 0% 5%;
   }
-  .container_eventos {
-    width: 100%;
-    height: 30dvh;
-
-    padding: 0;
+  .dashboard_eventos {
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+    margin: 0 !important;
+    align-items: start;
   }
   .container_cards_eventos {
     height: 90%;
@@ -266,10 +199,11 @@ article:hover a:hover {
     transform: scale(0.9) translateX(0px) !important;
   }
   article {
+    width: 100%;
     height: 80dvh;
   }
   article .container_flayer {
-    width: 70dvw;
+    width: 100%;
   }
 }
 </style>

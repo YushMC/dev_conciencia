@@ -8,9 +8,9 @@
         </div>
       </div>
 
-      <a @click="toogleStateModal">Ajustes de cuenta</a>
+      <a @click="toogleStateModal">Ajustes</a>
       <NuxtLink to="/cuenta" active-class="link_active">Inicio</NuxtLink>
-      <NuxtLink to="/" active-class="link_active">Sitio Principal</NuxtLink>
+      <NuxtLink to="/" active-class="link_active">Regresar</NuxtLink>
     </div>
     <div class="others">
       <button @click="logout" style="background: red">Cerrar Sesión</button>
@@ -117,7 +117,7 @@ header {
 }
 .link_active {
   background: #f8f3ee;
-  border-left: solid 4px #b47f4a !important;
+  border-left: solid 4px #b47f4a;
 }
 .others {
   display: flex;
@@ -139,23 +139,43 @@ header {
   header {
     position: fixed;
     background: #f8f3ee;
-    width: 60dvw;
-    transform: translateX(-500px);
+    width: 100%;
+    height: 10dvh;
+    padding: 2%;
+    bottom: 0 !important;
+    top: inherit !important;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 1rem;
     transition: all 0.3s linear;
     z-index: 100;
+  }
+  .container_logo {
+    display: none;
+  }
+
+  .fast_access {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .fast_access a {
+    width: 100%;
+  }
+  .link_active {
+    border-left: none;
+    border-bottom: solid 4px #b47f4a !important;
+  }
+  .others {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .active {
     transform: translateX(0px);
-  }
-  #cerrarMenu {
-    display: block;
-    position: fixed;
-    width: 100%;
-    height: 100dvh;
-    background: #b47f4a2d;
-    backdrop-filter: blur(10px);
-    z-index: 90;
   }
 }
 </style>

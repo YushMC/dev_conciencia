@@ -71,13 +71,14 @@
       </div>
     </div>
     <div class="container_flayer bg_color_principal" v-else id="reservar">
-      <img :src="experiencia?.flyer" alt="" />
+      <img :src="experiencia?.flyer" alt="Flyer Experiencia" loading="lazy" />
       <section class="precios" v-if="experiencia?.id_experience_status !== 3">
         <h1>{{ experiencia?.description }}</h1>
         <select v-model="selectedPrice">
           <option value="1">
             ${{ experiencia?.single_price }} por 1 persona.
           </option>
+          <!-- 
           <option
             v-if="experiencia?.promo_price && experiencia?.persons_promo"
             value="2"
@@ -85,12 +86,13 @@
             Promoción: ${{ experiencia?.promo_price }} por
             {{ experiencia?.persons_promo }} personas!
           </option>
+          -->
         </select>
         <div>
           <h5>Fecha</h5>
           <h5>{{ experiencia?.init_date }}</h5>
         </div>
-        <button @click="reservar(isLogged)">
+        <button @click="toggleModal">
           <span>{{ textButton }}</span>
         </button>
       </section>
@@ -100,6 +102,7 @@
         </h3>
       </section>
     </div>
+
     <div class="container_description">
       <ul class="container_submenu">
         <li class="active">Ubicación</li>
@@ -218,6 +221,7 @@
             <img :src="meditator.photo || ''" alt="" v-if="meditator.photo" />
             <h5 v-if="meditator.name">{{ meditator.name }}</h5>
           </picture>
+          <!-- descomentar
           <h3>Método de Pago:</h3>
           <div
             style="
@@ -230,46 +234,62 @@
             "
           >
             <div class="container_payment">
+              <!-- 
               <div class="cards">
                 <img src="/assets/gui/icon_visa.png" alt="" />
                 <img src="/assets/gui/icon_masterCard.png" alt="" />
               </div>
               <img src="/assets/gui/mp.png" alt="" />
-              <img src="/assets/gui/spei.png" alt="" />
-              <img src="/assets/gui/billete.png" alt="" />
+              
+              <img
+                src="/assets/gui/spei.png"
+                alt=""
+                @click="isEfectivo = false"
+                title="Transferencia Bancaria"
+                :class="{ cards: !isEfectivo }"
+              />
+              <img
+                src="/assets/gui/billete.png"
+                alt=""
+                title="Pago en Efectivo"
+                @click="isEfectivo = true"
+                :class="{ cards: isEfectivo }"
+              />
             </div>
             <div
               class="seccion_ajustes"
               style="flex-direction: column; margin: 0"
+              v-if="!isEfectivo"
             >
               <div class="container_input">
                 <label for="" style="top: 0rem; z-index: 100"
-                  >Nombre del propietario de la cuenta:
+                  >Cuenta (insertar nombre de banco):
                 </label>
-                <input type="text" />
+                <input type="text" value="12345678909" disabled />
               </div>
               <div class="container_input">
                 <label for="" style="top: 0rem; z-index: 100"
-                  >Número de tarjeta
+                  >Clabe Interbancaria:
                 </label>
-                <input type="number" />
-              </div>
-              <div class="container_input">
-                <label for="" style="top: 0rem; z-index: 100">CVC: </label>
-                <input type="number" />
+                <input type="text" value="1234567890987654321" disabled />
               </div>
               <div class="container_input">
                 <label for="" style="top: 0rem; z-index: 100"
-                  >Vencimiento:
+                  >Clabe de Rastreo o Referencia:
                 </label>
-                <input type="text" />
+                <input
+                  type="text"
+                  placeholder="xxxx-xxxx-xxxx"
+                  ref="inputReference"
+                />
               </div>
             </div>
             <div
               style="display: flex; justify-content: space-between; width: 100%"
+              v-if="isEfectivo"
             >
               <h3>
-                Pagar: $
+                Pagar en el lugar: $
                 {{
                   selectedPrice == 1
                     ? experiencia?.single_price
@@ -287,13 +307,14 @@
                   border-radius: 10px;
                   cursor: pointer;
                 "
+                @click="checkReserve"
               >
-                Pagar
+                Finalizar Reserva
               </button>
             </div>
-            <h5 style="color: #b47f4a">Si prefieres pagar un anticipo:</h5>
             <div
               style="display: flex; justify-content: space-between; width: 100%"
+              v-else
             >
               <h3>
                 Pagar Anticipo: $
@@ -314,11 +335,14 @@
                   border-radius: 10px;
                   cursor: pointer;
                 "
+                @click="checkReserve"
               >
-                Pagar Anticipo
+                Finalizar Reserva
               </button>
             </div>
+            
           </div>
+          -->
         </div>
         <div class="content_info" v-if="selectedPrice == 2">
           <h3>Agregar acompañante:</h3>
@@ -410,6 +434,7 @@ import Swal from "sweetalert2";
 const { isLogged, meditator, token, hydrate } = useInfoUser();
 const { searchMeditator, dataMeditator, resetDataMeditator } =
   useApiFindByPhone();
+const { fetchReserve } = useReservations();
 
 const route = useRoute();
 const router = useRouter();
@@ -434,9 +459,66 @@ const experiencia = computed(() => data.value?.experience || {});
 
 const selectedPrice = ref<number>(1);
 const textButton = ref("Reservar");
+const isEfectivo = ref(false);
 
 const toggleModal = () => {
-  showModalReserva.value = !showModalReserva.value;
+  //showModalReserva.value = !showModalReserva.value;
+  window.open(
+    "https://wa.me/521234567890?text=Hola, me gustaría saber más sobre la experiencia: " +
+      experiencia?.value?.description
+  );
+};
+
+const isNewUser = ref(false);
+
+const checkReserve = () => {
+  if (selectedPrice.value !== 1) {
+    if (dataMeditator.value.length < 1 || isNewUser.value === false) {
+      Swal.fire({
+        icon: "warning",
+        title: "No se registró nigún acompañante para esta modalidad.",
+      });
+      return;
+    }
+
+    payReserve(true);
+  } else {
+    payReserve(false);
+  }
+};
+
+const payReserve = (isPromo: boolean) => {
+  const total = ref(0);
+  if (isPromo) {
+    total.value = experiencia?.value?.promo_price;
+  } else {
+    total.value = experiencia?.value?.single_price;
+  }
+
+  if (isEfectivo.value) {
+    fetchReserve(
+      experiencia.value?.id,
+      token.value,
+      inputReference?.value?.value.trim() ?? "",
+      false,
+      total.value
+    );
+  } else {
+    if (inputReference?.value?.value.trim() == "") {
+      Swal.fire({
+        icon: "warning",
+        title: "La referencia es obligatoria.",
+      });
+      return;
+    }
+    fetchReserve(
+      experiencia.value?.id,
+      token.value,
+      inputReference?.value?.value.trim() ?? "",
+      true,
+      total.value / 2
+    );
+  }
 };
 
 const reservar = async (isLogged: boolean) => {
@@ -461,6 +543,8 @@ const reservar = async (isLogged: boolean) => {
     } catch (err) {}
   }
 };
+
+const inputReference = ref<HTMLInputElement | null>(null);
 
 const inputRef = ref<HTMLInputElement | null>(null);
 
@@ -488,6 +572,26 @@ watchEffect(() => {
 
 useHead({
   title: experiencia.value.description,
+  meta: [
+    {
+      name: "description",
+      content: "Todas las experiencias que esperan tu llegada!",
+    },
+    {
+      property: "og:title",
+      content: experiencia.value.description + " - Conciencia del Ser Divino",
+    },
+    {
+      property: "og:description",
+      content: "Nuestra experiencia de " + experiencia.value.description,
+    },
+    {
+      property: "og:url",
+      content: "http://localhost:3000/experiencias/" + eventoId,
+    },
+    { property: "og:type", content: "website" },
+    { property: "og:image", content: "/assets/logo.jpeg" },
+  ],
 });
 
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -682,11 +786,25 @@ onMounted(() => {
   .container_info_evento {
     display: flex;
     flex-direction: column;
-    margin-bottom: 5%;
+    padding-bottom: 5%;
   }
   .container_imgs_evento {
     display: flex;
     flex-direction: column;
+  }
+  .container_flayer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .container_flayer img {
+    width: 100%;
+  }
+  .container_flayer .precios {
+    width: 100%;
+  }
+  .container_flayer .precios h1 {
+    font-size: 1.5rem;
   }
 }
 

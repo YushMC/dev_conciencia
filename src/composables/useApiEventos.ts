@@ -1,4 +1,5 @@
 import { ref } from "vue";
+const { apiUrl } = useApiUrl();
 
 interface Experience {
   id: number;
@@ -18,27 +19,16 @@ interface ApiResponse {
   experiences: Experience[];
 }
 
-const api = ref("");
-
 const dataEventos = ref<Experience[]>([]);
 
 export const useApiEventos = () => {
-  const setApiForEventos = (url: string) => {
-    api.value = url;
-  };
-
-  const initFetchEventos = () => {
-    const { data, error, pending } = useFetch<ApiResponse>(
-      api.value + "/experiences",
-      {
-        lazy: true,
-        default: () => ({ message: "", experiences: [] }), // Valor inicial vacío
-      }
+  const initFetchEventos = async () => {
+    const { data, error, pending } = await useFetch<ApiResponse>(
+      apiUrl.value + "/experiences"
     );
 
     watchEffect(() => {
       if (error.value) {
-        console.error("Error al obtener eventos:", error.value);
       }
       if (data.value) {
         dataEventos.value = data.value.experiences;
@@ -49,6 +39,5 @@ export const useApiEventos = () => {
   return {
     dataEventos,
     initFetchEventos,
-    setApiForEventos,
   };
 };

@@ -2,91 +2,23 @@
   <div>
     <Frontpage></Frontpage>
 
-    <section id="Proximos-Eventos">
+    <section id="Proximos-Eventos" v-if="dataEventos.length">
       <div class="container_titulos">
-        <h2 class="titulo text_color_principal">Próximos Eventos</h2>
+        <h2 class="titulo text_color_principal">Próximas Experiencias</h2>
       </div>
       <Swiper
         :modules="[Pagination, Navigation, Autoplay]"
         :centeredSlides="true"
         :spaceBetween="30"
-        :loop="true"
         :navigation="true"
         :pagination="true"
         :breakpoints="breakpoints2"
         class="mySwiper"
       >
-        <swiper-slide>
-          <div class="card_slide">
-            <div class="container_icon"></div>
-            <div class="container_info">
-              <div class="info">
-                <h4>Puebla</h4>
-                <h2>$ 1,000 MXN</h2>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                  architecto ut tenetur, commodi laborum odio.
-                </p>
-              </div>
-              <div class="container_buttons">
-                <NuxtLink to="#">Más Información</NuxtLink>
-              </div>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card_slide">
-            <div class="container_icon"></div>
-            <div class="container_info">
-              <div class="info">
-                <h4>Puebla</h4>
-                <h2>$ 1,000 MXN</h2>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                  architecto ut tenetur, commodi laborum odio.
-                </p>
-              </div>
-              <div class="container_buttons">
-                <NuxtLink to="#">Más Información</NuxtLink>
-              </div>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card_slide">
-            <div class="container_icon"></div>
-            <div class="container_info">
-              <div class="info">
-                <h4>Puebla</h4>
-                <h2>$ 1,000 MXN</h2>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                  architecto ut tenetur, commodi laborum odio.
-                </p>
-              </div>
-              <div class="container_buttons">
-                <NuxtLink to="#">Más Información</NuxtLink>
-              </div>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card_slide">
-            <div class="container_icon"></div>
-            <div class="container_info">
-              <div class="info">
-                <h4>Puebla</h4>
-                <h2>$ 1,000 MXN</h2>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                  architecto ut tenetur, commodi laborum odio.
-                </p>
-              </div>
-              <div class="container_buttons">
-                <button>Más Información</button>
-              </div>
-            </div>
-          </div>
+        <swiper-slide v-for="evento in dataEventos" :key="evento.id">
+          <NuxtLink :to="`/experiencias/${evento.slug}`" class="card_slide">
+            <img :src="evento.flyer" alt="" loading="lazy" />
+          </NuxtLink>
         </swiper-slide>
       </Swiper>
     </section>
@@ -144,11 +76,39 @@
           </div>
         </div>
       </div>
+      <div class="containerHistory">
+        <div class="container_imgHistory">
+          <img src="~/assets/gallery/7.jpg" alt="" />
+        </div>
+        <div class="container_textHistory">
+          <h2 class="text_color_principal">Nuestro Surgir</h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
+            itaque at minima labore atque esse aliquid, provident suscipit.
+            Tempore, quod!<br /><br />
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
+            aliquam repellendus molestias maxime magni, iste sunt odit quis, non
+            exercitationem et iusto assumenda. Eaque, voluptatum nobis totam
+            consequatur ullam voluptas?
+            <br /><br />
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
+            accusantium ab vitae. Sunt quae consectetur hic mollitia incidunt
+            dolor alias tempore officiis illum maiores, corporis iure tempora
+            facere reprehenderit quo sint fuga dolores aliquam. Voluptas
+            veritatis dolore animi accusantium quidem.
+          </p>
+        </div>
+      </div>
     </section>
     <section id="Testimonios">
       <div class="container_titulos" id="Eventos-Privados">
-        <h2 class="titulo text_color_principal">¿Una sesión privada?</h2>
-        <button>Saber Más</button>
+        <h2 class="titulo text_color_principal">¿Una Experiencia Privada?</h2>
+        <a
+          style="text-align: center"
+          href="https://wa.me/521234567890?text=Hola!, Me gustaría saber más acerca de una Experiencia Privada!"
+          target="_blank"
+          >Saber Más</a
+        >
       </div>
       <h2 class="titulo text_color_principal">Testimonios</h2>
       <hr class="bg_color_secundario" />
@@ -156,7 +116,7 @@
         :modules="[Pagination, Navigation]"
         :grabCursor="true"
         :loop="true"
-        :spaceBetween="30"
+        :spaceBetween="10"
         :autoplay="{
           delay: 2500,
           disableOnInteraction: false,
@@ -274,6 +234,8 @@ useHead({
   ],
 });
 
+const { dataEventos } = useApiEventos();
+
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 
@@ -331,7 +293,7 @@ section {
   text-align: center;
   font-size: 18px;
   background: #fff;
-  height: 60dvh;
+  height: 80dvh;
   /* Center slide text vertically */
   display: flex;
 }
@@ -349,36 +311,17 @@ section {
 .card_slide {
   width: 100%;
   height: 100% !important;
+  padding: 2%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: #fcf7f3;
   transition: all 0.3s linear !important;
 }
-.swiper-slide-active .card_slide {
-  background: #f4f5fb !important;
-}
-.swiper-slide .card_slide .info h4,
-.swiper-slide .card_slide .info p,
-.swiper-slide .card_slide .info h2 {
-  color: #b47f4a;
-}
-
-.card_slide .container_icon {
-  height: 17%;
-  background-image: url("/assets/corazon.svg");
-  background-size: contain;
-  background-origin: content-box;
-  background-repeat: repeat-x;
-  mask-image: linear-gradient(black 50%, transparent);
-}
-.card_slide .container_info {
-  width: 80%;
-  height: 80%;
-  margin: 0 auto;
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  gap: 2rem;
+.card_slide img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
 }
 
 .info,
@@ -601,6 +544,31 @@ section {
   text-align: left;
 }
 
+.containerHistory {
+  margin: 5% 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.container_imgHistory {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container_imgHistory img {
+  width: 20rem;
+  border-radius: 10px;
+}
+.container_textHistory {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.container_textHistory h2 {
+  font-size: 2rem;
+}
 @media screen and (max-width: 600px) {
   .card_slide_testimonio {
     display: flex;
@@ -610,6 +578,11 @@ section {
     width: 20dvw !important;
     right: 7rem !important;
     bottom: -1.8rem !important;
+  }
+  .containerHistory {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 }
 </style>

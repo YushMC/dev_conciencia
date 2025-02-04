@@ -1,5 +1,28 @@
 <template>
-  <div ref="mapRef" class="map"></div>
+  <gmp-map
+    class="map"
+    :center="`${props.lat},${props.lng}`"
+    map-id="DEMO_MAP_ID"
+    zoom="15"
+  >
+    <gmp-advanced-marker
+      :position="`${props.lat},${props.lng}`"
+      :title="'Ubicación'"
+    ></gmp-advanced-marker>
+  </gmp-map>
+  <!-- 
+  <gmp-map
+    :center="(props.lat, props.lng)"
+    zoom="4"
+    map-id="conciencia"
+    style="height: 400px"
+  >
+    <gmp-advanced-marker
+      :position="(props.lat, props.lng)"
+      :title="'Ubicación'"
+    ></gmp-advanced-marker>
+  </gmp-map>
+  -->
 </template>
 
 <script setup lang="ts">
@@ -11,11 +34,16 @@ const props = defineProps<{
   lng: number;
 }>();
 
+console.log(props.lat);
+console.log(props.lng);
+
 const mapRef = ref<HTMLElement | null>(null);
 const mapInstance = ref<google.maps.Map | null>(null);
 const markerInstance = ref<google.maps.marker.AdvancedMarkerElement | null>(
   null
 );
+
+const pinElement = ref<google.maps.marker.PinElementOptions | null>(null);
 
 const apiKey = "AIzaSyBXlZOHNHJnCUeoKZJorZMWpS2_mBK6H60"; // Reemplázala con tu API Key
 
@@ -28,19 +56,9 @@ onMounted(async () => {
   await loader.importLibrary("maps");
   await loader.importLibrary("marker");
 
-  if (mapRef.value) {
-    mapInstance.value = new google.maps.Map(mapRef.value, {
-      center: { lat: props.lat, lng: props.lng },
-      zoom: 12,
-      mapId: "DEMO_MAP_ID", // Puedes generar uno en Google Cloud Console
-    });
+  if (!mapRef.value) return;
 
-    markerInstance.value = new google.maps.marker.AdvancedMarkerElement({
-      position: { lat: props.lat, lng: props.lng },
-      map: mapInstance.value,
-      title: "Ubicación seleccionada",
-    });
-  }
+  const { lat, lng } = props;
 });
 
 // 🔄 Si cambian las coordenadas, actualiza el mapa y marcador
@@ -59,6 +77,6 @@ watch(
 <style scoped>
 .map {
   width: 100%;
-  height: 50dvh;
+  height: 70dvh;
 }
 </style>
