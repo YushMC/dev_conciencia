@@ -135,7 +135,6 @@ const fetchEventosUser = async () => {
 
   watchEffect(() => {
     if (error.value) {
-      console.error(error.value);
       Swal.fire({
         icon: "error",
         title: "Ocurrió un error: ",
@@ -147,7 +146,6 @@ const fetchEventosUser = async () => {
         icon: "success",
         title: "Datos encontrados: ",
       });
-      console.log("Datos encontrados: " + data.value);
     }
   });
 };

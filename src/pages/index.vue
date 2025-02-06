@@ -205,6 +205,10 @@
 <script lang="ts" setup>
 import { useHead } from "unhead";
 
+const { isResponsiveMenu } = useMainHeader();
+
+isResponsiveMenu.value = false;
+
 useHead({
   title: "Inicio",
   meta: [

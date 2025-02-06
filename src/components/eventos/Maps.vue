@@ -1,82 +1,88 @@
 <template>
-  <gmp-map
-    class="map"
-    :center="`${props.lat},${props.lng}`"
-    map-id="DEMO_MAP_ID"
-    zoom="15"
-  >
-    <gmp-advanced-marker
-      :position="`${props.lat},${props.lng}`"
-      :title="'Ubicación'"
-    ></gmp-advanced-marker>
-  </gmp-map>
-  <!-- 
-  <gmp-map
-    :center="(props.lat, props.lng)"
-    zoom="4"
-    map-id="conciencia"
-    style="height: 400px"
-  >
-    <gmp-advanced-marker
-      :position="(props.lat, props.lng)"
-      :title="'Ubicación'"
-    ></gmp-advanced-marker>
-  </gmp-map>
-  -->
+  <ClientOnly v-if="isLoadMap">
+    <gmp-map
+      class="map"
+      :center="center"
+      map-id="DEMO_MAP_ID"
+      :zoom="zoom"
+      load="lazy"
+    >
+      <gmp-advanced-marker
+        :position="position"
+        title="Ubicación"
+      ></gmp-advanced-marker>
+    </gmp-map>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, defineProps } from "vue";
 import { Loader } from "@googlemaps/js-api-loader";
+
+const isLoadMap = ref(false);
+const zoom = ref<number>(15);
 
 const props = defineProps<{
   lat: number;
   lng: number;
 }>();
 
-console.log(props.lat);
-console.log(props.lng);
-
-const mapRef = ref<HTMLElement | null>(null);
-const mapInstance = ref<google.maps.Map | null>(null);
-const markerInstance = ref<google.maps.marker.AdvancedMarkerElement | null>(
-  null
+// ✅ Asegurar que lat y lng sean números válidos
+const safeLat = computed(() =>
+  typeof props.lat === "number" && !isNaN(props.lat) ? props.lat : null
+);
+const safeLng = computed(() =>
+  typeof props.lng === "number" && !isNaN(props.lng) ? props.lng : null
 );
 
-const pinElement = ref<google.maps.marker.PinElementOptions | null>(null);
-
-const apiKey = "AIzaSyBXlZOHNHJnCUeoKZJorZMWpS2_mBK6H60"; // Reemplázala con tu API Key
-
-onMounted(async () => {
-  const loader = new Loader({
-    apiKey,
-    version: "beta", // Es necesario usar "beta" para AdvancedMarkerElement
-  });
-
-  await loader.importLibrary("maps");
-  await loader.importLibrary("marker");
-
-  if (!mapRef.value) return;
-
-  const { lat, lng } = props;
+// ✅ Evitar que el mapa se renderice antes de que Google Maps esté cargado
+const center = computed(() => {
+  return isLoadMap.value && safeLat.value !== null && safeLng.value !== null
+    ? { lat: safeLat.value, lng: safeLng.value }
+    : null;
 });
 
-// 🔄 Si cambian las coordenadas, actualiza el mapa y marcador
-watch(
-  () => [props.lat, props.lng],
-  ([newLat, newLng]) => {
-    if (mapInstance.value && markerInstance.value) {
-      const newPosition = new google.maps.LatLng(newLat, newLng);
-      mapInstance.value.setCenter(newPosition);
-      markerInstance.value.position = newPosition;
-    }
+// ✅ Evitar error al crear google.maps.LatLng
+const position = computed(() => {
+  if (!isLoadMap.value || safeLat.value === null || safeLng.value === null)
+    return null;
+  return new globalThis.google.maps.LatLng(safeLat.value, safeLng.value);
+});
+
+const loadGoogleMaps = async () => {
+  try {
+    if (!process.client) return; // 🚀 Solo ejecutar en el cliente
+
+    const apiKey = "AIzaSyBXlZOHNHJnCUeoKZJorZMWpS2_mBK6H60"; // Usa variables de entorno para la API Key
+
+    const loader = new Loader({
+      apiKey,
+      version: "beta",
+    });
+
+    await loader.load();
+    await loader.importLibrary("maps");
+    await loader.importLibrary("marker");
+
+    isLoadMap.value = true;
+  } catch (error) {
+    console.error("Error al cargar Google Maps:", error);
   }
-);
+};
+
+onMounted(() => {
+  loadGoogleMaps();
+});
+
+onUnmounted(() => {
+  isLoadMap.value = false;
+});
 </script>
 
 <style scoped>
 .map {
   width: 100%;
   height: 70dvh;
+  content-visibility: auto;
 }
 </style>

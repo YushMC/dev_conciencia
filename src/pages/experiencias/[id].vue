@@ -78,7 +78,6 @@
           <option value="1">
             ${{ experiencia?.single_price }} por 1 persona.
           </option>
-          <!-- 
           <option
             v-if="experiencia?.promo_price && experiencia?.persons_promo"
             value="2"
@@ -86,7 +85,6 @@
             Promoción: ${{ experiencia?.promo_price }} por
             {{ experiencia?.persons_promo }} personas!
           </option>
-          -->
         </select>
         <div>
           <h5>Fecha</h5>
@@ -114,7 +112,14 @@
               class="content_map"
               v-if="experiencia?.id_experience_status !== 3"
             >
-              <EventosMaps :lat="experiencia?.lat" :lng="experiencia?.lng">
+              <EventosMaps
+                v-if="
+                  experiencia?.lat !== undefined &&
+                  experiencia?.lng !== undefined
+                "
+                :lat="experiencia?.lat"
+                :lng="experiencia?.lng"
+              >
               </EventosMaps>
             </div>
           </section>
@@ -436,6 +441,10 @@ const { searchMeditator, dataMeditator, resetDataMeditator } =
   useApiFindByPhone();
 const { fetchReserve } = useReservations();
 
+const { isResponsiveMenu } = useMainHeader();
+
+isResponsiveMenu.value = false;
+
 const route = useRoute();
 const router = useRouter();
 const eventoId = route.params.id as string;
@@ -463,10 +472,16 @@ const isEfectivo = ref(false);
 
 const toggleModal = () => {
   //showModalReserva.value = !showModalReserva.value;
-  window.open(
-    "https://wa.me/521234567890?text=Hola, me gustaría saber más sobre la experiencia: " +
-      experiencia?.value?.description
-  );
+
+  if (selectedPrice.value == 2) {
+    window.open(
+      `https://wa.me/${experiencia?.value?.phone}?text=Hola, me gustaría saber más sobre la experiencia: ${experiencia?.value?.description} con la promoción para ${experiencia?.value?.persons_promo} personas.`
+    );
+  } else {
+    window.open(
+      `https://wa.me/${experiencia?.value?.phone}?text=Hola, me gustaría saber más sobre la experiencia: ${experiencia?.value?.description}`
+    );
+  }
 };
 
 const isNewUser = ref(false);
@@ -571,7 +586,7 @@ watchEffect(() => {
 });
 
 useHead({
-  title: experiencia.value.description,
+  title: experiencia?.value?.description,
   meta: [
     {
       name: "description",
@@ -579,7 +594,7 @@ useHead({
     },
     {
       property: "og:title",
-      content: experiencia.value.description + " - Conciencia del Ser Divino",
+      content: experiencia?.value?.description + " - Conciencia del Ser Divino",
     },
     {
       property: "og:description",

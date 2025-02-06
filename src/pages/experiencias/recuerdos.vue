@@ -2,19 +2,19 @@
   <main class="estructura">
     <h1>Nuestros Recuerdos</h1>
     <div class="container_images">
-      <img src="~/assets/gallery/1.jpg" alt="" />
-      <img src="~/assets/gallery/2.jpg" alt="" />
-      <img src="~/assets/gallery/3.jpg" alt="" />
-      <img src="~/assets/gallery/4.jpg" alt="" />
-      <img src="~/assets/gallery/5.jpg" alt="" />
+      <img src="~/assets/gallery/1.jpg" alt="" load="lazy" />
+      <img src="~/assets/gallery/2.jpg" alt="" load="lazy" />
+      <img src="~/assets/gallery/3.jpg" alt="" load="lazy" />
+      <img src="~/assets/gallery/4.jpg" alt="" load="lazy" />
+      <img src="~/assets/gallery/5.jpg" alt="" load="lazy" />
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-// Guardamos el índice de la imagen clickeada
-const activeIndex = ref<number | null>(null);
+const { isResponsiveMenu } = useMainHeader();
+
+isResponsiveMenu.value = false;
 </script>
 
 <style scoped>

@@ -11,6 +11,7 @@
     "deploy": "npm run generate && gh-pages -d dist"
   },
   "dependencies": {
+    "@fawmi/vue-google-maps": "^0.9.79",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",

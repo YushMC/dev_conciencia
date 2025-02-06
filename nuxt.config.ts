@@ -74,15 +74,17 @@ export default defineNuxtConfig({
     pageTransition: { name: "blur", mode: "out-in" },
     layoutTransition: { name: "opacity", mode: "out-in" },
   },
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag.startsWith("gmp-"), // Ignorar los elementos de Google Maps
+    },
+  },
   routeRules: {
     "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /cuenta
   },
-  /*
   nitro: {
     prerender: {
-      routes: await fetch(
-        "http://192.168.1.3/conciencia-api/public/api/experiences"
-      )
+      routes: await fetch(process.env.API_URL + "/experiences")
         .then((res) => res.json())
         .then((data) =>
           data.experiences.map(
@@ -91,7 +93,6 @@ export default defineNuxtConfig({
         ),
     },
   },
-  */
   runtimeConfig: {
     apiUrl: process.env.API_URL, // Solo en el servidor
     public: {

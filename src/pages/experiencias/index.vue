@@ -36,6 +36,9 @@ import { onMounted, onBeforeMount } from "vue";
 
 const { dataEventos } = useApiEventos();
 
+const { isResponsiveMenu } = useMainHeader();
+
+isResponsiveMenu.value = false;
 onMounted(() => {
   useHead({
     title: "Experiencias",
@@ -112,9 +115,6 @@ onMounted(() => {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-}
-.cargando {
-  height: 40dvh;
 }
 
 article {

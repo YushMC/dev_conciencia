@@ -91,7 +91,7 @@ const route = useRoute();
 const { meditator } = useInfoUser();
 
 const isChecked = ref(false);
-const isResponsiveMenu = ref(false);
+const { isResponsiveMenu } = useMainHeader();
 
 const toggleMenu = () => {
   isResponsiveMenu.value = !isResponsiveMenu.value;

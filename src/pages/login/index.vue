@@ -443,7 +443,6 @@ onBeforeMount(() => {
   //if (decodedToken.value) return router.push("/cuenta");
 
   searchStates();
-  console.log(statesData.value);
 });
 </script>
 

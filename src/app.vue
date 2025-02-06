@@ -397,4 +397,7 @@ details.seccion_ajustes .container_imagen label {
   cursor: pointer;
   transition: all 0.3s linear;
 }
+.cargando {
+  height: 40dvh;
+}
 </style>
