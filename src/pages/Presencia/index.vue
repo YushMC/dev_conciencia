@@ -215,7 +215,7 @@ main {
   width: 60%;
 }
 .container_contacto .container_info:nth-child(4) {
-  width: 30% !important;
+  width: 30% ;
 }
 
 .container_contacto .container_info:first-child ul,
@@ -247,5 +247,13 @@ ul {
 }
 hr {
   opacity: 0.5;
+}
+@media screen and (max-width:600px) {
+  .container_info,
+  .container_contacto .container_info:first-child,
+  .container_contacto .container_info:nth-child(4)
+  {
+    width: 100%;
+  }
 }
 </style>

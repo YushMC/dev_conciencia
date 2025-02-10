@@ -380,9 +380,6 @@ nav {
   nav.active {
     transform: translateX(0px);
   }
-  nav.active_submenu {
-    width: 100%;
-  }
   .container_menus {
     width: 100%;
     flex-direction: column;
@@ -490,6 +487,14 @@ nav {
     color: #fff;
   }
   label.active > a {
+    color: #fff;
+  }
+
+
+  .top .container_header nav .menu > label {
+    color: #b47f4a;
+  }
+  .top .container_header nav .menu > label.active{
     color: #fff;
   }
 }

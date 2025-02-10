@@ -200,7 +200,7 @@ article .container_flayer {
   }
   article {
     width: 100%;
-    height: 80dvh;
+    height: fit-content;
   }
   article .container_flayer {
     width: 100%;
