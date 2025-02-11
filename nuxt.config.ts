@@ -84,7 +84,9 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      routes: await fetch(process.env.API_URL + "/experiences")
+      routes: await fetch(
+        "https://api.concienciadelserdivino.com.mx/api/experiences"
+      )
         .then((res) => res.json())
         .then((data) =>
           data.experiences.map(

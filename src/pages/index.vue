@@ -8,11 +8,15 @@
       </div>
       <Swiper
         :modules="[Pagination, Navigation, Autoplay]"
-        :centeredSlides="true"
-        :spaceBetween="30"
+        :loop="true"
+        :spaceBetween="10"
+        :autoplay="{
+          delay: 2500,
+          disableOnInteraction: false,
+        }"
         :navigation="true"
         :pagination="true"
-        :breakpoints="breakpoints2"
+        :breakpoints="breakpoints"
         class="mySwiper"
       >
         <swiper-slide v-for="evento in dataEventos" :key="evento.id">
@@ -271,7 +275,7 @@ const breakpoints2 = {
   },
   1200: {
     slidesPerView: 3,
-    spaceBetween: 40,
+    spaceBetween: 20,
   },
 };
 </script>
@@ -297,9 +301,9 @@ section {
   text-align: center;
   font-size: 18px;
   background: #fff;
-  height: 80dvh;
   /* Center slide text vertically */
   display: flex;
+  height: fit-content !important;
 }
 .swiper-pagination {
   position: relative !important;
@@ -461,16 +465,8 @@ section {
   .mail:hover::before {
     transform: rotate(180deg) scaleX(3.1) scaleY(1.5) translateY(90px);
   }
+}
 
-  .swiper-slide {
-    height: 80dvh !important;
-  }
-}
-@media screen and (max-width: 1280px) {
-  .swiper-slide {
-    height: 60dvh !important;
-  }
-}
 @media screen and (max-width: 900px) {
   .mail {
     width: 35dvw;

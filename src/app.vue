@@ -56,6 +56,12 @@ body {
   display: flex;
   flex-direction: column;
 }
+#_nuxt {
+  min-height: 100% !important;
+}
+.container_body {
+  min-height: 100dvh !important;
+}
 a {
   text-decoration: none;
   color: #b47f4a;

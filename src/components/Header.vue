@@ -13,11 +13,10 @@
             <div class="menu">
               <NuxtLink to="/#Nuestra-Escencia">Nuestra Escencia</NuxtLink>
             </div>
-            <!-- 
-          <div class="menu">
-            <NuxtLink to="/#Nuestra-Precencia">Nuestra Presencia</NuxtLink>
-          </div>
-          
+            <div class="menu">
+              <NuxtLink to="/Presencia">Nuestra Presencia</NuxtLink>
+            </div>
+            <!--
           <div class="menu">
             <NuxtLink to="#Nuestra-Historia">Nuestra Historia</NuxtLink>
           </div>
@@ -25,14 +24,19 @@
             <div class="menu">
               <input type="checkbox" id="subMenu" v-model="isChecked" />
 
-              <label for="subMenu" :class="{ active: isChecked }">
-                <NuxtLink to="/experiencias" active-class="active"
-                  >Experiencias</NuxtLink
-                >
+              <label
+                for="subMenu"
+                :class="{ active: isChecked }"
+                style="cursor: pointer"
+              >
+                Experiencias
                 <span v-if="isChecked"> &#9650;</span>
                 <span v-else> &#9660;</span>
               </label>
               <div class="submenu">
+                <NuxtLink to="/experiencias/proximas-experiencias">
+                  Próximas Experiencias
+                </NuxtLink>
                 <a
                   href="https://wa.me/521234567890?text=Hola!, Me gustaría saber más acerca de una Experiencia Privada!"
                   target="_blank"
@@ -176,6 +180,10 @@ header {
 .down {
   background: #f8f3ee75;
   backdrop-filter: blur(10px);
+}
+
+.top .menu label {
+  color: #fff;
 }
 
 .container_header {
