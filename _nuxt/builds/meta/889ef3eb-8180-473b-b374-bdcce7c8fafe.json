@@ -1,0 +1,1 @@
+{"id":"889ef3eb-8180-473b-b374-bdcce7c8fafe","timestamp":1739552428945,"matcher":{"static":{},"wildcard":{"/cuenta":{"appMiddleware":{"auth":true}}},"dynamic":{}},"prerendered":["/","/experiencias","/experiencias/recuerdos","/login","/experiencias/proximas-experiencias","/Presencia","/cuenta"]}

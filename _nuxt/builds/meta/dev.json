@@ -1,1 +1,0 @@
-{"id":"dev","timestamp":1737763391950,"matcher":{"static":{},"wildcard":{"/cuenta":{"appMiddleware":{"auth":true}}},"dynamic":{}},"prerendered":[]}
