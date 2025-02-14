@@ -55,7 +55,7 @@ definePageMeta({
   layout: "accounts", // Nombre del layout que deseas usar
 });
 import { useHead } from "unhead";
-
+definePageMeta({ prerender: false }); // Se renderiza en cada solicitud
 useHead({
   title: "Cuenta",
 });

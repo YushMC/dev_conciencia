@@ -6,25 +6,27 @@
       <div class="container_titulos">
         <h2 class="titulo text_color_principal">Próximas Experiencias</h2>
       </div>
-      <Swiper
-        :modules="[Pagination, Navigation, Autoplay]"
-        :loop="true"
-        :spaceBetween="10"
-        :autoplay="{
-          delay: 2500,
-          disableOnInteraction: false,
-        }"
-        :navigation="true"
-        :pagination="true"
-        :breakpoints="breakpoints"
-        class="mySwiper"
-      >
-        <swiper-slide v-for="evento in dataEventos" :key="evento.id">
-          <NuxtLink :to="`/experiencias/${evento.slug}`" class="card_slide">
-            <img :src="evento.flyer" alt="" loading="lazy" />
-          </NuxtLink>
-        </swiper-slide>
-      </Swiper>
+      <ClientOnly>
+        <Swiper
+          :modules="[Pagination, Navigation, Autoplay]"
+          :loop="true"
+          :spaceBetween="10"
+          :autoplay="{
+            delay: 2500,
+            disableOnInteraction: false,
+          }"
+          :navigation="true"
+          :pagination="true"
+          :breakpoints="breakpoints"
+          class="mySwiper"
+        >
+          <swiper-slide v-for="evento in dataEventos" :key="evento.id">
+            <NuxtLink :to="`/experiencias/${evento.slug}`" class="card_slide">
+              <img :src="evento.flyer" alt="" loading="lazy" />
+            </NuxtLink>
+          </swiper-slide>
+        </Swiper>
+      </ClientOnly>
     </section>
     <section class="bg_color_principal" id="Nuestra-Escencia">
       <h2 class="titulo text_color_secundario">Nuestra Escencia</h2>
@@ -116,99 +118,101 @@
       </div>
       <h2 class="titulo text_color_principal">Testimonios</h2>
       <hr class="bg_color_secundario" />
-      <Swiper
-        :modules="[Pagination, Navigation]"
-        :grabCursor="true"
-        :loop="true"
-        :spaceBetween="10"
-        :autoplay="{
-          delay: 2500,
-          disableOnInteraction: false,
-        }"
-        :navigation="true"
-        :pagination="true"
-        :breakpoints="breakpoints"
-        class="mySwiper"
-      >
-        <swiper-slide>
-          <div class="card_slide_testimonio">
-            <div class="container_img">
-              <img src="/assets/img_profiles/1.jpg" alt="" />
-              <div class="container_icon_video">
-                <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+      <ClientOnly>
+        <Swiper
+          :modules="[Pagination, Navigation]"
+          :grabCursor="true"
+          :loop="true"
+          :spaceBetween="10"
+          :autoplay="{
+            delay: 2500,
+            disableOnInteraction: false,
+          }"
+          :navigation="true"
+          :pagination="true"
+          :breakpoints="breakpoints"
+          class="mySwiper"
+        >
+          <swiper-slide>
+            <div class="card_slide_testimonio">
+              <div class="container_img">
+                <img src="/assets/img_profiles/1.jpg" alt="" />
+                <div class="container_icon_video">
+                  <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+                </div>
+              </div>
+              <div class="container_testimonio">
+                <h3><b>Nombre</b></h3>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Repellat magni, quod non quasi dignissimos magnam tempora quam
+                  minus illum dolores.
+                </p>
               </div>
             </div>
-            <div class="container_testimonio">
-              <h3><b>Nombre</b></h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat magni, quod non quasi dignissimos magnam tempora quam
-                minus illum dolores.
-              </p>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card_slide_testimonio">
-            <div class="container_img">
-              <img src="/assets/img_profiles/2.jpg" alt="" />
-              <div class="container_icon_video">
-                <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+          </swiper-slide>
+          <swiper-slide>
+            <div class="card_slide_testimonio">
+              <div class="container_img">
+                <img src="/assets/img_profiles/2.jpg" alt="" />
+                <div class="container_icon_video">
+                  <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+                </div>
+              </div>
+              <div class="container_testimonio">
+                <h3><b>Nombre</b></h3>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Repellat magni, quod non quasi dignissimos magnam tempora quam
+                  minus illum dolores.
+                </p>
               </div>
             </div>
-            <div class="container_testimonio">
-              <h3><b>Nombre</b></h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat magni, quod non quasi dignissimos magnam tempora quam
-                minus illum dolores.
-              </p>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card_slide_testimonio">
-            <div class="container_img">
-              <img src="/assets/img_profiles/3.jpg" alt="" />
-              <div class="container_icon_video">
-                <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+          </swiper-slide>
+          <swiper-slide>
+            <div class="card_slide_testimonio">
+              <div class="container_img">
+                <img src="/assets/img_profiles/3.jpg" alt="" />
+                <div class="container_icon_video">
+                  <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+                </div>
+              </div>
+              <div class="container_testimonio">
+                <h3><b>Nombre</b></h3>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Repellat magni, quod non quasi dignissimos magnam tempora quam
+                  minus illum dolores.
+                </p>
               </div>
             </div>
-            <div class="container_testimonio">
-              <h3><b>Nombre</b></h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat magni, quod non quasi dignissimos magnam tempora quam
-                minus illum dolores.
-              </p>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card_slide_testimonio">
-            <div class="container_img">
-              <img src="/assets/img_profiles/4.jpg" alt="" />
-              <div class="container_icon_video">
-                <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+          </swiper-slide>
+          <swiper-slide>
+            <div class="card_slide_testimonio">
+              <div class="container_img">
+                <img src="/assets/img_profiles/4.jpg" alt="" />
+                <div class="container_icon_video">
+                  <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+                </div>
+              </div>
+              <div class="container_testimonio">
+                <h3><b>Nombre</b></h3>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Repellat magni, quod non quasi dignissimos magnam tempora quam
+                  minus illum dolores.
+                </p>
               </div>
             </div>
-            <div class="container_testimonio">
-              <h3><b>Nombre</b></h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat magni, quod non quasi dignissimos magnam tempora quam
-                minus illum dolores.
-              </p>
-            </div>
-          </div>
-        </swiper-slide>
-      </Swiper>
+          </swiper-slide>
+        </Swiper>
+      </ClientOnly>
     </section>
   </div>
 </template>
 <script lang="ts" setup>
 import { useHead } from "unhead";
-
+definePageMeta({ prerender: false }); // Se renderiza en cada solicitud
 const { isResponsiveMenu } = useMainHeader();
 
 isResponsiveMenu.value = false;

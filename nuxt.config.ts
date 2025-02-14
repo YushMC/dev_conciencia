@@ -65,6 +65,7 @@ export default defineNuxtConfig({
   routeRules: {
     "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /cuenta
   },
+  /*
   nitro: {
     preset: "node", // Asegura que se ejecute en un servidor Node.js
   },

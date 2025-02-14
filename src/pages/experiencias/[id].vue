@@ -429,6 +429,7 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ prerender: false }); // Se renderiza en cada solicitud
 import { useHead } from "unhead";
 import { ref, onMounted, watchEffect, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";

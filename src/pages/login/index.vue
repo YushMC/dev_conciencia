@@ -1,217 +1,220 @@
 <template>
-  <main class="container_login">
-    <section id="content_info">
-      <picture @click="router.push('/')" style="cursor: pointer">
-        <img src="/assets/logo_without_bg.png" alt="" />
-      </picture>
-      <h2>
-        <span v-if="!isActiveSignUp">Bienvenido de vuelta!</span
-        ><span v-else>Bienvenido a Conciencia del Ser Divino!</span>
-      </h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi,
-        aliquid.
-      </p>
-      <h5 style="margin: 2% 0; opacity: 0.5" v-if="!isActiveSignUp">
-        Si no tienes cuenta, registrate!
-      </h5>
-      <button @click="toggleSignUp" class="signUp">
-        <span v-if="!isActiveSignUp">Crear Cuenta</span>
-        <span v-else>Iniciar Sesión</span>
-      </button>
-    </section>
-    <div class="container_form">
-      <form
-        action=""
-        id="signUp"
-        :class="{ active: isActiveSignUp }"
-        :style="{ paddingTop: paddingSignUp }"
-      >
-        <h4>Crear Cuenta</h4>
-        <div class="container_input">
-          <input
-            type="text"
-            id="name"
-            v-model="meditator.name"
-            placeholder="Ingresa tu Nombre"
-          />
-
-          <label for="name"> Nombre </label>
-        </div>
-        <div class="container_input">
-          <input
-            type="email"
-            id="correo"
-            v-model="meditator.email"
-            placeholder="Ingresa tu Correo Electrónico"
-          />
-          <label for="correo"> Correo Electrónico </label>
-        </div>
-        <div class="container_input">
-          <input
-            type="text"
-            id="tel"
-            v-model="meditator.phone"
-            placeholder="Ingresa un Número Telefónico"
-          />
-          <label for="tel"> Teléfono </label>
-        </div>
-        <div class="container_input">
-          <div class="container_imagen">
-            <div id="container_buttos_file">
-              <label for="">Imagen de Perfil</label>
-              <button
-                @click.prevent="triggerFileInput"
-                id="selector_archivo"
-                :class="{ loaded: isLoadedFile }"
-              >
-                {{ fileName || "Seleccionar archivo" }}
-              </button>
-              <input
-                type="file"
-                accept="image/*"
-                @change="onImageChange"
-                ref="fileInput"
-                style="display: none"
-              />
-
-              <button
-                @click.prevent="triggerFileInput"
-                v-if="imagePreview"
-                id="cambiar"
-              >
-                Cambiar archivo
-              </button>
-              <button
-                @click.prevent="removeImage"
-                v-if="imagePreview"
-                id="eliminar"
-              >
-                Cancelar
-              </button>
-            </div>
-
-            <!-- Imagen de previsualización -->
-            <div v-if="imagePreview" id="previewImg">
-              <h5>Vista Previa:</h5>
-              <img :src="imagePreview" alt="Previsualización de la imagen" />
-            </div>
-          </div>
-          <label for="" style="margin-top: 2%">Foto de Perfil</label>
-        </div>
-        <div v-if="isloadingState">Cargando</div>
-        <div class="container_input" v-else>
-          <select v-model="meditator.state">
-            <option
-              :value="state.id"
-              v-for="state in statesData"
-              :key="state.id"
-            >
-              {{ state.name }}
-            </option>
-          </select>
-          <label for="">Estado:</label>
-        </div>
-        <div class="container_input">
-          <select v-model="meditator.city">
-            <option value="Guadalajara">Guadalajara</option>
-          </select>
-          <label for="">Ciudad:</label>
-        </div>
-        <label for="" style="text-align: left">Fecha de Nacimiento</label>
-        <div class="container_input">
-          <input
-            type="date"
-            id="date"
-            v-model="meditator.birthdate"
-            placeholder=""
-          />
-          <label for="date"> Fecha de Nacimiento </label>
-        </div>
-        <div class="container_input">
-          <h6 style="color: red; margin-top: 1%">
-            <span v-if="isShortContra"
-              >La contraseña debe tener al menos 6 caracteres.</span
-            >
-          </h6>
-          <input
-            :type="isPasswordVisibleCreate ? 'text' : 'password'"
-            id="contra2"
-            v-model="meditator.password"
-            placeholder="Ingresa tu Contraseña"
-            :class="{ error: isErrorContra }"
-            minlength="6"
-            pattern=""
-          />
-          <img
-            :src="isPasswordVisibleCreate ? hiddenIcon : visibleIcon"
-            alt="icono"
-            class="icon_eye"
-            @click="togglePasswordVisibilityCreate"
-          />
-          <label for="contra2">Contraseña</label>
-        </div>
-        <div class="container_input">
-          <h6 style="color: red; margin-top: 1%">
-            <span v-if="isShortContra"
-              >La contraseña debe tener al menos 6 caracteres.</span
-            >
-          </h6>
-          <input
-            :type="isPasswordVisibleCreate2 ? 'text' : 'password'"
-            id="contra3"
-            v-model="contrasena_2"
-            placeholder="Repite tu Contraseña"
-            :class="{ error: isErrorContra }"
-            minlength="6"
-          />
-          <img
-            :src="isPasswordVisibleCreate2 ? hiddenIcon : visibleIcon"
-            alt="icono"
-            class="icon_eye"
-            @click="togglePasswordVisibilityCreate2"
-          />
-          <label for="contra3">Repetir Contraseña</label>
-        </div>
-        <button class="signUp" @click.prevent="validarFormulario">
-          Crear Cuenta
+  <ClientOnly>
+    <main class="container_login">
+      <section id="content_info">
+        <picture @click="router.push('/')" style="cursor: pointer">
+          <img src="/assets/logo_without_bg.png" alt="" />
+        </picture>
+        <h2>
+          <span v-if="!isActiveSignUp">Bienvenido de vuelta!</span
+          ><span v-else>Bienvenido a Conciencia del Ser Divino!</span>
+        </h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi,
+          aliquid.
+        </p>
+        <h5 style="margin: 2% 0; opacity: 0.5" v-if="!isActiveSignUp">
+          Si no tienes cuenta, registrate!
+        </h5>
+        <button @click="toggleSignUp" class="signUp">
+          <span v-if="!isActiveSignUp">Crear Cuenta</span>
+          <span v-else>Iniciar Sesión</span>
         </button>
-      </form>
-      <form action="" id="logIn" :class="{ active: !isActiveSignUp }">
-        <h4>Iniciar Sesión</h4>
-        <div class="container_input">
-          <input
-            type="text"
-            id="user"
-            v-model="meditator.user"
-            placeholder="Ingresa tu Usuario"
-          />
-          <label for="user">Usuario</label>
-        </div>
-        <div class="container_input">
-          <input
-            :type="isPasswordVisible ? 'text' : 'password'"
-            id="contra1"
-            v-model="meditator.password"
-            placeholder="Ingresa tu Contraseña"
-          />
-          <img
-            :src="isPasswordVisible ? hiddenIcon : visibleIcon"
-            alt="icono"
-            class="icon_eye"
-            @click="togglePasswordVisibility"
-          />
-          <label for="contra1">Contraseña</label>
-        </div>
-        <button @click.prevent="login" class="signUp">Entrar</button>
-      </form>
-    </div>
-  </main>
+      </section>
+      <div class="container_form">
+        <form
+          action=""
+          id="signUp"
+          :class="{ active: isActiveSignUp }"
+          :style="{ paddingTop: paddingSignUp }"
+        >
+          <h4>Crear Cuenta</h4>
+          <div class="container_input">
+            <input
+              type="text"
+              id="name"
+              v-model="meditator.name"
+              placeholder="Ingresa tu Nombre"
+            />
+
+            <label for="name"> Nombre </label>
+          </div>
+          <div class="container_input">
+            <input
+              type="email"
+              id="correo"
+              v-model="meditator.email"
+              placeholder="Ingresa tu Correo Electrónico"
+            />
+            <label for="correo"> Correo Electrónico </label>
+          </div>
+          <div class="container_input">
+            <input
+              type="text"
+              id="tel"
+              v-model="meditator.phone"
+              placeholder="Ingresa un Número Telefónico"
+            />
+            <label for="tel"> Teléfono </label>
+          </div>
+          <div class="container_input">
+            <div class="container_imagen">
+              <div id="container_buttos_file">
+                <label for="">Imagen de Perfil</label>
+                <button
+                  @click.prevent="triggerFileInput"
+                  id="selector_archivo"
+                  :class="{ loaded: isLoadedFile }"
+                >
+                  {{ fileName || "Seleccionar archivo" }}
+                </button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  @change="onImageChange"
+                  ref="fileInput"
+                  style="display: none"
+                />
+
+                <button
+                  @click.prevent="triggerFileInput"
+                  v-if="imagePreview"
+                  id="cambiar"
+                >
+                  Cambiar archivo
+                </button>
+                <button
+                  @click.prevent="removeImage"
+                  v-if="imagePreview"
+                  id="eliminar"
+                >
+                  Cancelar
+                </button>
+              </div>
+
+              <!-- Imagen de previsualización -->
+              <div v-if="imagePreview" id="previewImg">
+                <h5>Vista Previa:</h5>
+                <img :src="imagePreview" alt="Previsualización de la imagen" />
+              </div>
+            </div>
+            <label for="" style="margin-top: 2%">Foto de Perfil</label>
+          </div>
+          <div v-if="isloadingState">Cargando</div>
+          <div class="container_input" v-else>
+            <select v-model="meditator.state">
+              <option
+                :value="state.id"
+                v-for="state in statesData"
+                :key="state.id"
+              >
+                {{ state.name }}
+              </option>
+            </select>
+            <label for="">Estado:</label>
+          </div>
+          <div class="container_input">
+            <select v-model="meditator.city">
+              <option value="Guadalajara">Guadalajara</option>
+            </select>
+            <label for="">Ciudad:</label>
+          </div>
+          <label for="" style="text-align: left">Fecha de Nacimiento</label>
+          <div class="container_input">
+            <input
+              type="date"
+              id="date"
+              v-model="meditator.birthdate"
+              placeholder=""
+            />
+            <label for="date"> Fecha de Nacimiento </label>
+          </div>
+          <div class="container_input">
+            <h6 style="color: red; margin-top: 1%">
+              <span v-if="isShortContra"
+                >La contraseña debe tener al menos 6 caracteres.</span
+              >
+            </h6>
+            <input
+              :type="isPasswordVisibleCreate ? 'text' : 'password'"
+              id="contra2"
+              v-model="meditator.password"
+              placeholder="Ingresa tu Contraseña"
+              :class="{ error: isErrorContra }"
+              minlength="6"
+              pattern=""
+            />
+            <img
+              :src="isPasswordVisibleCreate ? hiddenIcon : visibleIcon"
+              alt="icono"
+              class="icon_eye"
+              @click="togglePasswordVisibilityCreate"
+            />
+            <label for="contra2">Contraseña</label>
+          </div>
+          <div class="container_input">
+            <h6 style="color: red; margin-top: 1%">
+              <span v-if="isShortContra"
+                >La contraseña debe tener al menos 6 caracteres.</span
+              >
+            </h6>
+            <input
+              :type="isPasswordVisibleCreate2 ? 'text' : 'password'"
+              id="contra3"
+              v-model="contrasena_2"
+              placeholder="Repite tu Contraseña"
+              :class="{ error: isErrorContra }"
+              minlength="6"
+            />
+            <img
+              :src="isPasswordVisibleCreate2 ? hiddenIcon : visibleIcon"
+              alt="icono"
+              class="icon_eye"
+              @click="togglePasswordVisibilityCreate2"
+            />
+            <label for="contra3">Repetir Contraseña</label>
+          </div>
+          <button class="signUp" @click.prevent="validarFormulario">
+            Crear Cuenta
+          </button>
+        </form>
+        <form action="" id="logIn" :class="{ active: !isActiveSignUp }">
+          <h4>Iniciar Sesión</h4>
+          <div class="container_input">
+            <input
+              type="text"
+              id="user"
+              v-model="meditator.user"
+              placeholder="Ingresa tu Usuario"
+            />
+            <label for="user">Usuario</label>
+          </div>
+          <div class="container_input">
+            <input
+              :type="isPasswordVisible ? 'text' : 'password'"
+              id="contra1"
+              v-model="meditator.password"
+              placeholder="Ingresa tu Contraseña"
+            />
+            <img
+              :src="isPasswordVisible ? hiddenIcon : visibleIcon"
+              alt="icono"
+              class="icon_eye"
+              @click="togglePasswordVisibility"
+            />
+            <label for="contra1">Contraseña</label>
+          </div>
+          <button @click.prevent="login" class="signUp">Entrar</button>
+        </form>
+      </div>
+    </main>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
   layout: "login", // Nombre del layout que deseas usar
+  prerender: true,
 });
 
 import { useHead } from "unhead";

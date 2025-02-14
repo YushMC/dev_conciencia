@@ -179,6 +179,8 @@ import { useHead } from "unhead";
 useHead({
   title: "Nuestra Presencia",
 });
+
+definePageMeta({ prerender: true }); // Se renderiza en cada solicitud
 </script>
 
 <style scoped>

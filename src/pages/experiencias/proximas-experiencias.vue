@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ prerender: false }); // Se renderiza en cada solicitud
 import { useHead } from "unhead";
 import { useRouter } from "vue-router";
 

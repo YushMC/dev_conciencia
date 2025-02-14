@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ prerender: true }); // Se renderiza en cada solicitud
 const { isResponsiveMenu } = useMainHeader();
 
 isResponsiveMenu.value = false;
