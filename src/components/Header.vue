@@ -381,7 +381,7 @@ nav {
     transform: translateX(0px);
   }
   nav.active_submenu {
-    width: 100%;
+    width: 75%;
   }
   .container_menus {
     width: 100%;
@@ -490,6 +490,12 @@ nav {
     color: #fff;
   }
   label.active > a {
+    color: #fff;
+  }
+  .top .menu label {
+    color: #b47f4a;
+  }
+  .top .menu label.active {
     color: #fff;
   }
 }

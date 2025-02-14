@@ -7,13 +7,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  /*
-  vite: {
-    optimizeDeps: {
-      include: ["driver.js"],
-    },
-  },
-  */
   compatibilityDate: "2024-11-01",
   ssr: true, // Asegúrate de que está habilitado
   srcDir: "src/",
@@ -28,16 +21,6 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["store"], // Asegura que los stores en la carpeta `store` se detecten automáticamente
   },
-
-  /*
-  sitemap: {
-    hostname: "https://tu-dominio.com",
-    routes: async () => {
-      // Generar rutas dinámicas, si es necesario.
-      return ["/ruta1", "/ruta2"];
-    },
-  },
-  */
   app: {
     head: {
       htmlAttrs: {
@@ -83,6 +66,10 @@ export default defineNuxtConfig({
     "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /cuenta
   },
   nitro: {
+    preset: "node", // Asegura que se ejecute en un servidor Node.js
+  },
+  /*
+  nitro: {
     prerender: {
       routes: await fetch(
         "https://api.concienciadelserdivino.com.mx/api/experiences"
@@ -95,6 +82,7 @@ export default defineNuxtConfig({
         ),
     },
   },
+  */
   runtimeConfig: {
     apiUrl: process.env.API_URL, // Solo en el servidor
     public: {
