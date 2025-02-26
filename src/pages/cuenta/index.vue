@@ -17,7 +17,7 @@
       <img src="/assets/logo_without_bg.png" alt="" id="logo_conciencia" />
     </div>
 
-    <div class="container_sections" v-if="false">
+    <div class="container_sections">
       <section>
         <aside class="container_form">
           <h3 class="category">Agenda</h3>

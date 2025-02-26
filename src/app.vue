@@ -47,7 +47,6 @@ onBeforeMount(async () => {
   margin: 0;
   box-sizing: border-box;
   user-select: none;
-  position: relative;
   min-width: 0;
 }
 body {

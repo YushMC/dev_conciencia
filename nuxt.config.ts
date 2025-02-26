@@ -7,13 +7,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  /*
-  vite: {
-    optimizeDeps: {
-      include: ["driver.js"],
-    },
-  },
-  */
   compatibilityDate: "2024-11-01",
   ssr: true, // Asegúrate de que está habilitado
   srcDir: "src/",
@@ -23,7 +16,8 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   // plugins: ["~/plugins/driver.js"],
   plugins: [
-    "~/plugins/sweetalert2.ts", // Asegúrate de agregar tu plugin aquí
+    "~/plugins/sweetalert2.ts",
+    "~/plugins/v-calendar.ts", // Asegúrate de agregar tu plugin aquí
   ],
   imports: {
     dirs: ["store"], // Asegura que los stores en la carpeta `store` se detecten automáticamente
@@ -81,19 +75,6 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /cuenta
-  },
-  nitro: {
-    prerender: {
-      routes: await fetch(
-        "https://api.concienciadelserdivino.com.mx/api/experiences"
-      )
-        .then((res) => res.json())
-        .then((data) =>
-          data.experiences.map(
-            (evento: { slug: string }) => `/experiencias/${evento.slug}`
-          )
-        ),
-    },
   },
   runtimeConfig: {
     apiUrl: process.env.API_URL, // Solo en el servidor

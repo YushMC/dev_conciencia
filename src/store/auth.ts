@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import Swal from "sweetalert2";
 
-const api = ref("https://api.concienciadelserdivino.com.mx/public/api/");
+const api = ref("http://192.168.1.6/conciencia-api/public/api");
 
 interface LoginResponse {
   token: string;

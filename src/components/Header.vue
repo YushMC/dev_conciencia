@@ -51,21 +51,15 @@
               <NuxtLink to="/#Testimonios">Testimonios</NuxtLink>
             </div>
           </div>
-          <!-- 
+
           <client-only>
             <div class="container_account">
               <NuxtLink to="/cuenta">
-                <img
-                  :src="meditator?.photo"
-                  alt=""
-                  v-if="meditator.photo.trim() !== ''"
-                />
-                <img src="/assets/icon_user.svg" alt="" v-else />
+                <img :src="meditator?.photo || iconUser" alt="" />
                 <span>Cuenta</span>
               </NuxtLink>
             </div>
           </client-only>
-          -->
         </nav>
         <div
           id="controler_menu"
@@ -90,6 +84,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
+import iconUser from "./../assets/icon_user.svg";
 
 const route = useRoute();
 const { meditator } = useInfoUser();
@@ -490,11 +485,10 @@ nav {
     color: #fff;
   }
 
-
   .top .container_header nav .menu > label {
     color: #b47f4a;
   }
-  .top .container_header nav .menu > label.active{
+  .top .container_header nav .menu > label.active {
     color: #fff;
   }
 }

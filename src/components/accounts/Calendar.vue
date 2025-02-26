@@ -1,155 +1,98 @@
 <template>
-  <div>
+  <div id="calendario">
     <client-only>
-      <FullCalendar :options="calendarOptions" />
+      <VCalendar
+        expanded
+        :attributes="calendarAttributes"
+        v-model="currentDate"
+        borderless
+        @dayclick="handleDayClick"
+        :navigation="true"
+      />
     </client-only>
-    <div
-      v-if="showMenu"
-      class="custom-menu"
-      :style="{
-        top: `${menuPosition.y}px`,
-        left: `${menuPosition.x}px`,
-      }"
-    >
-      <div>
-        <strong>Opciones para el {{ selectedDate }}</strong>
-      </div>
-      <ul>
-        <li @click="handleOption('Opción 1')" v-if="isActiveButtonReserv">
-          Reservar
-        </li>
-        <li @click="handleOption('Opción 2')">Ver Detalles</li>
-      </ul>
-    </div>
+    <h3>Fecha seleccionada: {{ currentDate }}</h3>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from "vue";
+import { ref, onMounted } from "vue";
 import Swal from "sweetalert2";
+import { Navigation } from "swiper/modules";
 
+const handleDayClick = (event: { date: Date }) => {
+  const selectedDateValue = event.date; // Accede a la propiedad `date`
+  currentDate.value = selectedDateValue.toISOString().split("T")[0]; // Formato YYYY-MM-DD
+};
+
+const currentDate = ref<any>(new Date().toISOString().split("T")[0]);
+
+const calendarAttributes = ref<any[]>([]); // Atributos para el calendario
+
+// Obtén las URL y el token desde los composables
 const { apiUrl } = useApiUrl();
 const { token } = useInfoUser();
 
-// calendario
-import FullCalendar from "@fullcalendar/vue3";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import esLocale from "@fullcalendar/core/locales/es";
-
-const selectedDate = ref<string | null>(null);
-const showMenu = ref(false);
-const menuPosition = ref<{ x: number; y: number }>({ x: 0, y: 0 });
-const isActiveButtonReserv = ref(false);
-
-const events = ref([
-  {
-    title: "Terminado",
-    date: "2024-12-11",
-    display: "background",
-    backgroundColor: "rgba(0, 0, 0, 1)",
-    icono: "✔️",
-  },
-  {
-    title: "Terminado",
-    date: "2024-12-26",
-    display: "background",
-    backgroundColor: "rgba(0, 0, 0, 1)",
-    icono: "✔️",
-  },
-  {
-    title: "Terminado",
-    date: "2025-01-11",
-    display: "background",
-    backgroundColor: "rgba(0, 0, 0, 1)",
-    icono: "✔️",
-  },
-  {
-    title: "Terminado",
-    date: "2025-01-12",
-    display: "background",
-    backgroundColor: "rgba(0, 0, 0, 1)",
-    icono: "✔️",
-  },
-  {
-    title: "Proximamente",
-    date: "2025-01-20",
-    display: "background",
-    backgroundColor: "rgba(0, 0, 255, 1)",
-    icono: "➡️",
-  },
-]);
-
-// Opciones del calendario
-const calendarOptions = ref({
-  plugins: [dayGridPlugin, interactionPlugin],
-  locale: esLocale, // Establecer el idioma español
-  initialView: "dayGridMonth",
-  events: events.value,
-  eventContent: (arg: any) => {
-    // Asegúrate de que `icono` esté presente y se accede correctamente
-    const icon = arg.event.extendedProps.icono || ""; // Aquí garantizamos que "icono" esté definido
-    return {
-      html: `<span class="custom-event-title">
-        <span>${arg.event.title}</span>
-        <span class="event-icon">${icon}</span>  <!-- Renderizamos el ícono aquí -->
-      </span>`,
-    };
-  },
-  dateClick: (info: any) => {
-    // Al hacer clic en una fecha, mostrar el menú
-    selectedDate.value = info.dateStr; // Guardamos la fecha seleccionada
-    menuPosition.value = {
-      x: info.jsEvent.pageX - 300,
-      y: info.jsEvent.pageY - 200,
-    }; // Obtenemos la posición del clic
-    showMenu.value = true; // Mostramos el menú
-
-    // Buscar el evento que coincide con la fecha seleccionada
-    const event = events.value.find((event) => event.date === info.dateStr);
-
-    // Verificar si el evento fue encontrado y comparar el título
-    if (event && event.title === "Proximamente") {
-      isActiveButtonReserv.value = true; // Mostrar el botón si el título no es "Proximamente"
-    } else {
-      isActiveButtonReserv.value = false; // No mostrar el botón si el título es "Proximamente"
-    }
-  },
-});
-
-const handleOption = (option: string) => {
-  showMenu.value = false; // Ocultamos el menú después de seleccionar una opción
-};
-
+// Obtiene los eventos desde la API
 const fetchEventosUser = async () => {
-  const { data, error, pending } = await useFetch(
-    apiUrl.value + "/meditator/experiences/filter",
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${token}`,
-      },
-    }
-  );
+  try {
+    const { data, error } = await useFetch(
+      `${apiUrl.value}/meditator/experiences/filter`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `${token.value}`,
+        },
+      }
+    );
 
-  watchEffect(() => {
     if (error.value) {
-      Swal.fire({
-        icon: "error",
-        title: "Ocurrió un error: ",
-        text: error.value.toString(),
-      });
+      throw new Error(error.value.message);
     }
-    if (data.value) {
-      Swal.fire({
-        icon: "success",
-        title: "Datos encontrados: ",
-      });
-    }
-  });
+    const year = ref();
+    const month = ref();
+    const day = ref();
+    // Configura calendarAttributes directamente con los datos del fetch
+    calendarAttributes.value = (
+      (data.value as { history: any[] })?.history || []
+    ).map((event: any) => {
+      if (event.init_date) {
+        const dateObj = new Date(event.init_date);
+        if (!isNaN(dateObj.getTime())) {
+          year.value = dateObj.getFullYear(); // Obtener el año
+          month.value = dateObj.getMonth(); // Obtener el mes (0-11)
+          day.value = dateObj.getDate(); // Obtener el día
+
+          // Crear una nueva fecha en el formato deseado
+        } else {
+        }
+      }
+
+      return {
+        key:
+          year.value.toString() +
+          "-" +
+          month.value.toString() +
+          "-" +
+          day.value.toString(), // Usamos la fecha como clave única en formato YYYY-MM-DD
+        bar: {
+          style: {
+            backgroundColor: "rgb(180, 127, 74)", // Color de fondo
+          }, // Modo de relleno
+        },
+        dates: new Date(year.value, month.value, day.value), // Fecha del evento
+        popover: {
+          label: event.description ?? "Sin título", // Texto que se muestra al hacer hover
+        },
+      };
+    });
+  } catch (error) {}
 };
-// fetchEventosUser();
+
+// Carga los eventos cuando el componente se monta
+onMounted(async () => {
+  await fetchEventosUser();
+});
 </script>
 
 <style scoped>
@@ -160,18 +103,14 @@ const fetchEventosUser = async () => {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
   z-index: 1000;
-  width: 200px;
-  font-size: 14px;
 }
 
 .custom-menu ul {
-  list-style: none;
-  padding: 0;
+  list-style-type: none; /* Cambiado a tipo de lista sin estilo */
 }
 
 .custom-menu li {
   padding: 8px;
-  cursor: pointer;
 }
 
 .custom-menu li:hover {

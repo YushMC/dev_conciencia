@@ -65,9 +65,7 @@ const loadGoogleMaps = async () => {
     await loader.importLibrary("marker");
 
     isLoadMap.value = true;
-  } catch (error) {
-    console.error("Error al cargar Google Maps:", error);
-  }
+  } catch (error) {}
 };
 
 onMounted(() => {
