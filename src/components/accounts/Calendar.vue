@@ -10,21 +10,52 @@
         :navigation="true"
       />
     </client-only>
-    <h3>Fecha seleccionada: {{ currentDate }}</h3>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Swal from "sweetalert2";
-import { Navigation } from "swiper/modules";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const currentDate = ref<any>(new Date().toISOString().split("T")[0]);
+const selectedEvent = ref<any>();
 
 const handleDayClick = (event: { date: Date }) => {
   const selectedDateValue = event.date; // Accede a la propiedad `date`
-  currentDate.value = selectedDateValue.toISOString().split("T")[0]; // Formato YYYY-MM-DD
-};
+  currentDate.value = selectedDateValue; // Formato YYYY-MM-DD
 
-const currentDate = ref<any>(new Date().toISOString().split("T")[0]);
+  // Busca si hay un evento para la fecha seleccionada
+  selectedEvent.value = calendarAttributes.value.find((attr) => {
+    if (!attr.dates || isNaN(new Date(attr.dates).getTime())) {
+      console.warn("Fecha inválida en calendarAttributes:", attr.dates);
+      return false;
+    }
+    const eventDate = new Date(attr.dates).toISOString().split("T")[0];
+    return (
+      eventDate === new Date(selectedDateValue).toISOString().split("T")[0]
+    );
+  });
+
+  // Si hay un evento, redirige al slug correspondiente
+  if (selectedEvent.value && selectedEvent.value.slug) {
+    const cleanSlug = (slug: string) => {
+      return slug.replace(/[^a-zA-Z0-9-]/g, ""); // Elimina caracteres no válidos
+    };
+
+    const slug = cleanSlug(selectedEvent.value.slug);
+
+    const resolvedRoute = router.resolve(`/experiencias/${slug}`);
+    router.push(resolvedRoute.fullPath);
+  } else {
+    Swal.fire({
+      icon: "info",
+      title: "Sin eventos",
+      text: "No hay eventos para esta fecha.",
+    });
+  }
+};
 
 const calendarAttributes = ref<any[]>([]); // Atributos para el calendario
 
@@ -49,50 +80,53 @@ const fetchEventosUser = async () => {
     if (error.value) {
       throw new Error(error.value.message);
     }
-    const year = ref();
-    const month = ref();
-    const day = ref();
-    // Configura calendarAttributes directamente con los datos del fetch
-    calendarAttributes.value = (
-      (data.value as { history: any[] })?.history || []
-    ).map((event: any) => {
-      if (event.init_date) {
-        const dateObj = new Date(event.init_date);
-        if (!isNaN(dateObj.getTime())) {
-          year.value = dateObj.getFullYear(); // Obtener el año
-          month.value = dateObj.getMonth(); // Obtener el mes (0-11)
-          day.value = dateObj.getDate(); // Obtener el día
 
-          // Crear una nueva fecha en el formato deseado
-        } else {
-        }
+    console.log("Datos recibidos de la API:", data);
+
+    // Función para validar fechas
+    const parseDate = (dateStr: string) => {
+      if (!dateStr) return null; // Si está vacío, retorna null
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) {
+        console.error("Fecha inválida detectada:", dateStr);
+        return null;
       }
+      return date;
+    };
 
-      return {
-        key:
-          year.value.toString() +
-          "-" +
-          month.value.toString() +
-          "-" +
-          day.value.toString(), // Usamos la fecha como clave única en formato YYYY-MM-DD
-        bar: {
-          style: {
-            backgroundColor: "rgb(180, 127, 74)", // Color de fondo
-          }, // Modo de relleno
-        },
-        dates: new Date(year.value, month.value, day.value), // Fecha del evento
-        popover: {
-          label: event.description ?? "Sin título", // Texto que se muestra al hacer hover
-        },
-      };
-    });
-  } catch (error) {}
+    calendarAttributes.value = [
+      ...((data.value as { history: any[] })?.history || []).map(
+        (event: any) => {
+          const dateObj = parseDate(event.init_date);
+          return {
+            key: dateObj ? dateObj.toISOString().split("T")[0] : "invalid-date",
+            highlight: { color: "green", fillMode: "solid" },
+            dates: dateObj || new Date(), // Evita fechas inválidas
+            popover: { label: event.description || "Sin título" },
+            slug: event.slug,
+          };
+        }
+      ),
+
+      ...((data.value as { news: any[] })?.news || []).map((event: any) => {
+        const dateObj = parseDate(event.init_date);
+        return {
+          key: dateObj ? dateObj.toISOString().split("T")[0] : "invalid-date",
+          highlight: { color: "green", fillMode: "outline" },
+          dates: dateObj || new Date(),
+          popover: { label: event.description || "Sin título" },
+          slug: event.slug,
+        };
+      }),
+    ];
+  } catch (error) {
+    console.error("Error en fetchEventosUser:", error);
+  }
 };
 
 // Carga los eventos cuando el componente se monta
-onMounted(async () => {
-  await fetchEventosUser();
-});
+
+await fetchEventosUser();
 </script>
 
 <style scoped>

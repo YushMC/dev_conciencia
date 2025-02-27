@@ -39,9 +39,14 @@
       </section>
       <section>
         <aside>
-          <h3 class="category">Reservar</h3>
-          <details>
+          <h3 class="category">Expericencias Privadas</h3>
+          <details open>
             <summary>Reservar ahora</summary>
+            <a
+              href="https://wa.me/526675813007?text=Hola,%20me%20gustaría%20saber%20más%20sobre%20las%20experiencias%20privadas"
+              target="_blank"
+              >Más Información</a
+            >
           </details>
         </aside>
       </section>
@@ -147,15 +152,6 @@ onMounted(() => {
   justify-content: space-between;
   gap: 2rem;
 }
-.container_sections section:nth-child(2) aside,
-.info_user aside {
-  width: 100%;
-  padding: 2rem;
-  background: #ffffff;
-  height: fit-content;
-  border-radius: 10px;
-  margin-right: 5%;
-}
 .info_user aside {
   width: 50% !important;
   display: flex;
@@ -180,11 +176,13 @@ aside ul {
   height: 10dvh;
   overflow-y: auto;
 }
+aside details {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
 aside li {
   color: #553b21;
-}
-aside details {
-  overflow-x: auto;
 }
 summary {
   position: relative;
@@ -204,6 +202,7 @@ aside details li {
 }
 aside a {
   width: 100%;
+  margin-top: 1rem;
   padding: 0.5rem;
   background: #b47f4a;
   color: #fff;
@@ -297,6 +296,10 @@ aside table tr:nth-of-type(even) {
   flex-direction: column;
   gap: 1rem;
 }
+.container_form details a {
+  border-radius: 0px !important;
+  margin-top: 2rem !important;
+}
 .container_form details label {
   margin-top: 1%;
 }
@@ -355,6 +358,9 @@ aside table tr:nth-of-type(even) {
     margin-top: 2%;
     position: relative;
     flex-wrap: wrap;
+  }
+  .info_user h1 {
+    font-size: 1.5rem;
   }
   #botonMenu {
     width: 15dvw;

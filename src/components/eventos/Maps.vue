@@ -20,7 +20,7 @@ import { ref, onMounted, onUnmounted, defineProps } from "vue";
 import { Loader } from "@googlemaps/js-api-loader";
 
 const isLoadMap = ref(false);
-const zoom = ref<number>(15);
+const zoom = ref<number>(20);
 
 const props = defineProps<{
   lat: number;

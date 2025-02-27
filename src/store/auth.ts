@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import Swal from "sweetalert2";
 
-const api = ref("http://192.168.1.6/conciencia-api/public/api");
+const api = ref("https://api.concienciadelserdivino.com.mx/api");
 
 interface LoginResponse {
   token: string;
@@ -46,10 +46,7 @@ export const useAuthStore = defineStore("auth", {
             icon: "error",
             title: "Oops...",
             html: `
-          <h3>Ocurrió un error al iniciar sesión:</h3>
-            <br>
-            <h5 style='color:red;'>
-            ${error.value.message}</h5>`,
+          <h3>Ocurrió un error al iniciar sesión:</h3>`,
           });
           return;
         }
@@ -75,8 +72,7 @@ export const useAuthStore = defineStore("auth", {
           title: "Oops...",
           html: `
           <h3>Ocurrió un error al iniciar sesión:</h3>
-            <br>
-            <h5 style='color:red;'>${err.message}</h5>`,
+            `,
         });
       }
     },

@@ -5,12 +5,6 @@
   >
     <div class="container_text_front_page">
       <h1>Conciencia del Ser Divino</h1>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit ut saepe
-        possimus amet dolorem consequuntur modi animi corporis quibusdam,
-        architecto laboriosam, inventore harum vel, illum doloribus provident
-        eius aspernatur consequatur.
-      </p>
     </div>
   </div>
 </template>

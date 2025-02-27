@@ -85,7 +85,7 @@
           <img src="~/assets/gallery/7.jpg" alt="" />
         </div>
         <div class="container_textHistory">
-          <h2 class="text_color_principal">Nuestro Surgir</h2>
+          <h2 class="text_color_principal">Nuestro Renacer</h2>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
             itaque at minima labore atque esse aliquid, provident suscipit.

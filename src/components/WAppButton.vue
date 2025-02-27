@@ -1,7 +1,7 @@
 <template>
   <a
     class="container_button_wa"
-    href="https://wa.me/521234567890?text=Hola,%20me%20gustaría%20saber%20más%20sobre%20Conciencia%20Del%20Ser%20Divino"
+    href="https://wa.me/526675813007?text=Hola,%20me%20gustaría%20saber%20más%20sobre%20Conciencia%20Del%20Ser%20Divino"
     target="_blank"
   >
     <img src="/assets/gui/wa_icon.svg" alt="" />

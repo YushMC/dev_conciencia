@@ -23,58 +23,13 @@
         <h5 :class="{ active: experiencia?.id_experience_status === 2 }">
           ¡En curso!
         </h5>
-        <h5
-          :class="{ active: experiencia?.id_experience_status === 3 }"
-          v-if="isLogged"
-        >
-          Terminado
-        </h5>
       </div>
     </div>
-    <div
-      v-if="experiencia?.id_experience_status === 3"
-      class="container_imgs_evento bg_color_principal"
-    >
-      <div class="container_principal">
-        <img
-          src="https://blog.rentcars.com/wp-content/uploads/2019/12/foto_blog.jpg"
-          alt=""
-        />
-      </div>
-      <div class="container_otros">
-        <!-- Imágenes adicionales -->
-        <div>
-          <img
-            src="https://visitagdl.com/wp-content/uploads/2023/03/ofvc_blog_reunimos-lo-mejor_portada.png"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            src="https://www.viajabonito.mx/wp-content/uploads/2022/01/lugares-turisticos-de-guanajuato-port.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            src="https://blog.vivaaerobus.com/wp-content/uploads/2020/08/que-hacer-en-yucatan.jpg"
-            alt=""
-          />
-        </div>
-        <div @click="">
-          <h3>+5</h3>
-          <img
-            src="https://www.ngenespanol.com/wp-content/uploads/2024/10/lo-mejor-del-mundo-los-25-lugares-mas-impresionantes-para-viajar-en-2025-de-acuerdo-con-national-geographic.jpeg"
-            alt=""
-          />
-        </div>
-      </div>
-    </div>
-    <div class="container_flayer bg_color_principal" v-else id="reservar">
+    <div class="container_flayer bg_color_principal" id="reservar">
       <img :src="experiencia?.flyer" alt="Flyer Experiencia" loading="lazy" />
       <section class="precios" v-if="experiencia?.id_experience_status !== 3">
         <h1>{{ experiencia?.description }}</h1>
-        <select v-model="selectedPrice">
+        <select v-model="selectedPrice" v-if="experiencia?.single_price !== 0">
           <option value="1">
             ${{ experiencia?.single_price }} por 1 persona.
           </option>
@@ -86,12 +41,25 @@
             {{ experiencia?.persons_promo }} personas!
           </option>
         </select>
+        <h2 v-else>El precio se confirma en el lugar.</h2>
         <div>
           <h5>Fecha</h5>
-          <h5>{{ experiencia?.init_date }}</h5>
+          <h5 v-if="experiencia?.init_date">
+            {{
+              (() => {
+                try {
+                  return new Date(experiencia.init_date)
+                    .toISOString()
+                    .slice(0, 10);
+                } catch {
+                  return "Fecha no disponible";
+                }
+              })()
+            }}
+          </h5>
         </div>
         <button @click="toggleModal">
-          <span>{{ textButton }}</span>
+          <span>Más Información</span>
         </button>
       </section>
       <section v-else>
@@ -784,20 +752,21 @@ onMounted(() => {
 .container_flayer {
   padding: 2% 10%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   align-items: center;
 }
 .container_flayer img {
-  width: 50%;
-  aspect-ratio: 4/3;
+  width: 20rem;
+  aspect-ratio: 9/16;
   object-fit: contain;
   object-position: center;
-  border-radius: 20px;
+  border-radius: 10px;
   transition: all 0.3s linear;
+  filter: drop-shadow(5px 5px 10px #00000036);
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   .container_info_evento {
     display: flex;
     flex-direction: column;

@@ -125,6 +125,7 @@ li {
   justify-content: end;
   align-items: center;
   gap: 0.5rem;
+  text-wrap: nowrap;
 }
 
 @media screen and (max-width: 600px) {
