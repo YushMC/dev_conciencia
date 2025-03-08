@@ -133,17 +133,21 @@
         <swiper-slide>
           <div class="card_slide_testimonio">
             <div class="container_img">
-              <img src="/assets/img_profiles/1.jpg" alt="" />
+              <img src="/assets/img_profiles/1.jpeg" alt="" />
               <div class="container_icon_video">
                 <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
               </div>
             </div>
             <div class="container_testimonio">
-              <h3><b>Nombre</b></h3>
+              <h3><b>Fernanda</b></h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat magni, quod non quasi dignissimos magnam tempora quam
-                minus illum dolores.
+                El pasar por un par de meditaciones me ayudo a procesar más mis
+                emociones, a entender los momentos en el que día a día, la
+                rutina y demás fugaban mi energía, y ayudarme a tener la
+                fortaleza para no ceder ante eso. Tambien me ayudó a llevar un
+                mejor control sobre mis horarios de sueño y el darme el derecho
+                a un descanso entender la importancia de saber escuchar a mi
+                cuerpo y mis necesidades, y atenderlas de manera equilibrada.
               </p>
             </div>
           </div>
@@ -151,17 +155,21 @@
         <swiper-slide>
           <div class="card_slide_testimonio">
             <div class="container_img">
-              <img src="/assets/img_profiles/2.jpg" alt="" />
+              <img src="/assets/img_profiles/2.jpeg" alt="" />
               <div class="container_icon_video">
                 <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
               </div>
             </div>
             <div class="container_testimonio">
-              <h3><b>Nombre</b></h3>
+              <h3><b>Ana</b></h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat magni, quod non quasi dignissimos magnam tempora quam
-                minus illum dolores.
+                La práctica regular de la meditación me ayudó a darme cuenta de
+                que la medicina más poderosa que poseemos es nuestro propio
+                cuerpo. Lo importante es saber actuar en el momento presente,
+                sin importar cuántas veces nos preparemos o ensayemos, si no
+                aplicamos lo aprendido aquí y ahora Esto me ha permitido estar
+                más presente y consciente de mis acciones, lo cual ha mejorado
+                mi calidad de vida y mi bienestar general.
               </p>
             </div>
           </div>
@@ -169,35 +177,23 @@
         <swiper-slide>
           <div class="card_slide_testimonio">
             <div class="container_img">
-              <img src="/assets/img_profiles/3.jpg" alt="" />
+              <img src="/assets/img_profiles/3.jpeg" alt="" />
               <div class="container_icon_video">
                 <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
               </div>
             </div>
             <div class="container_testimonio">
-              <h3><b>Nombre</b></h3>
+              <h3><b>Gaspar</b></h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat magni, quod non quasi dignissimos magnam tempora quam
-                minus illum dolores.
-              </p>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card_slide_testimonio">
-            <div class="container_img">
-              <img src="/assets/img_profiles/4.jpg" alt="" />
-              <div class="container_icon_video">
-                <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
-              </div>
-            </div>
-            <div class="container_testimonio">
-              <h3><b>Nombre</b></h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat magni, quod non quasi dignissimos magnam tempora quam
-                minus illum dolores.
+                Conciencia del ser divino fue una herramienta que me ayudó a
+                abrir la puerta que mantenemos cerrada cada uno de nosotros, y
+                que me hizo entender que el aquí y el ahora es el momento
+                perfecto para empezar a vivir, para empezar a conectarse con tu
+                propio amor, con tus responsabilidades, y darte cuenta que es
+                posible vivir la aventura de la vida, y entender que a pesar de
+                las adversidades, cada uno tiene la fuerza de hacer magnifica la
+                vida, solo es cuestión de que creerlo, saber que podemos
+                hacerlo.
               </p>
             </div>
           </div>
@@ -538,10 +534,16 @@ section {
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
+  height: 18rem;
 }
 .card_slide_testimonio .container_testimonio h3,
 .card_slide_testimonio .container_testimonio p {
   text-align: left;
+}
+
+.card_slide_testimonio .container_testimonio p {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .containerHistory {
