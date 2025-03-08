@@ -38,7 +38,7 @@
                   Próximas Experiencias
                 </NuxtLink>
                 <a
-                  href="https://wa.me/521234567890?text=Hola!, Me gustaría saber más acerca de una Experiencia Privada!"
+                  href="https://wa.me/526675813007?text=Hola!, Me gustaría saber más acerca de una Experiencia Privada!"
                   target="_blank"
                   >Experiencias Privadas</a
                 >

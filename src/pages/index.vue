@@ -109,7 +109,7 @@
         <h2 class="titulo text_color_principal">¿Una Experiencia Privada?</h2>
         <a
           style="text-align: center"
-          href="https://wa.me/521234567890?text=Hola!, Me gustaría saber más acerca de una Experiencia Privada!"
+          href="https://wa.me/526675813007?text=Hola!, Me gustaría saber más acerca de una Experiencia Privada!"
           target="_blank"
           >Saber Más</a
         >
