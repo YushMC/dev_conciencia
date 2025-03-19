@@ -87,19 +87,13 @@
         <div class="container_textHistory">
           <h2 class="text_color_principal">Nuestro Renacer</h2>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-            itaque at minima labore atque esse aliquid, provident suscipit.
-            Tempore, quod!<br /><br />
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
-            aliquam repellendus molestias maxime magni, iste sunt odit quis, non
-            exercitationem et iusto assumenda. Eaque, voluptatum nobis totam
-            consequatur ullam voluptas?
-            <br /><br />
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-            accusantium ab vitae. Sunt quae consectetur hic mollitia incidunt
-            dolor alias tempore officiis illum maiores, corporis iure tempora
-            facere reprehenderit quo sint fuga dolores aliquam. Voluptas
-            veritatis dolore animi accusantium quidem.
+            <b>Verónica Gastelum</b> fundadora del Centro de Conciencia del Ser
+            Divino con una trayectoria de más de 20 años a logrado impactar en
+            la conciencia humana de miles de personas convirtiéndose en un icono
+            en el mundo de las meditaciones. Líder y promotora del movimiento
+            espiritual “La Nueva Era”. ´ <br /><br />Su labor y emprendimiento
+            han dejado huella a nivel internacional como en México, Latino
+            América y parte de Estados Unidos.
           </p>
         </div>
       </div>

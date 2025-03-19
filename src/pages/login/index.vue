@@ -451,7 +451,7 @@ onBeforeMount(() => {
   position: relative;
   width: 100%;
   height: 100dvh;
-  background-image: url(https://borjavilaseca.com/wp-content/uploads/2022/11/colton-sturgeon-6KkYYqTEDwQ-unsplash-scaled.jpg);
+  background: #f8f3ee;
   display: grid;
   grid-template-columns: 2fr 5fr;
   gap: 2rem;
