@@ -12,7 +12,6 @@ export class Meditator {
   constructor() {
     this.name = "";
     this.email = "";
-    this.name = "";
     this.phone = "";
     this.state = "";
     this.city = "";

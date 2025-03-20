@@ -30,12 +30,11 @@ const authStore = useAuthStore();
 
 onBeforeMount(async () => {
   setToken();
-  if (config.public.apiUrl) {
-    authStore.setApiUrl(config.public.apiUrl.toString());
-    setUrlApi(config.public.apiUrl.toString());
-    await initFetchEventos();
-    await fetchCountries();
-  }
+  const config = useRuntimeConfig();
+  await authStore.setUrlApi(config.public.apiUrl);
+  setUrlApi(config.public.apiUrl.toString());
+  await initFetchEventos();
+  await fetchCountries();
 });
 </script>
 

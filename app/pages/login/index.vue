@@ -301,7 +301,7 @@ const toggleSignUp = () => {
   }
 };
 
-import { useAuthStore } from "~/store/auth";
+import { useAuthStore } from "./../../store/auth";
 
 const authStore = useAuthStore();
 
@@ -314,10 +314,10 @@ const login = async () => {
     });
     return;
   }
-  meditator.phone = selectedPrefijo.value + meditator.phone;
+  meditator.value.phone = selectedPrefijo.value + meditator.value.phone;
   const response = await authStore.login(meditator.value);
 
-  if (response.success) {
+  if (response?.success) {
     await setToken();
     router.back();
   } else {
@@ -363,12 +363,17 @@ const register = async () => {
       window.alert("Por favor, selecciona una imagen antes de continuar.");
       return;
     }
-    meditator.phone = selectedPrefijo.value + meditator.phone;
-    await authStore.register(
+    meditator.value.phone = selectedPrefijo.value + meditator.value.phone;
+    const response = await authStore.register(
       meditator.value,
       imageFile.value // Ahora se asegura que no sea null
     );
-    setToken();
+
+    if (response?.success) {
+      setToken();
+    } else {
+      meditator.value.phone = meditator.value.phone.slice(-10);
+    }
   }
 };
 

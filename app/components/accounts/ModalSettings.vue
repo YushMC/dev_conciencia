@@ -11,8 +11,20 @@
         <input type="email" v-model="meditator.email" />
       </div>
       <div class="seccion_ajustes">
-        <label for="">Teléfono</label>
-        <input type="text" v-model="phoneWithoutCountryCode" />
+        <div class="codeNumber">
+          <select v-model="selectedPrefijo" v-if="countryList">
+            <option
+              v-for="country in countryList"
+              :key="country.id"
+              :value="country.lada"
+            >
+              {{ country.lada }}
+            </option>
+          </select>
+
+          <input type="text" v-model="phoneWithoutCountryCode" />
+          <label for="user">Número Telefónico</label>
+        </div>
       </div>
       <div class="container_input">
         <input
@@ -113,6 +125,7 @@
 
 <script setup lang="ts">
 const { toogleStateModal, isActiveModal } = useModalAccount();
+const { selectedPrefijo, countryList } = useCountryList();
 import { ref, watch } from "vue";
 import Swal from "sweetalert2";
 
@@ -132,14 +145,8 @@ const toggleNewPasswordVisibility = () => {
   isNewPasswordVisible.value = !isNewPasswordVisible.value;
 };
 
-const phoneWithoutCountryCode = computed({
-  get() {
-    return meditator.value.phone.slice(2);
-  },
-  set(value) {
-    meditator.value.phone = meditator.value.phone.slice(0, 2) + value;
-  },
-});
+const phoneWithoutCountryCode = ref(meditator.value.phone.slice(-10));
+selectedPrefijo.value = meditator.value.phone.slice(0, -10);
 
 const newPsw = ref<string>("");
 
@@ -187,9 +194,8 @@ const onSubmit = async () => {
     }).then(async (result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        const token = localStorage.getItem("token") || "";
         if (imageFile.value) {
-          await authStore.updatePhoto(imageFile.value, token);
+          await authStore.updatePhoto(imageFile.value);
         }
       } else {
         Swal.fire("Operación cancelada", "", "info");
@@ -217,7 +223,7 @@ const triggerFileInput = () => {
   fileInput.value?.click();
 };
 
-import { useAuthStore } from "~/store/auth";
+import { useAuthStore } from "./../../store/auth";
 
 const authStore = useAuthStore();
 
@@ -232,8 +238,9 @@ const updateInfo = async () => {
     }).then(async (result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        const token = localStorage.getItem("token") || "";
-        await authStore.update(meditator.value, token);
+        meditator.value.phone =
+          selectedPrefijo.value + phoneWithoutCountryCode.value;
+        await authStore.update(meditator.value);
       } else {
         Swal.fire("Operación concelada.", "", "info");
       }
@@ -254,8 +261,9 @@ const updatePsw = async () => {
     }).then(async (result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        const token = localStorage.getItem("token") || "";
-        await authStore.updatePsw(meditator.value, newPsw.value, token);
+        meditator.value.phone =
+          selectedPrefijo.value + phoneWithoutCountryCode.value;
+        await authStore.updatePsw(meditator.value, newPsw.value);
       } else {
         Swal.fire("Operación cancelada.", "", "info");
       }

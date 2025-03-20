@@ -22,13 +22,12 @@
 <script setup lang="ts">
 import Swal from "sweetalert2";
 import { watch } from "vue";
-import { useHeaderAccount } from "~/composables/useHeaderAccount";
 
 const { isActive, toggleStateHeader } = useHeaderAccount();
 const { toogleStateModal } = useModalAccount();
 const { removeToken, meditator } = useInfoUser();
 
-import { useAuthStore } from "~/store/auth";
+import { useAuthStore } from "./../../store/auth";
 const authStore = useAuthStore();
 
 import { useRouter } from "vue-router";

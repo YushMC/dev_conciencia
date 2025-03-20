@@ -2,8 +2,6 @@ import { defineStore } from "pinia";
 
 import Swal from "sweetalert2";
 
-const api = ref("https://api.concienciadelserdivino.com.mx/api");
-
 interface LoginResponse {
   token: string;
 }
@@ -11,6 +9,7 @@ interface LoginResponse {
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     token: null as string | null,
+    api: null as string | null,
   }),
 
   actions: {
@@ -31,7 +30,7 @@ export const useAuthStore = defineStore("auth", {
         body.append("pass", meditator.password);
 
         const { data, error } = await useFetch<LoginResponse>(
-          api.value + "/meditator/login",
+          this.api + "/meditator/login",
           {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -102,7 +101,7 @@ export const useAuthStore = defineStore("auth", {
         formData.append("birthdate", meditator.birthdate);
 
         const { data, error } = await useFetch<LoginResponse>(
-          api.value + "/meditator/register",
+          this.api + "/meditator/register",
           {
             method: "POST",
             body: formData,
@@ -121,7 +120,7 @@ export const useAuthStore = defineStore("auth", {
                 error.value.data.message
               )}</h5>`,
           });
-          return;
+          return { success: false };
         }
 
         if (data.value) {
@@ -136,6 +135,7 @@ export const useAuthStore = defineStore("auth", {
             icon: "success",
             text: "Tu cuenta ha sido creada correctamente.",
           });
+          return { success: true };
         }
       } catch (err: any) {
         Swal.fire({
@@ -144,10 +144,11 @@ export const useAuthStore = defineStore("auth", {
           html: `<h3>Error al registrar:</h3>
               <br><h5 style='color: red;'>${err.message}</h5>`,
         });
+        return { success: true };
       }
     },
 
-    async update(meditator: any, token: string) {
+    async update(meditator: any) {
       try {
         Swal.fire({
           title: "Actualizando Datos...",
@@ -167,14 +168,14 @@ export const useAuthStore = defineStore("auth", {
         });
 
         const { data, error } = await useFetch<LoginResponse>(
-          api.value + "/meditator/update",
+          this.api + "/meditator/update",
           {
             method: "PUT",
             body,
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
-              Authorization: `${token}`,
+              Authorization: `${this.token}`,
             },
           }
         );
@@ -209,7 +210,7 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    async updatePhoto(photoFile: File, token: string) {
+    async updatePhoto(photoFile: File) {
       try {
         Swal.fire({
           title: "Actualizando Foto...",
@@ -225,13 +226,13 @@ export const useAuthStore = defineStore("auth", {
         formData.append("photo", photoFile);
 
         const { data, error } = await useFetch<LoginResponse>(
-          api.value + "/meditator/updatePhoto",
+          this.api + "/meditator/updatePhoto",
           {
             method: "POST",
             body: formData,
             headers: {
               Accept: "application/json",
-              Authorization: `${token}`,
+              Authorization: `${this.token}`,
             },
           }
         );
@@ -267,7 +268,7 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    async updatePsw(meditator: any, newPass: string, token: string) {
+    async updatePsw(meditator: any, newPass: string) {
       try {
         Swal.fire({
           title: "Actualizando Contraseña...",
@@ -283,12 +284,12 @@ export const useAuthStore = defineStore("auth", {
         formData.append("pass", newPass);
         formData.append("old_pass", meditator.password);
 
-        const { data, error } = await useFetch(api + "/changePsw", {
+        const { data, error } = await useFetch(this.api + "/changePsw", {
           method: "POST",
           body: formData,
           headers: {
             Accept: "application/json",
-            Authorization: `${token}`,
+            Authorization: `${this.token}`,
           },
         });
 
@@ -334,8 +335,8 @@ export const useAuthStore = defineStore("auth", {
       navigateTo("/login"); // Redirigir al usuario después del logout
     },
 
-    setApiUrl(url: string) {
-      api.value = url;
+    async setUrlApi(url: string) {
+      this.api = url;
     },
   },
 });

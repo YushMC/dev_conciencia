@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { jwtDecode } from "jwt-decode";
-import { Meditator } from "~/store/meditator";
+import { Meditator } from "./../store/meditator";
 
 const token = ref<string>("");
 const meditator = ref(new Meditator()); // Hacer la instancia reactiva
