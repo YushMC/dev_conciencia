@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2024-11-01",
   ssr: true, // Asegúrate de que está habilitado
-  srcDir: "src/",
+  srcDir: "app/",
   build: {
     transpile: ["unhead"], // Asegúrate de que unhead sea correctamente transpilado
   },
@@ -77,9 +77,9 @@ export default defineNuxtConfig({
     "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /cuenta
   },
   runtimeConfig: {
-    apiUrl: process.env.API_URL, // Solo en el servidor
+    apiUrl: "https://api.concienciadelserdivino.com.mx/api", // Solo en el servidor
     public: {
-      apiUrl: process.env.API_URL,
+      apiUrl: "https://api.concienciadelserdivino.com.mx/api",
     },
   },
 });
