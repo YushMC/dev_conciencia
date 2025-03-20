@@ -160,6 +160,21 @@ export const useAuthStore = defineStore("auth", {
           },
         });
 
+        const tokenResponse = await $fetch<{
+          authenticated: boolean;
+          token?: string;
+        }>("/api/auth/user", {
+          method: "GET",
+          credentials: "include", // Asegura que se envíen cookies
+        });
+
+        if (!tokenResponse.authenticated || !tokenResponse.token) {
+          Swal.close();
+          return { success: false, message: "No estás autenticado" };
+        }
+
+        this.token = tokenResponse.token;
+
         const body = JSON.stringify({
           name: meditator.name,
           email: meditator.email,
@@ -222,6 +237,21 @@ export const useAuthStore = defineStore("auth", {
           },
         });
 
+        const tokenResponse = await $fetch<{
+          authenticated: boolean;
+          token?: string;
+        }>("/api/auth/user", {
+          method: "GET",
+          credentials: "include", // Asegura que se envíen cookies
+        });
+
+        if (!tokenResponse.authenticated || !tokenResponse.token) {
+          Swal.close();
+          return { success: false, message: "No estás autenticado" };
+        }
+
+        this.token = tokenResponse.token;
+
         const formData = new FormData();
         formData.append("photo", photoFile);
 
@@ -280,18 +310,36 @@ export const useAuthStore = defineStore("auth", {
           },
         });
 
+        const tokenResponse = await $fetch<{
+          authenticated: boolean;
+          token?: string;
+        }>("/api/auth/user", {
+          method: "GET",
+          credentials: "include", // Asegura que se envíen cookies
+        });
+
+        if (!tokenResponse.authenticated || !tokenResponse.token) {
+          Swal.close();
+          return { success: false, message: "No estás autenticado" };
+        }
+
+        this.token = tokenResponse.token;
+
         const formData = new FormData();
         formData.append("pass", newPass);
         formData.append("old_pass", meditator.password);
 
-        const { data, error } = await useFetch(this.api + "/changePsw", {
-          method: "POST",
-          body: formData,
-          headers: {
-            Accept: "application/json",
-            Authorization: `${this.token}`,
-          },
-        });
+        const { data, error } = await useFetch(
+          this.api + "/meditator/changePsw",
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Accept: "application/json",
+              Authorization: `${this.token}`,
+            },
+          }
+        );
 
         Swal.close();
 
