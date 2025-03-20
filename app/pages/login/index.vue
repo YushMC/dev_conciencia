@@ -306,7 +306,7 @@ import { useAuthStore } from "./../../store/auth";
 const authStore = useAuthStore();
 
 const login = async () => {
-  if (!meditator.value.user.trim() || !meditator.value.password.trim()) {
+  if (!meditator.value.phone.trim() || !meditator.value.password.trim()) {
     Swal.fire({
       title: "Error",
       text: "Por favor, llena todos los campos.",
