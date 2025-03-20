@@ -27,7 +27,7 @@ export const useAuthStore = defineStore("auth", {
         });
 
         const body = new URLSearchParams();
-        body.append("user", meditator.user);
+        body.append("user", meditator.phone);
         body.append("pass", meditator.password);
 
         const { data, error } = await useFetch<LoginResponse>(
@@ -48,7 +48,7 @@ export const useAuthStore = defineStore("auth", {
             html: `
           <h3>Ocurrió un error al iniciar sesión:</h3>`,
           });
-          return;
+          return { success: false };
         }
 
         if (data.value) {
@@ -65,6 +65,7 @@ export const useAuthStore = defineStore("auth", {
             icon: "success",
             text: "Inicio de sesión exitoso!",
           });
+          return { success: true };
         }
       } catch (err: any) {
         Swal.fire({
@@ -74,6 +75,7 @@ export const useAuthStore = defineStore("auth", {
           <h3>Ocurrió un error al iniciar sesión:</h3>
             `,
         });
+        return { success: false };
       }
     },
 

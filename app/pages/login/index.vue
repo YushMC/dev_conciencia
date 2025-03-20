@@ -48,12 +48,23 @@
           <label for="correo"> Correo Electrónico </label>
         </div>
         <div class="container_input">
-          <input
-            type="text"
-            id="tel"
-            v-model="meditator.phone"
-            placeholder="Ingresa un Número Telefónico"
-          />
+          <div class="codeNumber">
+            <select v-model="selectedPrefijo" v-if="countryList">
+              <option
+                v-for="country in countryList"
+                :key="country.id"
+                :value="country.lada"
+              >
+                {{ country.lada }}
+              </option>
+            </select>
+            <input
+              type="text"
+              id="tel2"
+              v-model="meditator.phone"
+              placeholder="Ingresa un Número Telefónico"
+            />
+          </div>
           <label for="tel"> Teléfono </label>
         </div>
         <div class="container_input">
@@ -180,13 +191,24 @@
       <form action="" id="logIn" :class="{ active: !isActiveSignUp }">
         <h4>Iniciar Sesión</h4>
         <div class="container_input">
-          <input
-            type="text"
-            id="user"
-            v-model="meditator.user"
-            placeholder="Ingresa tu Usuario"
-          />
-          <label for="user">Usuario</label>
+          <div class="codeNumber">
+            <select v-model="selectedPrefijo" v-if="countryList">
+              <option
+                v-for="country in countryList"
+                :key="country.id"
+                :value="country.lada"
+              >
+                {{ country.lada }}
+              </option>
+            </select>
+            <input
+              type="text"
+              id="tel"
+              v-model="meditator.phone"
+              placeholder="Ingresa un Número Telefónico"
+            />
+            <label for="user">Número Telefónico</label>
+          </div>
         </div>
         <div class="container_input">
           <input
@@ -213,7 +235,7 @@
 definePageMeta({
   layout: "login", // Nombre del layout que deseas usar
 });
-
+const { countryList, selectedPrefijo } = useCountryList();
 import { useHead } from "unhead";
 import { ref, onBeforeMount } from "vue";
 
@@ -292,9 +314,15 @@ const login = async () => {
     });
     return;
   }
-  await authStore.login(meditator.value);
-  setToken();
-  router.push("/cuenta");
+  meditator.phone = selectedPrefijo.value + meditator.phone;
+  const response = await authStore.login(meditator.value);
+
+  if (response.success) {
+    await setToken();
+    router.back();
+  } else {
+    meditator.value.phone = meditator.value.phone.slice(-10);
+  }
 };
 
 const errores = ref<string[]>([]);
@@ -335,7 +363,7 @@ const register = async () => {
       window.alert("Por favor, selecciona una imagen antes de continuar.");
       return;
     }
-
+    meditator.phone = selectedPrefijo.value + meditator.phone;
     await authStore.register(
       meditator.value,
       imageFile.value // Ahora se asegura que no sea null

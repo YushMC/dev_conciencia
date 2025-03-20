@@ -77,9 +77,9 @@ export default defineNuxtConfig({
     "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /cuenta
   },
   runtimeConfig: {
-    apiUrl: "https://api.concienciadelserdivino.com.mx/api", // Solo en el servidor
+    apiUrl: "http://192.168.1.44/conciencia-api/public/api", // Solo en el servidor
     public: {
-      apiUrl: "https://api.concienciadelserdivino.com.mx/api",
+      apiUrl: "http://192.168.1.44/conciencia-api/public/api",
     },
   },
 });

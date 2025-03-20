@@ -24,7 +24,7 @@ const { setToken } = useInfoUser();
 import { useApiUrl } from "./composables/useApi";
 const { setUrlApi } = useApiUrl(); // Removed redeclaration
 const { initFetchEventos, dataEventos } = useApiEventos();
-
+const { fetchCountries } = useCountryList();
 const config = useRuntimeConfig();
 const authStore = useAuthStore();
 
@@ -34,6 +34,7 @@ onBeforeMount(async () => {
     authStore.setApiUrl(config.public.apiUrl.toString());
     setUrlApi(config.public.apiUrl.toString());
     await initFetchEventos();
+    await fetchCountries();
   }
 });
 </script>
@@ -403,5 +404,30 @@ details.seccion_ajustes .container_imagen label {
 }
 .cargando {
   height: 40dvh;
+}
+
+.codeNumber {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.codeNumber select {
+  width: 80px;
+  height: fit-content;
+  background: #b47f4a;
+  border-radius: 5px;
+  color: #fff;
+  align-items: center;
+  text-align: center;
+  border-bottom: none;
+  margin-right: 4px;
+  height: 100%;
+}
+.codeNumber input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
 </style>
