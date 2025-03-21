@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Meditador } from "./../../types/Meditador";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 
@@ -23,11 +24,56 @@ const breakpoints = {
     spaceBetween: 40,
   },
 };
+
+interface Testimonials {
+  id: number;
+  id_meditator: number;
+  comments: string;
+  photo: string;
+  video: string;
+  is_authorized: boolean;
+  authorized_by: number;
+  active: boolean;
+  meditator?: Meditador;
+}
+
+const listTestimonios = ref<Testimonials[] | null>(null);
+
+const props = defineProps({
+  slug: String,
+});
+
+onBeforeMount(async () => {
+  const config = useRuntimeConfig();
+  const fetchTestimonios = async (slug: string) => {
+    try {
+      const response = await $fetch<{
+        message: string;
+        testimonials: Testimonials[];
+      }>(config.public.apiUrl + slug);
+
+      listTestimonios.value = response.testimonials;
+
+      return { success: true, message: "Testimonios encontrados." };
+    } catch (error) {
+      return { success: false, message: "Ocurrio un error: " + error };
+    }
+  };
+
+  const response = await fetchTestimonios(props.slug?.toString() ?? "");
+  if (!response.success) {
+    console.error(response.message);
+  }
+});
 </script>
 
 <template>
   <section id="Testimonios">
-    <div class="container_titulos" id="Eventos-Privados">
+    <div
+      class="container_titulos"
+      id="Eventos-Privados"
+      v-if="props.slug == '/testimony/all'"
+    >
       <h2 class="titulo text_color_principal">¿Una Experiencia Privada?</h2>
       <a
         style="text-align: center"
@@ -52,69 +98,22 @@ const breakpoints = {
       :breakpoints="breakpoints"
       class="mySwiper"
     >
-      <swiper-slide>
+      <swiper-slide v-for="(testimonio, index) in listTestimonios" :key="index">
         <div class="card_slide_testimonio">
-          <div class="container_img">
-            <img src="/assets/img_profiles/1.jpeg" alt="" />
+          <div class="container_img" v-if="testimonio?.meditator">
+            <img :src="testimonio.photo" :alt="testimonio?.meditator.name" />
             <div class="container_icon_video">
-              <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
+              <a :href="testimonio.video" title="Ver testimonio" target="_blank"
+                ><img src="/assets/icon_play.svg" alt="Icono Play Testimonio"
+              /></a>
             </div>
           </div>
           <div class="container_testimonio">
-            <h3><b>Fernanda</b></h3>
+            <h3 v-if="testimonio?.meditator">
+              <b>{{ testimonio.meditator.name }}</b>
+            </h3>
             <p>
-              El pasar por un par de meditaciones me ayudo a procesar más mis
-              emociones, a entender los momentos en el que día a día, la rutina
-              y demás fugaban mi energía, y ayudarme a tener la fortaleza para
-              no ceder ante eso. Tambien me ayudó a llevar un mejor control
-              sobre mis horarios de sueño y el darme el derecho a un descanso
-              entender la importancia de saber escuchar a mi cuerpo y mis
-              necesidades, y atenderlas de manera equilibrada.
-            </p>
-          </div>
-        </div>
-      </swiper-slide>
-      <swiper-slide>
-        <div class="card_slide_testimonio">
-          <div class="container_img">
-            <img src="/assets/img_profiles/2.jpeg" alt="" />
-            <div class="container_icon_video">
-              <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
-            </div>
-          </div>
-          <div class="container_testimonio">
-            <h3><b>Ana</b></h3>
-            <p>
-              La práctica regular de la meditación me ayudó a darme cuenta de
-              que la medicina más poderosa que poseemos es nuestro propio
-              cuerpo. Lo importante es saber actuar en el momento presente, sin
-              importar cuántas veces nos preparemos o ensayemos, si no aplicamos
-              lo aprendido aquí y ahora Esto me ha permitido estar más presente
-              y consciente de mis acciones, lo cual ha mejorado mi calidad de
-              vida y mi bienestar general.
-            </p>
-          </div>
-        </div>
-      </swiper-slide>
-      <swiper-slide>
-        <div class="card_slide_testimonio">
-          <div class="container_img">
-            <img src="/assets/img_profiles/3.jpeg" alt="" />
-            <div class="container_icon_video">
-              <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
-            </div>
-          </div>
-          <div class="container_testimonio">
-            <h3><b>Gaspar</b></h3>
-            <p>
-              Conciencia del ser divino fue una herramienta que me ayudó a abrir
-              la puerta que mantenemos cerrada cada uno de nosotros, y que me
-              hizo entender que el aquí y el ahora es el momento perfecto para
-              empezar a vivir, para empezar a conectarse con tu propio amor, con
-              tus responsabilidades, y darte cuenta que es posible vivir la
-              aventura de la vida, y entender que a pesar de las adversidades,
-              cada uno tiene la fuerza de hacer magnifica la vida, solo es
-              cuestión de que creerlo, saber que podemos hacerlo.
+              {{ testimonio.comments }}
             </p>
           </div>
         </div>

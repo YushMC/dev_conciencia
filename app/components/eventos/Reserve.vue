@@ -8,6 +8,10 @@ const { searchMeditator, dataMeditator, resetDataMeditator } =
 const router = useRouter();
 const { selectedPrice, showModalReserva } = useModalReserve();
 
+const props = defineProps({
+  idExperience: String,
+});
+
 const toggleModal = () => {
   showModalReserva.value = !showModalReserva.value;
 };
@@ -35,7 +39,8 @@ const deleteMeditator = () => {
   resetDataMeditator();
 };
 
-const checkReserve = () => {
+const checkReserve = async () => {
+  /*
   if (selectedPrice.value !== 1) {
     if (dataMeditator.value.length < 1 || isNewUser.value === false) {
       Swal.fire({
@@ -48,6 +53,52 @@ const checkReserve = () => {
     payReserve(true);
   } else {
     payReserve(false);
+  }+
+  */
+
+  Swal.fire({
+    title: "Registrando reserva...",
+    text: "Por favor espera mientras procesamos tu solicitud.",
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  const config = useRuntimeConfig();
+  const mensaje = ref("");
+  const { data, error } = await useFetch<{ message: string }>(
+    config.public.apiUrl + "/meditator/reservation/save",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${token.value}`,
+      },
+      body: {
+        id_experience: props.idExperience ?? "",
+      },
+    }
+  );
+
+  Swal.close();
+
+  if (data.value) {
+    await Swal.fire({
+      icon: "success",
+      title: "Reserva generada correctamente.",
+      text: JSON.stringify(data.value.message),
+    });
+  }
+
+  if (error.value) {
+    await Swal.fire({
+      icon: "error",
+      title: "Ocurrió un error al generar la reserva.",
+      text: JSON.stringify(error.value.data?.message),
+    });
   }
 };
 
@@ -223,23 +274,24 @@ const reservar = async (isLogged: boolean) => {
                 }}
                 MXN
               </h3>
-              <button
-                style="
-                  width: 20%;
-                  padding: 1%;
-                  background: #b47f4a;
-                  color: #fff;
-                  border: none;
-                  border-radius: 10px;
-                  cursor: pointer;
-                "
-                @click="checkReserve"
-              >
-                Finalizar Reserva
-              </button>
-            </div>
-          </div>
+            -->
+          <button
+            style="
+              width: 20%;
+              padding: 1%;
+              background: #b47f4a;
+              color: #fff;
+              border: none;
+              border-radius: 10px;
+              cursor: pointer;
+            "
+            @click="checkReserve"
+          >
+            Finalizar Reserva
+          </button>
         </div>
+      </div>
+      <!--
         <div class="content_info" v-if="selectedPrice == 2">
           <h3>Agregar acompañante:</h3>
           <details open>
@@ -313,8 +365,8 @@ const reservar = async (isLogged: boolean) => {
             <button>Guardar</button>
           </details>
         </div>
-        --></div>
       </div>
+        -->
     </aside>
     <div id="cerrarModal" v-if="showModalReserva" @click="toggleModal"></div>
   </ClientOnly>

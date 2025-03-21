@@ -1,12 +1,11 @@
 <template>
   <ClientOnly>
-    <section id="Proximos-Eventos">
+    <section id="Proximos-Eventos" v-if="dataEventos.length > 0">
       <div class="container_titulos">
         <h2 class="titulo text_color_principal">Próximas Experiencias</h2>
       </div>
 
       <Swiper
-        v-if="dataEventos"
         :modules="[Pagination, Navigation, Autoplay]"
         :spaceBetween="10"
         :slidesPerView="1"

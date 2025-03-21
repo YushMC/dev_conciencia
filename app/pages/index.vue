@@ -75,7 +75,7 @@
       </div>
     </section>
     <ClientOnly>
-      <IndexSwiperTestimonios></IndexSwiperTestimonios>
+      <IndexSwiperTestimonios slug="/testimony/all"></IndexSwiperTestimonios>
     </ClientOnly>
   </div>
 </template>

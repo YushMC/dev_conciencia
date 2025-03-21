@@ -37,28 +37,6 @@ const toggleModalReserve = async () => {
   }
 };
 
-import { Swiper, SwiperSlide } from "swiper/vue";
-import "swiper/css";
-
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-
-// Opcionales: módulos para Swiper
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-const breakpoints = {
-  900: {
-    slidesPerView: 1,
-    spaceBetween: 20,
-  },
-  1280: {
-    slidesPerView: 2,
-    spaceBetween: 30,
-  },
-  1400: {
-    slidesPerView: 3,
-    spaceBetween: 40,
-  },
-};
 onBeforeMount(async () => {
   const config = useRuntimeConfig(); // Adjust the import path as necessary
   const response = await fetchEvento(config.public.apiUrl.toString(), eventoId);
@@ -93,9 +71,7 @@ onBeforeMount(async () => {
 });
 onMounted(() => {
   isResponsiveMenu.value = false;
-  if (experiencia.value?.id_experience_status === 3 && isLogged) {
-    router.push("/");
-  }
+
   isChecked.value = false;
 });
 </script>
@@ -131,6 +107,9 @@ onMounted(() => {
           <h5 :class="{ active: experiencia?.id_experience_status === 2 }">
             ¡En curso!
           </h5>
+          <h5 :class="{ active: experiencia?.id_experience_status === 3 }">
+            Finalizado
+          </h5>
         </div>
       </div>
       <ClientOnly>
@@ -142,7 +121,7 @@ onMounted(() => {
           />
           <section
             class="precios"
-            v-if="experiencia?.id_experience_status !== 3"
+            v-if="experiencia?.id_experience_status == 1"
           >
             <h1>{{ experiencia?.description }}</h1>
             <select
@@ -182,24 +161,29 @@ onMounted(() => {
             </button>
             <button @click="toggleModalReserve">Reservar</button>
           </section>
-          <section v-else>
+          <section v-if="experiencia?.id_experience_status == 2">
             <h3 class="titulo text_color_principal">
               ¡Esta meditación esta en curso!
             </h3>
           </section>
+          <section v-if="experiencia?.id_experience_status == 3">
+            <h3 class="titulo text_color_principal">
+              ¡La meditación ha finalizado!
+            </h3>
+          </section>
         </div>
 
-        <div class="container_description">
+        <div
+          class="container_description"
+          v-if="experiencia?.id_experience_status == 1"
+        >
           <ul class="container_submenu">
             <li class="active">Ubicación</li>
           </ul>
           <div class="container_info">
             <div class="content_description">
               <section>
-                <div
-                  class="content_map"
-                  v-if="experiencia?.id_experience_status !== 3"
-                >
+                <div class="content_map">
                   <EventosMaps
                     v-if="
                       experiencia?.lat !== undefined &&
@@ -212,113 +196,16 @@ onMounted(() => {
                 </div>
               </section>
             </div>
-            <div
-              id="Testimonios"
-              v-if="experiencia?.id_experience_status === 3"
-            >
-              <h2 class="titulo text_color_principal">Comentarios</h2>
-              <hr class="bg_color_secundario" />
-              <Swiper
-                :modules="[Pagination, Navigation]"
-                :grabCursor="true"
-                :loop="true"
-                :spaceBetween="30"
-                :autoplay="{
-                  delay: 2500,
-                  disableOnInteraction: false,
-                }"
-                :navigation="true"
-                :pagination="true"
-                :breakpoints="breakpoints"
-                class="mySwiper"
-              >
-                <swiper-slide>
-                  <div class="card_slide_testimonio">
-                    <div class="container_img">
-                      <img src="/assets/img_profiles/1.jpg" alt="" />
-                      <div class="container_icon_video">
-                        <a href=""
-                          ><img src="/assets/icon_play.svg" alt=""
-                        /></a>
-                      </div>
-                    </div>
-                    <div class="container_testimonio">
-                      <h3><b>Nombre</b></h3>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Repellat magni, quod non quasi dignissimos magnam
-                        tempora quam minus illum dolores.
-                      </p>
-                    </div>
-                  </div>
-                </swiper-slide>
-                <swiper-slide>
-                  <div class="card_slide_testimonio">
-                    <div class="container_img">
-                      <img src="/assets/img_profiles/2.jpg" alt="" />
-                      <div class="container_icon_video">
-                        <a href=""
-                          ><img src="/assets/icon_play.svg" alt=""
-                        /></a>
-                      </div>
-                    </div>
-                    <div class="container_testimonio">
-                      <h3><b>Nombre</b></h3>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Repellat magni, quod non quasi dignissimos magnam
-                        tempora quam minus illum dolores.
-                      </p>
-                    </div>
-                  </div>
-                </swiper-slide>
-                <swiper-slide>
-                  <div class="card_slide_testimonio">
-                    <div class="container_img">
-                      <img src="/assets/img_profiles/3.jpg" alt="" />
-                      <div class="container_icon_video">
-                        <a href=""
-                          ><img src="/assets/icon_play.svg" alt=""
-                        /></a>
-                      </div>
-                    </div>
-                    <div class="container_testimonio">
-                      <h3><b>Nombre</b></h3>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Repellat magni, quod non quasi dignissimos magnam
-                        tempora quam minus illum dolores.
-                      </p>
-                    </div>
-                  </div>
-                </swiper-slide>
-                <swiper-slide>
-                  <div class="card_slide_testimonio">
-                    <div class="container_img">
-                      <img src="/assets/img_profiles/4.jpg" alt="" />
-                      <div class="container_icon_video">
-                        <a href=""
-                          ><img src="/assets/icon_play.svg" alt=""
-                        /></a>
-                      </div>
-                    </div>
-                    <div class="container_testimonio">
-                      <h3><b>Nombre</b></h3>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Repellat magni, quod non quasi dignissimos magnam
-                        tempora quam minus illum dolores.
-                      </p>
-                    </div>
-                  </div>
-                </swiper-slide>
-              </Swiper>
-            </div>
           </div>
+        </div>
+        <div id="Testimonios" v-if="experiencia?.id_experience_status === 3">
+          <IndexSwiperTestimonios
+            :slug="`/testimony/getByExperience/${experiencia?.id}`"
+          ></IndexSwiperTestimonios>
         </div>
       </ClientOnly>
     </main>
-    <EventosReserve></EventosReserve>
+    <EventosReserve :idExperience="`${experiencia?.id}`"></EventosReserve>
   </div>
 </template>
 

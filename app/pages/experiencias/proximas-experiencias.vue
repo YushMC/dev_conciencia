@@ -5,7 +5,7 @@
     </div>
 
     <ClientOnly>
-      <div class="dashboard_eventos" v-if="dataEventos">
+      <div class="dashboard_eventos" v-if="dataEventos.length > 0">
         <article
           v-for="evento in dataEventos"
           :key="evento.id"
@@ -23,7 +23,8 @@
         </article>
       </div>
       <div class="cargando" v-else>
-        <loader></loader>
+        <h3>Sin Experiencias Próximas</h3>
+        <span> <BootstrapIcon name="journal-x"></BootstrapIcon></span>
       </div>
     </ClientOnly>
   </main>
@@ -148,6 +149,28 @@ article .container_flayer {
   overflow: hidden;
   filter: drop-shadow(1px 1px 6px #00000081);
   cursor: pointer;
+}
+
+.cargando {
+  height: fit-content !important;
+  width: fit-content !important;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin: auto;
+}
+
+.cargando h3 {
+  font-size: 2rem;
+  color: #b47f4a;
+}
+
+.cargando span {
+  font-size: 20rem;
+  color: #b47f4a;
 }
 
 @media screen and (max-width: 600px) {

@@ -7,18 +7,26 @@ export default defineNuxtConfig({
       },
     },
   },
+
   compatibilityDate: "2024-11-01",
-  ssr: true, // Asegúrate de que está habilitado
+
+  // Asegúrate de que está habilitado
+  ssr: true,
+
   srcDir: "app/",
+
   build: {
     transpile: ["unhead"], // Asegúrate de que unhead sea correctamente transpilado
   },
+
   devtools: { enabled: false },
+
   // plugins: ["~/plugins/driver.js"],
   plugins: [
     "~/plugins/sweetalert2.ts",
     "~/plugins/v-calendar.ts", // Asegúrate de agregar tu plugin aquí
   ],
+
   imports: {
     dirs: ["store"], // Asegura que los stores en la carpeta `store` se detecten automáticamente
   },
@@ -68,18 +76,23 @@ export default defineNuxtConfig({
     pageTransition: { name: "blur", mode: "out-in" },
     layoutTransition: { name: "opacity", mode: "out-in" },
   },
+
   vue: {
     compilerOptions: {
       isCustomElement: (tag) => tag.startsWith("gmp-"), // Ignorar los elementos de Google Maps
     },
   },
+
   routeRules: {
     "/cuenta/**": { appMiddleware: "auth" }, // Protege todas las subrutas de /cuenta
   },
+
   runtimeConfig: {
     apiUrl: "http://192.168.1.44/conciencia-api/public/api", // Solo en el servidor
     public: {
       apiUrl: "http://192.168.1.44/conciencia-api/public/api",
     },
   },
+
+  modules: ["nuxt-bootstrap-icons"],
 });

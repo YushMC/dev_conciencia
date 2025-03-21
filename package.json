@@ -24,6 +24,7 @@
     "dotenv": "^16.4.7",
     "jwt-decode": "^4.0.0",
     "nuxt": "^3.15.0",
+    "nuxt-bootstrap-icons": "^2.1.2",
     "pinia": "^2.3.1",
     "pinia-plugin-persistedstate": "^4.2.0",
     "sweetalert2": "^11.15.10",
