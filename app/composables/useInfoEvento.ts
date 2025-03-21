@@ -15,7 +15,6 @@ export default function useInfoEvento() {
       );
 
       experiencia.value = response.experience as Experience;
-      console.log(experiencia.value);
 
       return { success: true, message: "Datos encontrados de la experiencia" };
     } catch (error) {

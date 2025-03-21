@@ -81,8 +81,6 @@ const fetchEventosUser = async () => {
       throw new Error(error.value.message);
     }
 
-    console.log("Datos recibidos de la API:", data);
-
     // Función para validar fechas
     const parseDate = (dateStr: string) => {
       if (!dateStr) return null; // Si está vacío, retorna null

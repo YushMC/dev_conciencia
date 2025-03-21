@@ -19,10 +19,7 @@
         :breakpoints="breakpoints"
         class="mySwiper"
       >
-        <swiper-slide
-          v-for="(evento, index) in dataEventos"
-          :key="evento.id || index"
-        >
+        <swiper-slide v-for="(evento, index) in dataEventos" :key="index">
           <NuxtLink :to="`/experiencias/${evento?.slug}`" class="card_slide">
             <img :src="evento?.flyer" alt="" loading="lazy" />
           </NuxtLink>

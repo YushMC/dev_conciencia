@@ -31,6 +31,7 @@ const toggleModalReserve = async () => {
       text: "Es necesario iniciar sesión previamente antes de reservar por este método.",
     });
     showModalReserva.value = false;
+    router.push("/login");
   } else {
     showModalReserva.value = true;
   }

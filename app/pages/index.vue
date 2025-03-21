@@ -263,6 +263,15 @@ onMounted(() => {
   gap: 1rem;
   padding-bottom: 3rem;
 }
+
+@media screen and (max-width: 1000px) {
+  .containerHistory {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    gap: 1rem;
+  }
+}
 .container_imgHistory {
   width: 100%;
   display: flex;
