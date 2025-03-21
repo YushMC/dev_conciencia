@@ -29,7 +29,6 @@ const handleDayClick = (event: { date: Date }) => {
   // Busca si hay un evento para la fecha seleccionada
   selectedEvent.value = calendarAttributes.value.find((attr) => {
     if (!attr.dates || isNaN(new Date(attr.dates).getTime())) {
-      console.warn("Fecha inválida en calendarAttributes:", attr.dates);
       return false;
     }
     const eventDate = new Date(attr.dates).toISOString().split("T")[0];
@@ -86,7 +85,6 @@ const fetchEventosUser = async () => {
       if (!dateStr) return null; // Si está vacío, retorna null
       const date = new Date(dateStr);
       if (isNaN(date.getTime())) {
-        console.error("Fecha inválida detectada:", dateStr);
         return null;
       }
       return date;
@@ -117,9 +115,7 @@ const fetchEventosUser = async () => {
         };
       }),
     ];
-  } catch (error) {
-    console.error("Error en fetchEventosUser:", error);
-  }
+  } catch (error) {}
 };
 
 // Carga los eventos cuando el componente se monta

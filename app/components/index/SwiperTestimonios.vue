@@ -60,10 +60,7 @@ onBeforeMount(async () => {
     }
   };
 
-  const response = await fetchTestimonios(props.slug?.toString() ?? "");
-  if (!response.success) {
-    console.error(response.message);
-  }
+  await fetchTestimonios(props.slug?.toString() ?? "");
 });
 </script>
 

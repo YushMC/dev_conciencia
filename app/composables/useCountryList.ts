@@ -11,6 +11,7 @@ interface ApiResponse {
   message: string;
 }
 const selectedPrefijo = ref("");
+const selectedIdCountry = ref(0);
 
 const { apiUrl } = useApiUrl();
 
@@ -25,6 +26,7 @@ export default function useCountryList() {
 
       countryList.value = response.countries as Countries[];
       selectedPrefijo.value = countryList.value[0].lada;
+      selectedIdCountry.value = countryList.value[0].id;
       return { success: true, message: "Paises cargados." };
     } catch (error) {
       return { success: false, message: "Ocurrio un error: " + error };
@@ -35,5 +37,6 @@ export default function useCountryList() {
     fetchCountries,
     countryList,
     selectedPrefijo,
+    selectedIdCountry,
   };
 }

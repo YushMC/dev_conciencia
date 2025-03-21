@@ -110,9 +110,20 @@
           </div>
           <label for="" style="margin-top: 2%">Foto de Perfil</label>
         </div>
-        <div v-if="isloadingState">Cargando</div>
-        <div class="container_input" v-else>
-          <select v-model="meditator.state">
+        <div class="container_input">
+          <select v-model="selectedIdCountry" @change="searchStates()">
+            <option
+              v-for="country in countryList"
+              :key="country.id"
+              :value="country.id"
+            >
+              {{ country.name }}
+            </option>
+          </select>
+          <label for="">País: </label>
+        </div>
+        <div class="container_input">
+          <select v-model="meditator.id_state" @change="fetchCity">
             <option
               :value="state.id"
               v-for="state in statesData"
@@ -123,13 +134,18 @@
           </select>
           <label for="">Estado:</label>
         </div>
-        <div class="container_input">
-          <select v-model="meditator.city">
-            <option value="Guadalajara">Guadalajara</option>
+        <h5 v-if="isloadingCities" style="color: red">
+          Selecciona un estado antes de continuar
+        </h5>
+        <div class="container_input" v-else>
+          <select v-model="meditator.id_city">
+            <option v-for="city in listCities" :key="city.id" :value="city.id">
+              {{ city.name }}
+            </option>
           </select>
           <label for="">Ciudad:</label>
         </div>
-        <label for="" style="text-align: left">Fecha de Nacimiento</label>
+        <label for="" style="text-align: left">Fecha de Cumpleaños</label>
         <div class="container_input">
           <input
             type="date"
@@ -137,7 +153,7 @@
             v-model="meditator.birthdate"
             placeholder=""
           />
-          <label for="date"> Fecha de Nacimiento </label>
+          <label for="date">Fecha de Cumpleaños</label>
         </div>
         <div class="container_input">
           <h6 style="color: red; margin-top: 1%">
@@ -192,7 +208,7 @@
         <h4>Iniciar Sesión</h4>
         <div class="container_input">
           <div class="codeNumber">
-            <select v-model="selectedPrefijo" v-if="countryList">
+            <select v-model="selectedPrefijo" v-if="countryList" @change="">
               <option
                 v-for="country in countryList"
                 :key="country.id"
@@ -235,7 +251,8 @@
 definePageMeta({
   layout: "login", // Nombre del layout que deseas usar
 });
-const { countryList, selectedPrefijo } = useCountryList();
+const { countryList, selectedPrefijo, selectedIdCountry } = useCountryList();
+
 import { useHead } from "unhead";
 import { ref, onBeforeMount } from "vue";
 
@@ -330,39 +347,72 @@ const errores = ref<string[]>([]);
 const validarFormulario = () => {
   errores.value = []; // Reiniciar errores
 
-  if (!meditator.value.email.trim())
-    errores.value.push("El correo electrónico es obligatorio.");
-  if (!meditator.value.password.trim())
-    errores.value.push("La contraseña es obligatoria.");
-  if (!meditator.value.name.trim())
-    errores.value.push("El nombre es obligatorio.");
-  if (!meditator.value.phone.trim())
-    errores.value.push("El teléfono es obligatorio.");
-  if (!meditator.value.birthdate.trim())
-    errores.value.push("La fecha de nacimiento es obligatoria.");
-  if (!meditator.value.state.trim())
-    errores.value.push("El estado es obligatorio.");
-  if (!meditator.value.city.trim())
-    errores.value.push("La ciudad es obligatoria.");
-  if (imageFile.value === null) errores.value.push("No hay archivo");
-
-  if (errores.value.length === 0) {
-    register();
-  } else {
+  if (!meditator.value.email.trim()) {
     Swal.fire({
       title: "Error",
-      text: "Por favor, llena los campos.",
+      text: "Por favor, llena el correo electronico.",
       icon: "error",
     });
+    errores.value.push("Sin correo");
+  }
+  if (!meditator.value.password.trim()) {
+    Swal.fire({
+      title: "Error",
+      text: "No puede ser una contraseña vacia.",
+      icon: "error",
+    });
+    errores.value.push("La contraseña es obligatoria.");
+  }
+  if (!meditator.value.name.trim()) {
+    Swal.fire({
+      title: "Error",
+      text: "Por favor, llena tu nombre.",
+      icon: "error",
+    });
+    errores.value.push("El nombre es obligatorio.");
+  }
+  if (!meditator.value.phone.trim()) {
+    Swal.fire({
+      title: "Error",
+      text: "Por favor, llena el teléfono.",
+      icon: "error",
+    });
+    errores.value.push("El teléfono es obligatorio.");
+  }
+  if (!meditator.value.birthdate.trim()) {
+    Swal.fire({
+      title: "Error",
+      text: "Por favor, llena la fecha de cumpleaños.",
+      icon: "error",
+    });
+    errores.value.push("La fecha de nacimiento es obligatoria.");
+  }
+  if (meditator.value.id_state === 0) {
+    Swal.fire({
+      title: "Error",
+      text: "Debes seleccionar un estado.",
+      icon: "error",
+    });
+    errores.value.push("El estado es obligatorio.");
+  }
+  if (meditator.value.id_city === 0) {
+    console.log(meditator.value.id_city);
+    Swal.fire({
+      title: "Error",
+      text: "Debes seleccionar una ciudad.",
+      icon: "error",
+    });
+
+    errores.value.push("La ciudad es obligatoria.");
+  }
+  if (errores.value.length === 0) {
+    meditator.value.id_country = selectedIdCountry.value;
+    register();
   }
 };
 
 const register = async () => {
   if (meditator.value.password === contrasena_2.value) {
-    if (!imageFile.value) {
-      window.alert("Por favor, selecciona una imagen antes de continuar.");
-      return;
-    }
     meditator.value.phone = selectedPrefijo.value + meditator.value.phone;
     const response = await authStore.register(
       meditator.value,
@@ -432,7 +482,8 @@ const triggerFileInput = () => {
 // Creamos una referencia reactiva para almacenar el navegador detectado
 const paddingSignUp = ref("0");
 // Detectamos el navegador en el hook mounted()
-onMounted(() => {
+onMounted(async () => {
+  await searchStates();
   if (process.client) {
     const userAgent = navigator.userAgent;
 
@@ -457,25 +508,48 @@ interface ApiResponse {
   states: States[];
 }
 const isloadingState = ref(true);
-const isloadingCitys = ref(false);
+
+const isloadingCities = ref(true);
 
 const searchStates = async () => {
-  const response = await useFetch<ApiResponse>(apiUrl.value + "/state/list");
+  try {
+    const response = await $fetch<ApiResponse>(
+      apiUrl.value + "/state/list/" + selectedIdCountry.value.toString()
+    );
 
-  if (response.error) {
+    if (response.states) {
+      statesData.value = response.states as States[];
+      isloadingState.value = false;
+    }
+  } catch (error) {
     isloadingState.value = true;
+  }
+};
+
+const listCities = ref<any[] | null>(null);
+
+const fetchCity = async () => {
+  const config = useRuntimeConfig();
+
+  interface Cities {
+    id?: number;
+    name?: string;
+  }
+  try {
+    const response = await $fetch<{ cities: Cities[] }>(
+      config.public.apiUrl + "/city/list/" + meditator.value.id_state.toString()
+    );
+
+    if (response.cities.length > 0) {
+      listCities.value = response.cities as Cities[];
+    }
+    isloadingCities.value = false;
+  } catch (error) {
     return false;
   }
-
-  if (response.data.value) {
-    statesData.value = response.data.value.states;
-  }
-  isloadingState.value = false;
 };
 onBeforeMount(() => {
   //if (decodedToken.value) return router.push("/cuenta");
-
-  searchStates();
 });
 </script>
 

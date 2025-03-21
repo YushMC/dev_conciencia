@@ -96,8 +96,9 @@ export const useAuthStore = defineStore("auth", {
         formData.append("email", meditator.email);
         formData.append("phone", meditator.phone);
         if (photoFile) formData.append("photo", photoFile); // Adjuntar imagen si hay
-        formData.append("city", meditator.city);
-        formData.append("state", meditator.state);
+        formData.append("id_city", meditator.id_city);
+        formData.append("id_state", meditator.id_state);
+        formData.append("id_country", meditator.id_country);
         formData.append("birthdate", meditator.birthdate);
 
         const { data, error } = await useFetch<LoginResponse>(
@@ -142,7 +143,7 @@ export const useAuthStore = defineStore("auth", {
           icon: "error",
           title: "Oops...",
           html: `<h3>Error al registrar:</h3>
-              <br><h5 style='color: red;'>${err.message}</h5>`,
+              <br><h5 style='color: red;'>${err.message?.phone}</h5>`,
         });
         return { success: true };
       }

@@ -5,9 +5,21 @@
       <details open class="container_info">
         <summary class="main_title">Culiacán, Sinaloa</summary>
         <ul>
-          <li>(667) 581-3007</li>
-          <li>(667) 208-5200</li>
-          <li>(667) 107-0607</li>
+          <li>
+            <a href="https://wa.me/526675813007" target="_blank">
+              (667) 581-3007
+            </a>
+          </li>
+          <li>
+            <a href="https://wa.me/526672085200" target="_blank">
+              (667) 208-5200
+            </a>
+          </li>
+          <li>
+            <a href="https://wa.me/526671070607" target="_blank">
+              (667) 107-0607
+            </a>
+          </li>
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
@@ -33,7 +45,11 @@
       <details open class="container_info">
         <summary class="main_title">Guadalajara, Jalisco</summary>
         <ul>
-          <li>(33) 3117-9147</li>
+          <li>
+            <a href="https://wa.me/523331179147" target="_blank"
+              >(33) 3117-9147</a
+            >
+          </li>
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
@@ -48,7 +64,11 @@
       <details open class="container_info">
         <summary class="main_title">Chihuahua</summary>
         <ul>
-          <li>(667) 107-0607</li>
+          <li>
+            <a href="https://wa.me/526671070607" target="_blank"
+              >(667) 107-0607</a
+            >
+          </li>
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
@@ -63,8 +83,16 @@
       <details open class="container_info">
         <summary class="main_title">Monterrey</summary>
         <ul>
-          <li>(667) 216-0290</li>
-          <li>(811) 639-7047</li>
+          <li>
+            <a href="https://wa.me/526672160290" target="_blank"
+              >(667) 216-0290</a
+            >
+          </li>
+          <li>
+            <a href="https://wa.me/528116397047" target="_blank"
+              >(811) 639-7047</a
+            >
+          </li>
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
@@ -80,8 +108,16 @@
       <details open class="container_info">
         <summary class="main_title">Mexicali, B.C</summary>
         <ul>
-          <li>(686) 530-8949</li>
-          <li>(667) 396-2340</li>
+          <li>
+            <a href="https://wa.me/526865308949" target="_blank"
+              >(686) 530-8949</a
+            >
+          </li>
+          <li>
+            <a href="https://wa.me/526673962340" target="_blank"
+              >(667) 396-2340</a
+            >
+          </li>
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
@@ -94,7 +130,11 @@
       <details open class="container_info">
         <summary class="main_title">Ensenada, B.C</summary>
         <ul>
-          <li>(646) 400-0968</li>
+          <li>
+            <a href="https://wa.me/526464000968" target="_blank"
+              >(646) 400-0968</a
+            >
+          </li>
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
@@ -106,7 +146,11 @@
       <details open class="container_info">
         <summary class="main_title">Mazatlán y Nayarit</summary>
         <ul>
-          <li>(669) 168-5026</li>
+          <li>
+            <a href="https://wa.me/526691685026" target="_blank"
+              >(669) 168-5026</a
+            >
+          </li>
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
@@ -121,8 +165,16 @@
       <details open class="container_info">
         <summary class="main_title">Los Ángeles, California</summary>
         <ul>
-          <li>+1 (626) 377-2898</li>
-          <li>+1 (818) 267-6315</li>
+          <li>
+            <a href="https://wa.me/16263772898" target="_blank"
+              >+1 (626) 377-2898</a
+            >
+          </li>
+          <li>
+            <a href="https://wa.me/18182676315" target="_blank"
+              >+1 (818) 267-6315</a
+            >
+          </li>
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
@@ -135,7 +187,11 @@
       <details open class="container_info">
         <summary class="main_title">El Salvador</summary>
         <ul>
-          <li>(503) 7541-4165</li>
+          <li>
+            <a href="https://wa.me/50375414165" target="_blank"
+              >(503) 7541-4165</a
+            >
+          </li>
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
@@ -148,7 +204,9 @@
       <details open class="container_info">
         <summary class="main_title">Colombia</summary>
         <ul>
-          <li>320-2039176</li>
+          <li>
+            <a href="https://wa.me/573202039176" target="_blank">320-2039176</a>
+          </li>
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
@@ -162,6 +220,7 @@
         <summary class="main_title">Argentina</summary>
         <ul>
           <li>+54 9112394-6086</li>
+          <!-- <li><a href="https://wa.me/549123946086">+54 912394-6086</a></li> -->
         </ul>
         <details open class="personal">
           <summary>Personal Capacitado</summary>
