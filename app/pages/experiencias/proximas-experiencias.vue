@@ -5,7 +5,7 @@
     </div>
 
     <ClientOnly>
-      <div class="dashboard_eventos" v-if="dataEventos.length">
+      <div class="dashboard_eventos" v-if="dataEventos">
         <article
           v-for="evento in dataEventos"
           :key="evento.id"
@@ -30,18 +30,16 @@
 </template>
 
 <script setup lang="ts">
-import { useHead } from "unhead";
-import { useRouter } from "vue-router";
-
 const router = useRouter();
-import { onMounted, onBeforeMount } from "vue";
 
 const { dataEventos } = useApiEventos();
 
 const { isResponsiveMenu } = useMainHeader();
+const { isChecked } = useDespegablemenu();
 
 isResponsiveMenu.value = false;
 onMounted(() => {
+  isChecked.value = false;
   useHead({
     title: "Experiencias",
     meta: [

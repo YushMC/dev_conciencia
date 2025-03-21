@@ -15,6 +15,11 @@
 const { isResponsiveMenu } = useMainHeader();
 
 isResponsiveMenu.value = false;
+const { isChecked } = useDespegablemenu();
+
+onMounted(() => {
+  isChecked.value = false;
+});
 </script>
 
 <style scoped>

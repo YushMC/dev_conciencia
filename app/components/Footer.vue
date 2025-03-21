@@ -89,7 +89,7 @@ li {
   width: 80%;
   margin: auto;
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 1fr 3fr 2fr;
   gap: 5em;
   align-items: center;
 }

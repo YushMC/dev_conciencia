@@ -58,7 +58,7 @@
       </div>
       <div class="containerHistory">
         <div class="container_imgHistory">
-          <img src="~/assets/gallery/7.jpg" alt="" />
+          <img src="~/assets/vero/main.jpg" alt="" />
         </div>
         <div class="container_textHistory">
           <h2 class="text_color_principal">Nuestro Renacer</h2>
@@ -67,9 +67,9 @@
             Divino con una trayectoria de más de 20 años a logrado impactar en
             la conciencia humana de miles de personas convirtiéndose en un icono
             en el mundo de las meditaciones. Líder y promotora del movimiento
-            espiritual “La Nueva Era”. ´ <br /><br />Su labor y emprendimiento
-            han dejado huella a nivel internacional como en México, Latino
-            América y parte de Estados Unidos.
+            espiritual <i>“La Nueva Era”</i>. <br /><br />Su labor y
+            emprendimiento han dejado huella a nivel internacional como en
+            México, Latino América y parte de Estados Unidos.
           </p>
         </div>
       </div>
@@ -83,7 +83,7 @@
 import { useHead } from "unhead";
 
 const { isResponsiveMenu } = useMainHeader();
-
+const { isChecked } = useDespegablemenu();
 isResponsiveMenu.value = false;
 
 useHead({
@@ -113,6 +113,9 @@ useHead({
     },
     */
   ],
+});
+onMounted(() => {
+  isChecked.value = false;
 });
 </script>
 
@@ -253,11 +256,12 @@ useHead({
 }
 
 .containerHistory {
-  margin: 5% 0;
-  width: 100%;
+  margin: 3% auto;
+  width: 90%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  padding-bottom: 3rem;
 }
 .container_imgHistory {
   width: 100%;
@@ -266,7 +270,7 @@ useHead({
   align-items: center;
 }
 .container_imgHistory img {
-  width: 20rem;
+  width: 80%;
   border-radius: 10px;
 }
 .container_textHistory {
@@ -276,6 +280,9 @@ useHead({
 }
 .container_textHistory h2 {
   font-size: 2rem;
+}
+.container_textHistory p {
+  width: 50ch;
 }
 @media screen and (max-width: 600px) {
   .card_slide_testimonio {

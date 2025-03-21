@@ -89,7 +89,8 @@ import iconUser from "./../assets/icon_user.svg";
 const route = useRoute();
 const { meditator } = useInfoUser();
 
-const isChecked = ref(false);
+const { isChecked } = useDespegablemenu();
+
 const { isResponsiveMenu } = useMainHeader();
 
 const toggleMenu = () => {

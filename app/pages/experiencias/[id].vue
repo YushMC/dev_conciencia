@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 const route = useRoute();
 const router = useRouter();
 const eventoId = route.params.id as string;
+const { isChecked } = useDespegablemenu();
 
 const toggleModal = () => {
   //showModalReserva.value = !showModalReserva.value;
@@ -94,204 +95,230 @@ onMounted(() => {
   if (experiencia.value?.id_experience_status === 3 && isLogged) {
     router.push("/");
   }
+  isChecked.value = false;
 });
 </script>
 
 <template>
-  <main>
-    <div class="container_info_evento bg_color_principal" v-if="experiencia">
-      <div class="container_text">
-        <!-- Verifica si 'experiencia' y 'description' están disponibles antes de mostrarlas -->
-        <h2 class="text_color_principal titulo" v-if="experiencia?.description">
-          {{ experiencia.description }}
-        </h2>
-        <h3
-          class="location_info"
-          v-if="experiencia?.city && experiencia?.state && experiencia?.country"
-        >
-          <span><img src="/assets/gui/location.svg" alt="" /></span>
-          {{ experiencia.address }}
-          <br />{{ experiencia.city }}, {{ experiencia.state }},
-          {{ experiencia.country }}.
-        </h3>
-      </div>
-      <div class="container_status">
-        <h5 :class="{ active: experiencia?.id_experience_status === 1 }">
-          Próximamente
-        </h5>
-        <h5 :class="{ active: experiencia?.id_experience_status === 2 }">
-          ¡En curso!
-        </h5>
-      </div>
-    </div>
-    <ClientOnly>
-      <div class="container_flayer bg_color_principal" id="reservar">
-        <img :src="experiencia?.flyer" alt="Flyer Experiencia" loading="lazy" />
-        <section class="precios" v-if="experiencia?.id_experience_status !== 3">
-          <h1>{{ experiencia?.description }}</h1>
-          <select
-            v-model="selectedPrice"
-            v-if="experiencia?.single_price !== 0"
+  <div>
+    <main>
+      <div class="container_info_evento bg_color_principal" v-if="experiencia">
+        <div class="container_text">
+          <!-- Verifica si 'experiencia' y 'description' están disponibles antes de mostrarlas -->
+          <h2
+            class="text_color_principal titulo"
+            v-if="experiencia?.description"
           >
-            <option value="1">
-              ${{ experiencia?.single_price }} por 1 persona.
-            </option>
-            <option
-              v-if="experiencia?.promo_price && experiencia?.persons_promo"
-              value="2"
-            >
-              Promoción: ${{ experiencia?.promo_price }} por
-              {{ experiencia?.persons_promo }} personas!
-            </option>
-          </select>
-          <h2 v-else>El precio se confirma en el lugar.</h2>
-          <div>
-            <h5>Fecha</h5>
-            <h5 v-if="experiencia?.init_date">
-              {{
-                (() => {
-                  try {
-                    return new Date(experiencia.init_date)
-                      .toISOString()
-                      .slice(0, 10);
-                  } catch {
-                    return "Fecha no disponible";
-                  }
-                })()
-              }}
-            </h5>
-          </div>
-          <button @click="toggleModal">
-            <span>Más Información</span>
-          </button>
-          <button @click="toggleModalReserve">Reservar</button>
-        </section>
-        <section v-else>
-          <h3 class="titulo text_color_principal">
-            ¡Esta meditación esta en curso!
+            {{ experiencia.description }}
+          </h2>
+          <h3
+            class="location_info"
+            v-if="
+              experiencia?.city && experiencia?.state && experiencia?.country
+            "
+          >
+            <span><img src="/assets/gui/location.svg" alt="" /></span>
+            {{ experiencia.address }}
+            <br />{{ experiencia.city }}, {{ experiencia.state }},
+            {{ experiencia.country }}.
           </h3>
-        </section>
-      </div>
-
-      <div class="container_description">
-        <ul class="container_submenu">
-          <li class="active">Ubicación</li>
-        </ul>
-        <div class="container_info">
-          <div class="content_description">
-            <section>
-              <div
-                class="content_map"
-                v-if="experiencia?.id_experience_status !== 3"
-              >
-                <EventosMaps
-                  v-if="
-                    experiencia?.lat !== undefined &&
-                    experiencia?.lng !== undefined
-                  "
-                  :lat="experiencia?.lat"
-                  :lng="experiencia?.lng"
-                >
-                </EventosMaps>
-              </div>
-            </section>
-          </div>
-          <div id="Testimonios" v-if="experiencia?.id_experience_status === 3">
-            <h2 class="titulo text_color_principal">Comentarios</h2>
-            <hr class="bg_color_secundario" />
-            <Swiper
-              :modules="[Pagination, Navigation]"
-              :grabCursor="true"
-              :loop="true"
-              :spaceBetween="30"
-              :autoplay="{
-                delay: 2500,
-                disableOnInteraction: false,
-              }"
-              :navigation="true"
-              :pagination="true"
-              :breakpoints="breakpoints"
-              class="mySwiper"
-            >
-              <swiper-slide>
-                <div class="card_slide_testimonio">
-                  <div class="container_img">
-                    <img src="/assets/img_profiles/1.jpg" alt="" />
-                    <div class="container_icon_video">
-                      <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
-                    </div>
-                  </div>
-                  <div class="container_testimonio">
-                    <h3><b>Nombre</b></h3>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Repellat magni, quod non quasi dignissimos magnam tempora
-                      quam minus illum dolores.
-                    </p>
-                  </div>
-                </div>
-              </swiper-slide>
-              <swiper-slide>
-                <div class="card_slide_testimonio">
-                  <div class="container_img">
-                    <img src="/assets/img_profiles/2.jpg" alt="" />
-                    <div class="container_icon_video">
-                      <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
-                    </div>
-                  </div>
-                  <div class="container_testimonio">
-                    <h3><b>Nombre</b></h3>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Repellat magni, quod non quasi dignissimos magnam tempora
-                      quam minus illum dolores.
-                    </p>
-                  </div>
-                </div>
-              </swiper-slide>
-              <swiper-slide>
-                <div class="card_slide_testimonio">
-                  <div class="container_img">
-                    <img src="/assets/img_profiles/3.jpg" alt="" />
-                    <div class="container_icon_video">
-                      <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
-                    </div>
-                  </div>
-                  <div class="container_testimonio">
-                    <h3><b>Nombre</b></h3>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Repellat magni, quod non quasi dignissimos magnam tempora
-                      quam minus illum dolores.
-                    </p>
-                  </div>
-                </div>
-              </swiper-slide>
-              <swiper-slide>
-                <div class="card_slide_testimonio">
-                  <div class="container_img">
-                    <img src="/assets/img_profiles/4.jpg" alt="" />
-                    <div class="container_icon_video">
-                      <a href=""><img src="/assets/icon_play.svg" alt="" /></a>
-                    </div>
-                  </div>
-                  <div class="container_testimonio">
-                    <h3><b>Nombre</b></h3>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Repellat magni, quod non quasi dignissimos magnam tempora
-                      quam minus illum dolores.
-                    </p>
-                  </div>
-                </div>
-              </swiper-slide>
-            </Swiper>
-          </div>
+        </div>
+        <div class="container_status">
+          <h5 :class="{ active: experiencia?.id_experience_status === 1 }">
+            Próximamente
+          </h5>
+          <h5 :class="{ active: experiencia?.id_experience_status === 2 }">
+            ¡En curso!
+          </h5>
         </div>
       </div>
-    </ClientOnly>
-  </main>
-  <EventosReserve></EventosReserve>
+      <ClientOnly>
+        <div class="container_flayer bg_color_principal" id="reservar">
+          <img
+            :src="experiencia?.flyer"
+            alt="Flyer Experiencia"
+            loading="lazy"
+          />
+          <section
+            class="precios"
+            v-if="experiencia?.id_experience_status !== 3"
+          >
+            <h1>{{ experiencia?.description }}</h1>
+            <select
+              v-model="selectedPrice"
+              v-if="experiencia?.single_price !== 0"
+            >
+              <option value="1">
+                ${{ experiencia?.single_price }} por 1 persona.
+              </option>
+              <option
+                v-if="experiencia?.promo_price && experiencia?.persons_promo"
+                value="2"
+              >
+                Promoción: ${{ experiencia?.promo_price }} por
+                {{ experiencia?.persons_promo }} personas!
+              </option>
+            </select>
+            <h2 v-else>El precio se confirma en el lugar.</h2>
+            <div>
+              <h5>Fecha</h5>
+              <h5 v-if="experiencia?.init_date">
+                {{
+                  (() => {
+                    try {
+                      return new Date(experiencia.init_date)
+                        .toISOString()
+                        .slice(0, 10);
+                    } catch {
+                      return "Fecha no disponible";
+                    }
+                  })()
+                }}
+              </h5>
+            </div>
+            <button @click="toggleModal">
+              <span>Más Información</span>
+            </button>
+            <button @click="toggleModalReserve">Reservar</button>
+          </section>
+          <section v-else>
+            <h3 class="titulo text_color_principal">
+              ¡Esta meditación esta en curso!
+            </h3>
+          </section>
+        </div>
+
+        <div class="container_description">
+          <ul class="container_submenu">
+            <li class="active">Ubicación</li>
+          </ul>
+          <div class="container_info">
+            <div class="content_description">
+              <section>
+                <div
+                  class="content_map"
+                  v-if="experiencia?.id_experience_status !== 3"
+                >
+                  <EventosMaps
+                    v-if="
+                      experiencia?.lat !== undefined &&
+                      experiencia?.lng !== undefined
+                    "
+                    :lat="experiencia?.lat"
+                    :lng="experiencia?.lng"
+                  >
+                  </EventosMaps>
+                </div>
+              </section>
+            </div>
+            <div
+              id="Testimonios"
+              v-if="experiencia?.id_experience_status === 3"
+            >
+              <h2 class="titulo text_color_principal">Comentarios</h2>
+              <hr class="bg_color_secundario" />
+              <Swiper
+                :modules="[Pagination, Navigation]"
+                :grabCursor="true"
+                :loop="true"
+                :spaceBetween="30"
+                :autoplay="{
+                  delay: 2500,
+                  disableOnInteraction: false,
+                }"
+                :navigation="true"
+                :pagination="true"
+                :breakpoints="breakpoints"
+                class="mySwiper"
+              >
+                <swiper-slide>
+                  <div class="card_slide_testimonio">
+                    <div class="container_img">
+                      <img src="/assets/img_profiles/1.jpg" alt="" />
+                      <div class="container_icon_video">
+                        <a href=""
+                          ><img src="/assets/icon_play.svg" alt=""
+                        /></a>
+                      </div>
+                    </div>
+                    <div class="container_testimonio">
+                      <h3><b>Nombre</b></h3>
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Repellat magni, quod non quasi dignissimos magnam
+                        tempora quam minus illum dolores.
+                      </p>
+                    </div>
+                  </div>
+                </swiper-slide>
+                <swiper-slide>
+                  <div class="card_slide_testimonio">
+                    <div class="container_img">
+                      <img src="/assets/img_profiles/2.jpg" alt="" />
+                      <div class="container_icon_video">
+                        <a href=""
+                          ><img src="/assets/icon_play.svg" alt=""
+                        /></a>
+                      </div>
+                    </div>
+                    <div class="container_testimonio">
+                      <h3><b>Nombre</b></h3>
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Repellat magni, quod non quasi dignissimos magnam
+                        tempora quam minus illum dolores.
+                      </p>
+                    </div>
+                  </div>
+                </swiper-slide>
+                <swiper-slide>
+                  <div class="card_slide_testimonio">
+                    <div class="container_img">
+                      <img src="/assets/img_profiles/3.jpg" alt="" />
+                      <div class="container_icon_video">
+                        <a href=""
+                          ><img src="/assets/icon_play.svg" alt=""
+                        /></a>
+                      </div>
+                    </div>
+                    <div class="container_testimonio">
+                      <h3><b>Nombre</b></h3>
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Repellat magni, quod non quasi dignissimos magnam
+                        tempora quam minus illum dolores.
+                      </p>
+                    </div>
+                  </div>
+                </swiper-slide>
+                <swiper-slide>
+                  <div class="card_slide_testimonio">
+                    <div class="container_img">
+                      <img src="/assets/img_profiles/4.jpg" alt="" />
+                      <div class="container_icon_video">
+                        <a href=""
+                          ><img src="/assets/icon_play.svg" alt=""
+                        /></a>
+                      </div>
+                    </div>
+                    <div class="container_testimonio">
+                      <h3><b>Nombre</b></h3>
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Repellat magni, quod non quasi dignissimos magnam
+                        tempora quam minus illum dolores.
+                      </p>
+                    </div>
+                  </div>
+                </swiper-slide>
+              </Swiper>
+            </div>
+          </div>
+        </div>
+      </ClientOnly>
+    </main>
+    <EventosReserve></EventosReserve>
+  </div>
 </template>
 
 <style scoped>

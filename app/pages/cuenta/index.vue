@@ -68,7 +68,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const { toggleStateHeader } = useHeaderAccount();
-
+const { isChecked } = useDespegablemenu();
 const { meditator, hydrate } = useInfoUser();
 
 import { ref } from "vue";
@@ -80,6 +80,7 @@ const imgpreview = ref<string>("");
 // Configuración del tour
 onMounted(() => {
   hydrate();
+  isChecked.value = false;
 });
 </script>
 

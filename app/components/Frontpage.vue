@@ -9,7 +9,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import image from "~/assets/gallery/6.jpg";
+import image from "./../assets/gallery/main.webp";
 </script>
 <style scoped>
 .container_front_page {

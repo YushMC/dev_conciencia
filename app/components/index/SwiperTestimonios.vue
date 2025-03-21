@@ -167,12 +167,19 @@ section {
 }
 .card_slide_testimonio .container_img .container_icon_video {
   position: absolute;
-  width: 3dvw;
+  width: 4rem;
   right: 1rem;
   bottom: 0;
   background: #ffffffa2;
   backdrop-filter: blur(5px);
   border-radius: 100%;
+}
+
+.card_slide_testimonio .container_img .container_icon_video a {
+  width: 100%;
+}
+.card_slide_testimonio .container_img .container_icon_video a img {
+  width: 100%;
 }
 .card_slide_testimonio .container_testimonio {
   width: 100%;
