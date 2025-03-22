@@ -9,8 +9,7 @@
       </div>
 
       <a @click="toogleStateModal">Ajustes</a>
-      <NuxtLink to="/cuenta" active-class="link_active">Inicio</NuxtLink>
-      <NuxtLink to="/" active-class="link_active">Regresar</NuxtLink>
+      <NuxtLink to="/">Inicio</NuxtLink>
     </div>
     <div class="others">
       <button @click="logout" style="background: red">Cerrar Sesión</button>
@@ -133,6 +132,15 @@ header {
   border-radius: 10px;
   cursor: pointer;
 }
+a {
+  border: solid 4px transparent !important;
+  transition: all 0.3s linear;
+}
+
+a:hover {
+  border-left: none;
+  border-bottom: solid 4px #b47f4a !important;
+}
 
 @media screen and (max-width: 800px) {
   header {
@@ -162,11 +170,9 @@ header {
   }
   .fast_access a {
     width: 100%;
+    transition: all 0.3s linear;
   }
-  .link_active {
-    border-left: none;
-    border-bottom: solid 4px #b47f4a !important;
-  }
+
   .others {
     display: flex;
     justify-content: center;
