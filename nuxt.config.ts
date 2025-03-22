@@ -88,9 +88,9 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    apiUrl: "https://api.concienciadelserdivino.com.mx/api/", // Solo en el servidor
+    apiUrl: "https://api.concienciadelserdivino.com.mx/api", // Solo en el servidor
     public: {
-      apiUrl: "https://api.concienciadelserdivino.com.mx/api/",
+      apiUrl: "https://api.concienciadelserdivino.com.mx/api",
     },
   },
 
