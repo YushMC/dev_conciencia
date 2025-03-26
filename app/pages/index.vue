@@ -291,7 +291,7 @@ onMounted(() => {
   font-size: 2rem;
 }
 .container_textHistory p {
-  width: 50ch;
+  width: 300px;
 }
 @media screen and (max-width: 600px) {
   .card_slide_testimonio {
@@ -307,6 +307,8 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    width: 100%;
+    padding-inline: 10%;
   }
 }
 </style>
