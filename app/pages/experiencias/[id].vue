@@ -37,38 +37,41 @@ const toggleModalReserve = async () => {
   }
 };
 
-onBeforeMount(async () => {
-  const config = useRuntimeConfig(); // Adjust the import path as necessary
-  const response = await fetchEvento(config.public.apiUrl.toString(), eventoId);
-  if (!response.success) {
-    console.error(response.message);
-  } else {
-    useHead({
-      title: experiencia.value?.description,
-      meta: [
-        {
-          name: "description",
-          content: "Todas las experiencias que esperan tu llegada!",
-        },
-        {
-          property: "og:title",
-          content:
-            experiencia.value?.description + " - Conciencia del Ser Divino",
-        },
-        {
-          property: "og:description",
-          content: "Nuestra experiencia de " + experiencia.value?.description,
-        },
-        {
-          property: "og:url",
-          content: "http://localhost:3000/experiencias/" + eventoId,
-        },
-        { property: "og:type", content: "website" },
-        { property: "og:image", content: "/assets/logo.jpeg" },
-      ],
-    });
-  }
+const config = useRuntimeConfig(); // Adjust the import path as necessary
+
+await fetchEvento(config.public.apiUrl.toString(), eventoId);
+let descripcione: string = "";
+let flayers: string = "";
+descripcione = experiencia.value?.description || "Experiencia";
+flayers =
+  experiencia.value?.flyer?.toString() ||
+  "https://www.concienciadelserdivino.com.mx/_nuxt/assets/logo_without_bg.png";
+useHead({
+  title: experiencia.value?.description,
+  meta: [
+    {
+      name: "description",
+      content: "Todas las experiencias que esperan tu llegada!",
+    },
+    {
+      property: "og:title",
+      content: descripcione + " - Conciencia del Ser Divino",
+    },
+    {
+      property: "og:description",
+      content: "Nuestra experiencia de " + descripcione,
+    },
+    {
+      property: "og:url",
+      content:
+        "https://www.concienciadelserdivino.com.mx/experiencias/" + eventoId,
+    },
+    { property: "og:type", content: "website" },
+    { property: "og:image", content: flayers },
+  ],
 });
+
+onBeforeMount(async () => {});
 onMounted(() => {
   isResponsiveMenu.value = false;
 

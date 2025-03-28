@@ -41,26 +41,35 @@ const { isChecked } = useDespegablemenu();
 isResponsiveMenu.value = false;
 onMounted(() => {
   isChecked.value = false;
-  useHead({
-    title: "Experiencias",
-    meta: [
-      {
-        name: "description",
-        content: "Todas las experiencias que esperan tu llegada!",
-      },
-      {
-        property: "og:title",
-        content: "Experiencias - Conciencia del Ser Divino",
-      },
-      {
-        property: "og:description",
-        content: "Hecha un vistazo a nuestras próximas experiencias!",
-      },
-      { property: "og:url", content: "https://www.ejemplo.com/" },
-      { property: "og:type", content: "website" },
-      { property: "og:image", content: "/assets/logo.jpeg" },
-    ],
-  });
+});
+
+useHead({
+  title: "Experiencias",
+  meta: [
+    {
+      name: "description",
+      content: "Todas las experiencias que esperan tu llegada!",
+    },
+    {
+      property: "og:title",
+      content: "Experiencias - Conciencia del Ser Divino",
+    },
+    {
+      property: "og:description",
+      content: "Hecha un vistazo a nuestras próximas experiencias!",
+    },
+    {
+      property: "og:url",
+      content:
+        "https://www.concienciadelserdivino.com.mx/proximas-experiencias",
+    },
+    { property: "og:type", content: "website" },
+    {
+      property: "og:image",
+      content:
+        "https://www.concienciadelserdivino.com.mx/_nuxt/assets/logo_without_bg.png",
+    },
+  ],
 });
 </script>
 

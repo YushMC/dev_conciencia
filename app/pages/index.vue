@@ -96,8 +96,15 @@ useHead({
     //etiquetas og
     { property: "og:title", content: "Inicio - Conciencia del Ser Divino" },
     { property: "og:description", content: "Somos Conciencia del Ser Divino" },
-    // { property: 'og:image', content: 'https://www.ejemplo.com/imagen.jpg' },
-    { property: "og:url", content: "https://www.ejemplo.com/" },
+    {
+      property: "og:image",
+      content:
+        "https://www.concienciadelserdivino.com.mx/_nuxt/assets/logo_without_bg.png",
+    },
+    {
+      property: "og:url",
+      content: "https://www.concienciadelserdivino.com.mx/",
+    },
     { property: "og:type", content: "website" },
     //etiquetas para twitter
     { name: "twitter:card", content: "summary_large_image" },

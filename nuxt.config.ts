@@ -70,7 +70,10 @@ export default defineNuxtConfig({
       ],
       link: [
         //cual es la ruta cononica o la base
-        { rel: "canonical", href: "https://www.ejemplo.com/" },
+        {
+          rel: "canonical",
+          href: "https://www.concienciadelserdivino.com.mx/",
+        },
       ],
     },
     pageTransition: { name: "blur", mode: "out-in" },
