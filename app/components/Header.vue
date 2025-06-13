@@ -14,7 +14,7 @@
               <NuxtLink to="/#Nuestra-Escencia">Nuestra Escencia</NuxtLink>
             </div>
             <div class="menu">
-              <NuxtLink to="/Presencia">Nuestra Presencia</NuxtLink>
+              <NuxtLink to="/Presencia">Nuestro Personal</NuxtLink>
             </div>
             <!--
           <div class="menu">

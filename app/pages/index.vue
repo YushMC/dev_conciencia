@@ -1,3 +1,50 @@
+<script lang="ts" setup>
+import { useHead } from "unhead";
+
+const { isResponsiveMenu } = useMainHeader();
+const { isChecked } = useDespegablemenu();
+isResponsiveMenu.value = false;
+
+useHead({
+  title: "Inicio",
+  meta: [
+    {
+      name: "description",
+      content: "Página de inicio de Conciencia del Ser Divino",
+    },
+    //etiquetas og
+    { property: "og:title", content: "Inicio - Conciencia del Ser Divino" },
+    { property: "og:description", content: "Somos Conciencia del Ser Divino" },
+    {
+      property: "og:image",
+      content:
+        "https://www.concienciadelserdivino.com.mx/_nuxt/assets/logo_without_bg.png",
+    },
+    {
+      property: "og:url",
+      content: "https://www.concienciadelserdivino.com.mx/",
+    },
+    { property: "og:type", content: "website" },
+    //etiquetas para twitter
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:site", content: "@ConcienciaDelSerDivino" },
+    //etiquetas para facebook
+    { property: "article:publisher", content: "https://www.facebook.com/" },
+  ],
+  link: [
+    /* no recomendable si se quiere remplazar a las cononicas
+    {
+      rel: "shortlink",
+      href: "https://tusitio.com/shortlink", // Aquí colocas la URL corta
+    },
+    */
+  ],
+});
+onMounted(() => {
+  isChecked.value = false;
+});
+</script>
+
 <template>
   <div>
     <Frontpage></Frontpage>
@@ -76,55 +123,69 @@
     </section>
     <ClientOnly>
       <IndexSwiperTestimonios slug="/testimony/all"></IndexSwiperTestimonios>
+      <h2 class="titulo text_color_secundario">No estás solo...</h2>
+      <section id="aliados">
+        <aside>
+          <figure>
+            <img
+              src="https://scontent.fcyw1-1.fna.fbcdn.net/v/t39.30808-6/424866959_7680798758644112_3866180336972395131_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=i5ryJVaek1oQ7kNvwHLV3p_&_nc_oc=Adl2RD6jGMt6gifCxJOdAzGgBOa8f_D1lA7qL42KKl3OV5OZSWxq30OWSPdXJrEZshqK75qutJ1VNp0qs0p7Bby2&_nc_zt=23&_nc_ht=scontent.fcyw1-1.fna&_nc_gid=R2f2mJBycqtqyAglZKYEvw&oh=00_AfMYTp-j96OOaMBWSos7DzduRUp3HDatnlAK7TnGVF9lWw&oe=68510BFF"
+              alt="Logo"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+          <header>
+            <h2>Lic. Psic. Bárbara Angélica Hernández Fernández</h2>
+            <p>Terapia Individual - Terapia de Pareja - Cursos y Talleres</p>
+            <section>
+              <a
+                href="https://wa.me/526672235659"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Enviar un Whatsapp a (6672) 23 56 59"
+              >
+                <i class="bi bi-whatsapp"></i> (6672) 23 56 59
+              </a>
+              <a
+                href="https://www.facebook.com/profile.php?id=61559774065020"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Página de Facebook: Psicóloga Angie Hernández"
+              >
+                <i class="bi bi-facebook"></i> Psicóloga Angie Hernández
+              </a>
+              <a
+                href="https://www.instagram.com/angie.hernandez.psicologa/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Instragram: Psicóloga Angie Hernández"
+              >
+                <i class="bi bi-instagram"></i> angie.hernandez.psicologa
+              </a>
+            </section>
+          </header>
+        </aside>
+        <aside>
+          <figure>
+            <img src="/assets/logo_without_bg.png" alt="" />
+          </figure>
+          <header>
+            <h2>Doctora Lluvia Selene Flores Dominguez</h2>
+            <p>Médico General - Ced. Prof. 12437275 - Registro SSA: 23648</p>
+            <section>
+              <label style="user-select: text"
+                ><i class="bi bi-telephone-fill"></i> 667 215 2775
+              </label>
+              <label style="user-select: text"
+                ><i class="bi bi-geo-alt-fill"></i> Culiacán, Sinaloa.</label
+              >
+            </section>
+          </header>
+        </aside>
+      </section>
     </ClientOnly>
   </div>
 </template>
-<script lang="ts" setup>
-import { useHead } from "unhead";
-
-const { isResponsiveMenu } = useMainHeader();
-const { isChecked } = useDespegablemenu();
-isResponsiveMenu.value = false;
-
-useHead({
-  title: "Inicio",
-  meta: [
-    {
-      name: "description",
-      content: "Página de inicio de Conciencia del Ser Divino",
-    },
-    //etiquetas og
-    { property: "og:title", content: "Inicio - Conciencia del Ser Divino" },
-    { property: "og:description", content: "Somos Conciencia del Ser Divino" },
-    {
-      property: "og:image",
-      content:
-        "https://www.concienciadelserdivino.com.mx/_nuxt/assets/logo_without_bg.png",
-    },
-    {
-      property: "og:url",
-      content: "https://www.concienciadelserdivino.com.mx/",
-    },
-    { property: "og:type", content: "website" },
-    //etiquetas para twitter
-    { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:site", content: "@ConcienciaDelSerDivino" },
-    //etiquetas para facebook
-    { property: "article:publisher", content: "https://www.facebook.com/" },
-  ],
-  link: [
-    /* no recomendable si se quiere remplazar a las cononicas
-    {
-      rel: "shortlink",
-      href: "https://tusitio.com/shortlink", // Aquí colocas la URL corta
-    },
-    */
-  ],
-});
-onMounted(() => {
-  isChecked.value = false;
-});
-</script>
 
 <style scoped>
 .container_mails {
@@ -209,7 +270,7 @@ onMounted(() => {
 }
 .mail:hover .container_paper {
   opacity: 1;
-  transform: translateY(-26rem);
+  transform: translateY(-45dvh);
   visibility: visible;
   clip-path: polygon(0 0, 100% 0%, 100% 72%, 51% 100%, 0 69%);
   box-shadow: inset 0px -90px 5px #0000000a;
@@ -290,6 +351,7 @@ onMounted(() => {
   border-radius: 10px;
 }
 .container_textHistory {
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -298,7 +360,7 @@ onMounted(() => {
   font-size: 2rem;
 }
 .container_textHistory p {
-  width: 300px;
+  width: 100%;
 }
 @media screen and (max-width: 600px) {
   .card_slide_testimonio {
@@ -316,6 +378,63 @@ onMounted(() => {
     gap: 1rem;
     width: 100%;
     padding-inline: 10%;
+  }
+}
+
+#aliados {
+  padding-inline: 10%;
+  margin-block: 28px;
+  gap: 26px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  align-items: start;
+
+  aside {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    gap: 16px;
+
+    figure {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      img {
+        width: 100%;
+        aspect-ratio: 1/1;
+      }
+    }
+
+    p {
+      opacity: 0.8;
+      margin-block: 1lh;
+    }
+
+    section {
+      width: 100%;
+      gap: 16px;
+      display: flex;
+      justify-content: start;
+      flex-wrap: wrap;
+      align-items: center;
+
+      a {
+        width: fit-content;
+        max-width: 200px;
+        border: solid 2px #b47f4a;
+        padding: 8px 16px;
+        transition: all 0.3s linear;
+        text-wrap: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &:hover {
+          background: #b47f4a;
+          color: #fff;
+        }
+      }
+    }
   }
 }
 </style>

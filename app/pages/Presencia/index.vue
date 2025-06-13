@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h2 class="titulo text_color_secundario">Nuestra Presencia</h2>
+    <h2 class="titulo text_color_secundario">Nuestro Personal</h2>
     <div class="container_contacto">
       <details open class="container_info">
         <summary class="main_title">Culiacán, Sinaloa</summary>
@@ -49,6 +49,9 @@
             <a href="https://wa.me/523331179147" target="_blank"
               >(33) 3117-9147</a
             >
+            <a href="https://wa.me/523342692734" target="_blank"
+              >(33) 4269-2734</a
+            >
           </li>
         </ul>
         <details open class="personal">
@@ -58,6 +61,7 @@
             <li>Yair Miranda</li>
             <li>Moises Gómez</li>
             <li>Samantha Acosta</li>
+            <li>Sharon</li>
           </ul>
         </details>
       </details>
@@ -156,6 +160,38 @@
           <summary>Personal Capacitado</summary>
           <ul>
             <li>Alicia Gómez</li>
+          </ul>
+        </details>
+      </details>
+      <details open class="container_info">
+        <summary class="main_title">León, Guanajuato</summary>
+        <ul>
+          <li>
+            <a href="https://wa.me/5214641065724" target="_blank"
+              >464 106 5724</a
+            >
+          </li>
+        </ul>
+        <details open class="personal">
+          <summary>Personal Capacitado</summary>
+          <ul>
+            <li>Fernando Ramírez Gallardo</li>
+          </ul>
+        </details>
+      </details>
+      <details open class="container_info">
+        <summary class="main_title">Salamanca, Guanajuato</summary>
+        <ul>
+          <li>
+            <a href="https://wa.me/5214646505978" target="_blank"
+              >464 650 5978</a
+            >
+          </li>
+        </ul>
+        <details open class="personal">
+          <summary>Personal Capacitado</summary>
+          <ul>
+            <li>Paola Cano</li>
           </ul>
         </details>
       </details>
